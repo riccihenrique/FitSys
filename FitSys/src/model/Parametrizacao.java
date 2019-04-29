@@ -5,6 +5,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
@@ -20,8 +22,12 @@ public class Parametrizacao
     private String uf;
     private String cor_primaria;
     private String cor_secundaria;
+    private Image logo;
+    private Image back;
+    
+    public Parametrizacao(){}
 
-    public Parametrizacao(String razao, String cnpj, String endereco, String cidade, String cep, String uf, String cor_primaria, String cor_secundaria) {
+    public Parametrizacao(String razao, String cnpj, String endereco, String cidade, String cep, String uf, String cor_primaria, String cor_secundaria, Image logo, Image back) {
         this.razao = razao;
         this.cnpj = cnpj;
         this.endereco = endereco;
@@ -30,6 +36,8 @@ public class Parametrizacao
         this.uf = uf;
         this.cor_primaria = cor_primaria;
         this.cor_secundaria = cor_secundaria;
+        this.logo = logo;
+        this.back = back;
     }
 
     public String getRazao() {
@@ -95,8 +103,24 @@ public class Parametrizacao
     public void setCor_secundaria(String cor_secundaria) {
         this.cor_secundaria = cor_secundaria;
     }
+
+    public Image getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Image logo) {
+        this.logo = logo;
+    }
+
+    public Image getBack() {
+        return back;
+    }
+
+    public void setBack(Image back) {
+        this.back = back;
+    }
     
-    public boolean gravar(Image logo, Image back)
+    public boolean gravar()
     {
         String sql = "insert into parametrizacao values(null, '#1', null, '#2', '#3', '#4', '#5', '#6', '#7', '#8')";
         sql = sql.replace("#1", razao);
@@ -157,17 +181,17 @@ public class Parametrizacao
         return false;
     }   
     
-    public boolean alterar(Image logo, Image back)
+    public boolean alterar()
     {
         String sql = "update parametrizacao set logo = null, razao_social = '#1', background = null, cnpj = '#2',"
-                + "cor_primaria = '#3', cor_secundaria = '#4', endereco = '#5', cidade = '#6', cep = '#7', uf = '#8')";
+                + "cor_primaria = '#3', cor_secundaria = '#4', endereco = '#5', cidade = '#6', cep = '#7', uf = '#8'";
         sql = sql.replace("#1", razao);
-        sql = sql.replace("#2", cnpj);
+        sql = sql.replace("#2", cnpj.replace(".", "").replace("-", "").replace("/", ""));
         sql = sql.replace("#3", cor_primaria);
         sql = sql.replace("#4", cor_secundaria);
         sql = sql.replace("#5", endereco);
         sql = sql.replace("#6", cidade);
-        sql = sql.replace("#7", cep);
+        sql = sql.replace("#7", cep.replace("-", ""));
         sql = sql.replace("#8", uf);
         
         if(Banco.getCon().manipular(sql))
@@ -213,6 +237,58 @@ public class Parametrizacao
             return true;
         }
             
+        return false;
+    }
+    
+    public boolean busca()
+    {
+        ResultSet rs = Banco.getCon().consultar("select * from parametrizacao");
+        try
+        {
+             if(rs.next())
+            {
+                razao = rs.getString("razao_social");
+                cnpj = rs.getString("cnpj");
+                endereco = rs.getString("endereco");
+                cidade = rs.getString("cidade");
+                cep = rs.getString("cep");
+                uf = rs.getString("uf");
+                cor_primaria = rs.getString("cor_primaria");
+                cor_secundaria = rs.getString("cor_secundaria");
+                
+                //Inserir a recuperação da imagem
+                InputStream pic = null;
+                try
+                {
+                    PreparedStatement ps = Banco.getCon().getConnection().prepareStatement("SELECT logo, background FROM parametrizacao");
+                    rs = ps.executeQuery();
+                    if(rs.next())
+                    {
+                        byte[] imgBytes = rs.getBytes("logo");
+                        BufferedImage bimg = ImageIO.read(new ByteArrayInputStream(imgBytes));
+                        logo = SwingFXUtils.toFXImage(bimg, null);
+                        
+                        imgBytes = rs.getBytes("background");
+                        bimg = ImageIO.read(new ByteArrayInputStream(imgBytes));
+                        back = SwingFXUtils.toFXImage(bimg, null);
+                    }
+
+                    ps.close();
+                }
+                catch(Exception e)
+                {
+                    logo = null;
+                    back = null;
+                }
+
+                return true;
+            }
+        }
+        catch(SQLException se)
+        {
+            return false;
+        }       
+        
         return false;
     }
 }

@@ -1,9 +1,7 @@
 package controller;
 
-import groovy.sql.DataSet;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,7 +45,14 @@ public class FXMLMainController implements Initializable {
     }    
 
     @FXML
-    private void btnConf(ActionEvent event) {
+    private void btnConf(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLParametrizacao.fxml"));
+                
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        stage.showAndWait();
     }
 
     @FXML
@@ -83,5 +88,4 @@ public class FXMLMainController implements Initializable {
     private void btnRestore(ActionEvent event) {
         Banco.realizaBackup("restore");
     }
-    
 }

@@ -17,6 +17,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -54,34 +55,63 @@ public class FXMLParametrizacaoController implements Initializable {
     private ImageView imgBack;
     @FXML
     private AnchorPane pnDados;
+    
+    private Parametrizacao p;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MaskFieldUtil.cepField(tbCep);
         MaskFieldUtil.cnpjField(tbCnpj);
+        
+        p = new Parametrizacao();
+        if(p.busca())
+        {
+            tbCep.setText(p.getCep());
+            tbCidade.setText(p.getCidade());
+            tbCnpj.setText(p.getCnpj());
+            cpkCorp.setValue(Color.valueOf(p.getCor_primaria()));
+            cpkCors.setValue(Color.valueOf(p.getCor_secundaria()));
+            tbEndereco.setText(p.getEndereco());
+            tbRazao.setText(p.getRazao());
+            tbUf.setText(p.getUf());
+            imgLogo.setImage(p.getLogo());
+            imgBack.setImage(p.getBack());
+        }
     }
 
     @FXML
     private void btnGravar(ActionEvent event) {
         if(isOk())
         {
-            Parametrizacao p = new Parametrizacao(tbRazao.getText(), tbCnpj.getText(), tbEndereco.getText(), 
-                tbCidade.getText(), tbCep.getText(), tbUf.getText(), cpkCorp.getValue().toString(), cpkCors.getValue().toString());
-            if(!p.gravar(imgLogo.getImage(), imgBack.getImage()))
+            p = new Parametrizacao(tbRazao.getText(), tbCnpj.getText(), tbEndereco.getText(), 
+                tbCidade.getText(), tbCep.getText(), tbUf.getText(), cpkCorp.getValue().toString(), cpkCors.getValue().toString(), 
+                    imgLogo.getImage(), imgBack.getImage());
+            if(!p.gravar())
                 JOptionPane.showMessageDialog(null, "Erro: " + Banco.getCon().getMensagemErro());
             else
+            {
                 JOptionPane.showMessageDialog(null, "Configurações iniciais definidas com sucesso");
+                Stage stage = (Stage) btGravar.getScene().getWindow(); //Obtendo a janela atual
+                stage.close(); //Fechando o Stage
+            } 
         }
     }
 
     @FXML
     private void btnAlterar(ActionEvent event) {
-        Parametrizacao p = new Parametrizacao(tbRazao.getText(), tbCnpj.getText(), tbEndereco.getText(), 
-                tbCidade.getText(), tbCep.getText(), tbUf.getText(), cpkCorp.getValue().toString(), cpkCors.getValue().toString());
-        if(!p.alterar(imgLogo.getImage(), imgBack.getImage()))
+        
+        p = new Parametrizacao(tbRazao.getText(), tbCnpj.getText(), tbEndereco.getText(), 
+                tbCidade.getText(), tbCep.getText(), tbUf.getText(), cpkCorp.getValue().toString(), cpkCors.getValue().toString(), 
+                    imgLogo.getImage(), imgBack.getImage());
+        
+        if(!p.alterar())
             JOptionPane.showMessageDialog(null, "Erro: " + Banco.getCon().getMensagemErro());
         else
+        {
             JOptionPane.showMessageDialog(null, "Configurações iniciais alteradas com sucesso");
+            Stage stage = (Stage) btGravar.getScene().getWindow(); //Obtendo a janela atual
+            stage.close(); //Fechando o Stage
+        }
     }
 
     @FXML

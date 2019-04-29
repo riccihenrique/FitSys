@@ -1,4 +1,4 @@
-CREATE TABLE Parametrizacao(logo BYTEA, razao_social VARCHAR(50) NOT NULL,backgound BYTEA, cnpj VARCHAR(14) NOT NULL,cor_primaria VARCHAR(10) NOT NULL,cor_secundaria VARCHAR(10) NOT NULL,endereco VARCHAR(50) NOT NULL, cidade VARCHAR(50) NOT NULL, cep VARCHAR(11) NOT NULL, uf CHAR(2) NOT NULL);
+CREATE TABLE Parametrizacao(logo BYTEA, razao_social VARCHAR(50) NOT NULL,background BYTEA, cnpj VARCHAR(14) NOT NULL,cor_primaria VARCHAR(10) NOT NULL,cor_secundaria VARCHAR(10) NOT NULL,endereco VARCHAR(50) NOT NULL, cidade VARCHAR(50) NOT NULL, cep VARCHAR(11) NOT NULL, uf CHAR(2) NOT NULL);
 CREATE TABLE Modalidade ( mod_Cod SERIAL NOT NULL,mod_Nome VARCHAR(50) NOT NULL, mod_Preco NUMERIC(6,2) NOT NULL,CONSTRAINT mod_cod PRIMARY KEY (mod_Cod));
 CREATE TABLE Pacote (pct_Cod SERIAL NOT NULL, pct_Desc VARCHAR(50) NOT NULL,pct_PorcDesconto integer NOT NULL,pct_Total NUMERIC(6,2) NOT NULL, CONSTRAINT pct_cod PRIMARY KEY (pct_Cod));
 CREATE TABLE Pacote_modalidade (pctmod_Cod SERIAL NOT NULL,pct_Cod integer NOT NULL, mod_Cod integer NOT NULL,CONSTRAINT pctmod_cod PRIMARY KEY (pctmod_Cod, pct_Cod, mod_Cod));
