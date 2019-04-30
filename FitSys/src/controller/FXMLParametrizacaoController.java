@@ -38,8 +38,6 @@ public class FXMLParametrizacaoController implements Initializable {
     @FXML
     private JFXButton btAlterar;
     @FXML
-    private JFXButton btCancelar;
-    @FXML
     private JFXTextField tbRazao;
     @FXML
     private JFXTextField tbCep;
@@ -85,10 +83,7 @@ public class FXMLParametrizacaoController implements Initializable {
         }
         
         if(tbCnpj.getText().isEmpty()) // Verifica qual o estado da aplicação
-        {
             btAlterar.setDisable(true);
-            btCancelar.setDisable(true);
-        }
         else
             btGravar.setDisable(true);
         
@@ -164,7 +159,6 @@ public class FXMLParametrizacaoController implements Initializable {
         }
     }
 
-    @FXML
     private void btnCancelar(ActionEvent event) {
         if(tbCnpj.getText().isEmpty())
             JOptionPane.showMessageDialog(null, "Não é possível cancelar esta operação");

@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import util.Banco;
 import util.BuscaCep;
 import util.MaskFieldUtil;
+import util.ValidaCpf;
 
 public class FXMLGenAlunoController implements Initializable {
 
@@ -84,6 +85,7 @@ public class FXMLGenAlunoController implements Initializable {
     @FXML
     private JFXButton btnApagar;
 
+    boolean cpf = false;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colNome.setCellValueFactory(new PropertyValueFactory("nome"));
@@ -93,6 +95,26 @@ public class FXMLGenAlunoController implements Initializable {
         MaskFieldUtil.cepField(tbCep);
         MaskFieldUtil.cpfCnpjField(tbCpf);
         MaskFieldUtil.foneField(tbTelefone);
+        
+        tbCpf.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) 
+            {
+                if(!newValue)
+                {
+                    if(ValidaCpf.validaCpf(tbCpf.getText()))
+                    {
+                        cpf = true;
+                        tbCpf.setStyle("-fx-background-color:#fffff");
+                    }
+                    else
+                    {
+                        cpf = false;
+                        tbCpf.setStyle("-fx-background-color:#e61919");
+                    }
+                }
+             }
+        });
         
         tbCep.focusedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
@@ -107,7 +129,7 @@ public class FXMLGenAlunoController implements Initializable {
                         tbEndereco.setText(ob.getString("logradouro"));
                     });
                 }
-             }
+            }
         });
 
         estadoOriginal();
@@ -264,7 +286,9 @@ public class FXMLGenAlunoController implements Initializable {
         btnApagar.setDisable(true);
         btnAlterar.setDisable(true);
         tbNome.setDisable(false);
-        tbNome.requestFocus(); 
+        tbCpf.requestFocus(); 
+        
+        tbCpf.setFocusTraversable(false);
         
         tbCpf.setDisable(false);
     }
@@ -272,6 +296,9 @@ public class FXMLGenAlunoController implements Initializable {
     private boolean isOk()
     {
         boolean res = true;
+        if(!cpf)
+            return false;
+        
         ObservableList<Node> componentes = pnDados1.getChildren();
         for (Node n : componentes) {
             if (n instanceof TextInputControl &&  ((TextInputControl) n).getText().isEmpty())
