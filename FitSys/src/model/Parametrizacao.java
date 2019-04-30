@@ -147,7 +147,7 @@ public class Parametrizacao
                     byteLogo = baosLogo.toByteArray();
                     baosLogo.close();
                     InputStream inLogo = new ByteArrayInputStream(byteLogo);
-                    ps = Banco.getCon().getConnection().prepareStatement("UPDATE garcon set logo = ?");
+                    ps = Banco.getCon().getConnection().prepareStatement("UPDATE parametrizacao set logo = ?");
                     ps.setBinaryStream(1, inLogo, baosLogo.toByteArray().length);
                     ps.executeUpdate();
                     ps.close();
@@ -163,7 +163,7 @@ public class Parametrizacao
                     baosBack.close();
                     
                     InputStream inBack = new ByteArrayInputStream(byteBack);
-                    ps = Banco.getCon().getConnection().prepareStatement("UPDATE garcon set background = ?");
+                    ps = Banco.getCon().getConnection().prepareStatement("UPDATE parametrizacao set background = ?");
                     ps.setBinaryStream(1, inBack, baosBack.toByteArray().length);
                     ps.executeUpdate();
                     ps.close();
@@ -198,6 +198,7 @@ public class Parametrizacao
         {
             try
             {
+                PreparedStatement ps;
                 byte[] byteLogo = null, byteBack = null;
                 ByteArrayOutputStream baosLogo = new ByteArrayOutputStream(), baosBack = new ByteArrayOutputStream();
                 if(logo != null)
@@ -207,6 +208,12 @@ public class Parametrizacao
                     baosLogo.flush();
                     byteLogo = baosLogo.toByteArray();
                     baosLogo.close();
+                    InputStream inLogo = new ByteArrayInputStream(byteLogo);
+                    ps = Banco.getCon().getConnection().prepareStatement("UPDATE parametrizacao set logo = ?");
+                    ps.setBinaryStream(1, inLogo, baosLogo.toByteArray().length);
+                    ps.executeUpdate();
+                    ps.close();
+                    inLogo.close();
                 }
                 
                 if(back != null)
@@ -216,18 +223,14 @@ public class Parametrizacao
                     baosBack.flush();                
                     byteBack = baosBack.toByteArray();                
                     baosBack.close();
+                    
+                    InputStream inBack = new ByteArrayInputStream(byteBack);
+                    ps = Banco.getCon().getConnection().prepareStatement("UPDATE parametrizacao set background = ?");
+                    ps.setBinaryStream(1, inBack, baosBack.toByteArray().length);
+                    ps.executeUpdate();
+                    ps.close();
+                    inBack.close();
                 }
-                
-                InputStream inLogo = new ByteArrayInputStream(byteLogo);
-                InputStream inBack = new ByteArrayInputStream(byteBack);
-                
-                PreparedStatement ps = Banco.getCon().getConnection().prepareStatement("UPDATE garcon set logo = ?, background = ?");
-                ps.setBinaryStream(1, inLogo, baosLogo.toByteArray().length);
-                ps.setBinaryStream(1, inBack, baosBack.toByteArray().length);
-                ps.executeUpdate();
-                ps.close();
-                inLogo.close();
-                inBack.close();
             }
             catch(Exception e)
             {

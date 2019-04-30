@@ -6,6 +6,9 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +25,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import model.Parametrizacao;
+import org.json.JSONObject;
 import util.Banco;
+import util.BuscaCep;
+import util.BuscaCnpj;
 import util.MaskFieldUtil;
 
 public class FXMLParametrizacaoController implements Initializable {
@@ -77,6 +83,50 @@ public class FXMLParametrizacaoController implements Initializable {
             imgLogo.setImage(p.getLogo());
             imgBack.setImage(p.getBack());
         }
+        
+        if(tbCnpj.getText().isEmpty()) // Verifica qual o estado da aplicação
+        {
+            btAlterar.setDisable(true);
+            btCancelar.setDisable(true);
+        }
+        else
+            btGravar.setDisable(true);
+        
+        tbCep.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) 
+            {
+                if(!newValue)
+                {
+                    String json = BuscaCep.consultaCep(tbCep.getText().replace("-", ""));
+                    Platform.runLater(()-> {
+                        JSONObject ob = new JSONObject(json);
+                        tbCidade.setText(ob.getString("localidade"));
+                        tbEndereco.setText(ob.getString("logradouro"));
+                        tbUf.setText(ob.getString("uf"));
+                    });
+                }
+            }
+        });
+        
+        tbCnpj.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) 
+            {
+                if(!newValue)
+                {
+                    String json = BuscaCnpj.consultaCnpj(tbCnpj.getText().replace("-", "").replace(".", "").replace("/", "")), jsonCep;
+                    Platform.runLater(()-> {
+                        JSONObject ob = new JSONObject(json);
+                        tbRazao.setText(ob.getString("nome"));
+                        tbCep.setText(ob.getString("cep"));
+                        tbCidade.setText(ob.getString("municipio"));
+                        tbEndereco.setText(ob.getString("logradouro"));
+                        tbUf.setText(ob.getString("uf"));
+                    });
+                }
+            }
+        });
     }
 
     @FXML
@@ -91,8 +141,7 @@ public class FXMLParametrizacaoController implements Initializable {
             else
             {
                 JOptionPane.showMessageDialog(null, "Configurações iniciais definidas com sucesso");
-                Stage stage = (Stage) btGravar.getScene().getWindow(); //Obtendo a janela atual
-                stage.close(); //Fechando o Stage
+                fechar();
             } 
         }
     }
@@ -100,17 +149,18 @@ public class FXMLParametrizacaoController implements Initializable {
     @FXML
     private void btnAlterar(ActionEvent event) {
         
-        p = new Parametrizacao(tbRazao.getText(), tbCnpj.getText(), tbEndereco.getText(), 
-                tbCidade.getText(), tbCep.getText(), tbUf.getText(), cpkCorp.getValue().toString(), cpkCors.getValue().toString(), 
-                    imgLogo.getImage(), imgBack.getImage());
-        
-        if(!p.alterar())
-            JOptionPane.showMessageDialog(null, "Erro: " + Banco.getCon().getMensagemErro());
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Configurações iniciais alteradas com sucesso");
-            Stage stage = (Stage) btGravar.getScene().getWindow(); //Obtendo a janela atual
-            stage.close(); //Fechando o Stage
+        if(isOk())
+        {            
+            p = new Parametrizacao(tbRazao.getText(), tbCnpj.getText(), tbEndereco.getText(), 
+            tbCidade.getText(), tbCep.getText(), tbUf.getText(), cpkCorp.getValue().toString(), cpkCors.getValue().toString(), 
+                imgLogo.getImage(), imgBack.getImage());
+            if(!p.alterar())
+                JOptionPane.showMessageDialog(null, "Erro: " + Banco.getCon().getMensagemErro());
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Parametrização alterada com sucesso");
+                fechar();
+            }
         }
     }
 
@@ -119,10 +169,7 @@ public class FXMLParametrizacaoController implements Initializable {
         if(tbCnpj.getText().isEmpty())
             JOptionPane.showMessageDialog(null, "Não é possível cancelar esta operação");
         else
-        {
-            Stage stage = (Stage) btGravar.getScene().getWindow(); //Obtendo a janela atual
-            stage.close(); //Fechando o Stage
-        }
+            fechar();
     }
 
     @FXML
@@ -153,24 +200,18 @@ public class FXMLParametrizacaoController implements Initializable {
     {
         ObservableList<Node> componentes = pnDados.getChildren();
         for (Node n : componentes) {
-            if (n instanceof TextInputControl &&  ((TextInputControl) n).getText().isEmpty())
+            if (n instanceof TextInputControl && ((TextInputControl) n).getText().isEmpty())
             {
-                Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setContentText("O campo " + n.getId().replace("tb", "") + " não foi preenchido");
-                if(!n.getId().equals("tbCodigo"))
-                {
-                    a.show();
-                    return false;
-                }
-            }
-            if (n instanceof ComboBox && ((ComboBox) n).getSelectionModel().getSelectedItem()== null)
-            {
-                Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setContentText("O campo " + n.getId().replace("cb", "") + " não foi selecionado");
-                a.show();
+                n.setStyle("-fx-background-color:#e61919");
                 return false;
             }
         }
         return true;
+    }
+    
+    private void fechar()
+    {
+        Stage stage = (Stage) btGravar.getScene().getWindow(); //Obtendo a janela atual
+        stage.close(); //Fechando o Stage
     }
 }

@@ -20,16 +20,16 @@
       </HBox>
       <AnchorPane fx:id="pnDados" prefHeight="367.0" prefWidth="600.0">
          <children>
-            <JFXTextField id="0" fx:id="tbRazao" labelFloat="true" layoutX="42.0" layoutY="31.0" prefHeight="25.0" prefWidth="311.0" promptText="Razão Social" />
-            <JFXTextField id="2" fx:id="tbCep" labelFloat="true" layoutX="42.0" layoutY="72.0" prefHeight="25.0" prefWidth="164.0" promptText="CEP" />
-            <JFXTextField id="1" fx:id="tbCnpj" labelFloat="true" layoutX="376.0" layoutY="31.0" prefHeight="25.0" prefWidth="178.0" promptText="CNPJ" />
-            <JFXTextField fx:id="tbEndereco" labelFloat="true" layoutX="230.0" layoutY="72.0" prefHeight="25.0" prefWidth="325.0" promptText="Endereço" />
-            <JFXTextField fx:id="tbCidade" labelFloat="true" layoutX="42.0" layoutY="114.0" prefHeight="25.0" prefWidth="256.0" promptText="Cidade" />
-            <JFXTextField fx:id="tbUf" labelFloat="true" layoutX="308.0" layoutY="114.0" prefHeight="25.0" prefWidth="248.0" promptText="UF" />
+            <JFXTextField id="0" fx:id="tbRazao" labelFloat="true" layoutX="231.0" layoutY="28.0" prefHeight="25.0" prefWidth="325.0" promptText="Razão Social*" />
+            <JFXTextField id="2" fx:id="tbCep" labelFloat="true" layoutX="42.0" layoutY="72.0" prefHeight="25.0" prefWidth="181.0" promptText="CEP*" />
+            <JFXTextField id="1" fx:id="tbCnpj" labelFloat="true" layoutX="42.0" layoutY="28.0" prefHeight="25.0" prefWidth="181.0" promptText="CNPJ*" />
+            <JFXTextField fx:id="tbEndereco" labelFloat="true" layoutX="230.0" layoutY="72.0" prefHeight="25.0" prefWidth="325.0" promptText="Endereço*" />
+            <JFXTextField fx:id="tbCidade" labelFloat="true" layoutX="42.0" layoutY="114.0" prefHeight="25.0" prefWidth="256.0" promptText="Cidade*" />
+            <JFXTextField fx:id="tbUf" labelFloat="true" layoutX="308.0" layoutY="114.0" prefHeight="25.0" prefWidth="248.0" promptText="UF*" />
             <JFXColorPicker fx:id="cpkCorp" layoutX="148.0" layoutY="162.0" promptText="Cor Primária" />
-            <JFXColorPicker fx:id="cpkCors" layoutX="414.0" layoutY="162.0" />
-            <Label layoutX="42.0" layoutY="166.0" text="Cor Primária:" />
-            <Label layoutX="308.0" layoutY="166.0" text="Cor Secundária:" />
+            <JFXColorPicker fx:id="cpkCors" layoutX="428.0" layoutY="162.0" />
+            <Label layoutX="42.0" layoutY="166.0" text="Cor Primária*:" />
+            <Label layoutX="308.0" layoutY="166.0" text="Cor Secundária*:" />
             <ImageView fx:id="imgLogo" fitHeight="128.0" fitWidth="200.0" layoutX="66.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true" />
             <JFXButton layoutX="90.0" layoutY="345.0" onAction="#btnProcuraLogo" text="Procurar" />
             <JFXButton layoutX="197.0" layoutY="345.0" onAction="#btnLimpLogo" text="Limpar" />

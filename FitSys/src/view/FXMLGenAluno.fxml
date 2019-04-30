@@ -1,11 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGenAlunoController">
-    
-</AnchorPane>
+<SplitPane dividerPositions="0.6202290076335878" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="526.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGenAlunoController">
+   <items>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="39.0" prefWidth="598.0" spacing="20.0">
+               <children>
+                  <JFXButton fx:id="btnNovo" onAction="#clkNovo" text="Novo" />
+                  <JFXButton fx:id="btnAlterar" layoutX="10.0" layoutY="10.0" onAction="#clkAlterar" text="Alterar" />
+                  <JFXButton fx:id="btnApagar" layoutX="62.0" layoutY="10.0" onAction="#clkApagar" text="Apagar" />
+                  <JFXButton fx:id="btnConfirmar" layoutX="114.0" layoutY="10.0" onAction="#clkConfirmar" text="Confirmar" />
+                  <JFXButton fx:id="btnCancelar" alignment="CENTER" layoutX="166.0" layoutY="10.0" onAction="#clkCancelar" text="Cancelar" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <AnchorPane fx:id="pnDados1" prefHeight="286.0" prefWidth="598.0">
+               <children>
+                  <JFXTextField fx:id="tbCpf" labelFloat="true" layoutX="56.0" layoutY="48.0" prefHeight="25.0" prefWidth="174.0" promptText="CPF*:" />
+                  <JFXTextField fx:id="tbTelefone" labelFloat="true" layoutX="56.0" layoutY="97.0" prefHeight="25.0" prefWidth="174.0" promptText="Celular*:" />
+                  <JFXTextField fx:id="tbNome" labelFloat="true" layoutX="252.0" layoutY="48.0" prefHeight="25.0" prefWidth="288.0" promptText="Nome*:" />
+                  <JFXTextField fx:id="tbEmail" labelFloat="true" layoutX="252.0" layoutY="97.0" prefHeight="25.0" prefWidth="288.0" promptText="Email*:" />
+                  <JFXTextField fx:id="tbCep" labelFloat="true" layoutX="396.0" layoutY="139.0" prefHeight="25.0" prefWidth="144.0" promptText="CEP*:" />
+                  <JFXTextField fx:id="tbEndereco" labelFloat="true" layoutX="56.0" layoutY="188.0" prefHeight="25.0" prefWidth="209.0" promptText="Endereco*:" />
+                  <JFXComboBox fx:id="cbSexo" labelFloat="true" layoutX="56.0" layoutY="139.0" prefHeight="25.0" prefWidth="174.0" promptText="Sexo*:" />
+                  <JFXDatePicker fx:id="dttNascimemto" defaultColor="#c68729" layoutX="252.0" layoutY="139.0" overLay="true" prefHeight="25.0" prefWidth="135.0" promptText="Nascimento" />
+                  <JFXTextField fx:id="tbCidade" labelFloat="true" layoutX="288.0" layoutY="188.0" prefHeight="25.0" prefWidth="254.0" promptText="Cidade*:" />
+                  <Label layoutX="59.0" layoutY="230.0" text="Todos os campos são obrigatórios" />
+                  <Label layoutX="53.0" layoutY="230.0" text="*" textFill="RED" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox fx:id="pnDados2" prefHeight="198.0" prefWidth="598.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="33.0" prefWidth="598.0" spacing="50.0">
+               <children>
+                  <JFXTextField fx:id="tbBusca" prefHeight="25.0" prefWidth="288.0" promptText="Digite um nome" />
+                  <JFXButton fx:id="btnPesquisar" onAction="#clkPesquisar" text="Pesquisar" />
+               </children>
+            </HBox>
+            <TableView fx:id="tbvDados" onMouseClicked="#clkTbvDados" prefHeight="168.0" prefWidth="598.0">
+              <columns>
+                <TableColumn fx:id="colNome" prefWidth="223.0" text="Nome" />
+                <TableColumn fx:id="colEmail" prefWidth="227.0" text="Email" />
+                  <TableColumn fx:id="colTelefone" prefWidth="147.0" text="Telefone" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </items>
+</SplitPane>
