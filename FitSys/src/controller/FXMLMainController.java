@@ -36,7 +36,22 @@ public class FXMLMainController implements Initializable {
                 stage.showAndWait();
                  if(!Banco.getCon().consultar("select * from parametrizacao").next())
                     System.exit(-1);
+                 
             }
+             if(!Banco.getCon().consultar("select * from funcionarios").next())
+            {
+                Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLGenFuncionario.fxml"));
+                
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                
+                stage.showAndWait();
+                 if(!Banco.getCon().consultar("select * from funcionario").next())
+                    System.exit(-1);
+                 
+            }
+            
        }
        catch(Exception e)
        {
@@ -72,7 +87,13 @@ public class FXMLMainController implements Initializable {
     }
 
     @FXML
-    private void btnGerFunc(ActionEvent event) {
+    private void btnGerFunc(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLGenFuncionario.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        stage.showAndWait();
     }
 
     @FXML

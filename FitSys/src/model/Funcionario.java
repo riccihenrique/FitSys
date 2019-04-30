@@ -1,6 +1,12 @@
 package model;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import util.Banco;
 
 public class Funcionario
 {
@@ -10,26 +16,26 @@ public class Funcionario
     private String rua;
     private String cidade;
     private String cep;
-    private char sexo;
     private String email;
-    private Date dt_nasc;
+    private LocalDate dt_nasc;
     private String senha;
+    private String cargo;
     private char nivel;
 
     public Funcionario() {
     }
 
-    public Funcionario(String cpf, String nome, String tel, String rua, String cidade, String cep, char sexo, String email, Date dt_nasc, String senha, char nivel) {
+    public Funcionario(String cpf, String nome, String tel, String rua, String cidade, String cep, String email, LocalDate dt_nasc, String senha, String cargo, char nivel) {
         this.cpf = cpf;
         this.nome = nome;
         this.tel = tel;
         this.rua = rua;
         this.cidade = cidade;
         this.cep = cep;
-        this.sexo = sexo;
         this.email = email;
         this.dt_nasc = dt_nasc;
         this.senha = senha;
+        this.cargo = cargo;
         this.nivel = nivel;
     }
 
@@ -81,14 +87,6 @@ public class Funcionario
         this.cep = cep;
     }
 
-    public char getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(char sexo) {
-        this.sexo = sexo;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -97,11 +95,11 @@ public class Funcionario
         this.email = email;
     }
 
-    public Date getDt_nasc() {
+    public LocalDate getDt_nasc() {
         return dt_nasc;
     }
 
-    public void setDt_nasc(Date dt_nasc) {
+    public void setDt_nasc(LocalDate dt_nasc) {
         this.dt_nasc = dt_nasc;
     }
 
@@ -113,6 +111,14 @@ public class Funcionario
         this.senha = senha;
     }
 
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
     public char getNivel() {
         return nivel;
     }
@@ -120,10 +126,78 @@ public class Funcionario
     public void setNivel(char nivel) {
         this.nivel = nivel;
     }
+
+    
     
     @Override
     public String toString()
     {
         return this.nome;
     }
+    
+    public boolean gravar()
+    {
+        String sql="insert into funcionario (fun_cpf, fun_nome, fun_tel, fun_rua, fun_dtnasc, fun_cidade, fun_cep, fun_email, fun_cargo, fun_senha, fun_nivel) values ('#1','#2','#3','#4','#5','#6','#7','#8','#9','#10','#11')";
+        
+        sql=sql.replaceAll("#1", cpf);
+        sql=sql.replaceAll("#2", nome);
+        sql=sql.replaceAll("#3", tel);
+        sql=sql.replaceAll("#4", rua);
+        sql=sql.replaceAll("#5", dt_nasc.toString());
+        sql=sql.replaceAll("#6", cidade);
+        sql=sql.replaceAll("#7", cep);
+        sql=sql.replaceAll("#8", email);
+        sql=sql.replaceAll("#9", cargo);
+        sql=sql.replaceAll("#10", senha);
+        sql=sql.replaceAll("#11", ""+nivel);
+       
+        return Banco.getCon().manipular(sql);
+    }
+    public boolean apagar()
+    {
+        return Banco.getCon().manipular("delete from funcionario where fun_cpf="+cpf);
+    }
+    
+    public boolean alterar()
+    {
+        String sql="update funcionario set fun_nome='#2', fun_tel='#3', fun_rua='#4', fun_dtnasc='#5', fun_cidade='#6', fun_cep='#7', fun_email='#8', fun_cargo='#9', fun_senha='#10', fun_nivel='#11' where fun_cpf="+cpf;
+        
+        sql=sql.replaceAll("#2", nome);
+        sql=sql.replaceAll("#3", tel);
+        sql=sql.replaceAll("#4", rua);
+        sql=sql.replaceAll("#5", dt_nasc.toString());
+        sql=sql.replaceAll("#6", cidade);
+        sql=sql.replaceAll("#7", cep);
+        sql=sql.replaceAll("#8", email);
+        sql=sql.replaceAll("#9", cargo);
+        sql=sql.replaceAll("#10", senha);
+        sql=sql.replaceAll("#11", ""+nivel);
+       
+        return Banco.getCon().manipular(sql);
+    }
+    
+    
+    
+    public List<Funcionario> get(String filtro)
+    {
+        List<Funcionario> L = new ArrayList();
+        
+        String sql = "select * from funcionario";
+        if(!filtro.isEmpty())
+            sql+=" where "+filtro;
+        
+        ResultSet rs = Banco.getCon().consultar(sql);
+        try
+        {
+            while(rs.next())
+            {
+                    L.add(new Funcionario(rs.getString("fun_cpf"), rs.getString("fun_nome"), rs.getString("fun_tel"), 
+                        rs.getString("fun_rua"), rs.getString("fun_cidade"), rs.getString("fun_cep"), rs.getString("fun_email"), 
+                        rs.getDate("fun_dtnasc").toLocalDate(), rs.getString("fun_senha"), rs.getString("fun_cargo"), rs.getString("fun_nivel").charAt(0)));
+            }
+        }
+        catch(SQLException e){ }
+        return L;    
+    } 
+    
 }
