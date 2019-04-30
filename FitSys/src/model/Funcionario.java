@@ -20,12 +20,13 @@ public class Funcionario
     private LocalDate dt_nasc;
     private String senha;
     private String cargo;
+    private String uf;
     private char nivel;
 
     public Funcionario() {
     }
 
-    public Funcionario(String cpf, String nome, String tel, String rua, String cidade, String cep, String email, LocalDate dt_nasc, String senha, String cargo, char nivel) {
+    public Funcionario(String cpf, String nome, String tel, String rua, String cidade, String cep, String email, LocalDate dt_nasc, String senha, String cargo, char nivel, String uf) {
         this.cpf = cpf;
         this.nome = nome;
         this.tel = tel;
@@ -33,6 +34,7 @@ public class Funcionario
         this.cidade = cidade;
         this.cep = cep;
         this.email = email;
+        this.uf = uf;
         this.dt_nasc = dt_nasc;
         this.senha = senha;
         this.cargo = cargo;
@@ -42,11 +44,19 @@ public class Funcionario
     public String getCpf() {
         return cpf;
     }
-
+    
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
+    
     public String getNome() {
         return nome;
     }
@@ -137,46 +147,47 @@ public class Funcionario
     
     public boolean gravar()
     {
-        String sql="insert into funcionario (fun_cpf, fun_nome, fun_tel, fun_rua, fun_dtnasc, fun_cidade, fun_cep, fun_email, fun_cargo, fun_senha, fun_nivel) values ('#1','#2','#3','#4','#5','#6','#7','#8','#9','#10','#11')";
+        String sql="insert into funcionario (fun_cpf, fun_nome, fun_tel, fun_rua, fun_dtnasc, fun_cidade, fun_cep, fun_email, fun_cargo, fun_senha, fun_nivel, fun_uf) values ('#1','#2','#3','#4','#5','#6','#7','#8','#9','#!','#@', '#%')";
         
-        sql=sql.replaceAll("#1", cpf);
+        sql=sql.replaceAll("#1", cpf.replace(".", "").replace("-", ""));
         sql=sql.replaceAll("#2", nome);
-        sql=sql.replaceAll("#3", tel);
+        sql=sql.replaceAll("#3", tel.replace("-", ""));
         sql=sql.replaceAll("#4", rua);
         sql=sql.replaceAll("#5", dt_nasc.toString());
         sql=sql.replaceAll("#6", cidade);
-        sql=sql.replaceAll("#7", cep);
+        sql=sql.replaceAll("#7", cep.replace("-", ""));
         sql=sql.replaceAll("#8", email);
         sql=sql.replaceAll("#9", cargo);
-        sql=sql.replaceAll("#10", senha);
-        sql=sql.replaceAll("#11", ""+nivel);
+        sql=sql.replaceAll("#!", senha);
+        sql=sql.replaceAll("#@", ""+nivel);
+        sql=sql.replaceAll("#%", uf);
        
         return Banco.getCon().manipular(sql);
     }
     public boolean apagar()
     {
-        return Banco.getCon().manipular("delete from funcionario where fun_cpf="+cpf);
+        return Banco.getCon().manipular("delete from funcionario where fun_cpf='"+cpf+"'");
     }
     
     public boolean alterar()
     {
-        String sql="update funcionario set fun_nome='#2', fun_tel='#3', fun_rua='#4', fun_dtnasc='#5', fun_cidade='#6', fun_cep='#7', fun_email='#8', fun_cargo='#9', fun_senha='#10', fun_nivel='#11' where fun_cpf="+cpf;
+        //aaaaaaa
+        String sql="update funcionario set fun_nome='#2', fun_tel='#3', fun_rua='#4', fun_dtnasc='#5', fun_cidade='#6', fun_cep='#7', fun_email='#8', fun_cargo='#9', fun_senha='#!', fun_nivel='#@', fun_uf='#%' where fun_cpf='"+cpf+"'";
         
         sql=sql.replaceAll("#2", nome);
-        sql=sql.replaceAll("#3", tel);
+        sql=sql.replaceAll("#3", tel.replace("-", "").replace("(", "").replace(")", ""));
         sql=sql.replaceAll("#4", rua);
         sql=sql.replaceAll("#5", dt_nasc.toString());
         sql=sql.replaceAll("#6", cidade);
-        sql=sql.replaceAll("#7", cep);
+        sql=sql.replaceAll("#7", cep.replace("-", ""));
         sql=sql.replaceAll("#8", email);
         sql=sql.replaceAll("#9", cargo);
-        sql=sql.replaceAll("#10", senha);
-        sql=sql.replaceAll("#11", ""+nivel);
+        sql=sql.replaceAll("#!", senha);
+        sql=sql.replaceAll("#@", ""+nivel);
+        sql=sql.replaceAll("#%", uf);
        
         return Banco.getCon().manipular(sql);
     }
-    
-    
     
     public List<Funcionario> get(String filtro)
     {
@@ -193,7 +204,7 @@ public class Funcionario
             {
                     L.add(new Funcionario(rs.getString("fun_cpf"), rs.getString("fun_nome"), rs.getString("fun_tel"), 
                         rs.getString("fun_rua"), rs.getString("fun_cidade"), rs.getString("fun_cep"), rs.getString("fun_email"), 
-                        rs.getDate("fun_dtnasc").toLocalDate(), rs.getString("fun_senha"), rs.getString("fun_cargo"), rs.getString("fun_nivel").charAt(0)));
+                        rs.getDate("fun_dtnasc").toLocalDate(), rs.getString("fun_senha"), rs.getString("fun_cargo"), rs.getString("fun_nivel").charAt(0), rs.getString("fun_uf")));
             }
         }
         catch(SQLException e){ }

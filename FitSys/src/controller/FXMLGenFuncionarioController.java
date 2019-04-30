@@ -36,6 +36,7 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import model.Funcionario;
 import util.Banco;
+import util.MaskFieldUtil;
 
 /**
  * FXML Controller class
@@ -100,13 +101,15 @@ public class FXMLGenFuncionarioController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        colCpf.setCellValueFactory(new PropertyValueFactory("fun_cpf"));
-        colNome.setCellValueFactory(new PropertyValueFactory("fun_nome"));
-        colCargo.setCellValueFactory(new PropertyValueFactory("fun_cargo"));
+        colCpf.setCellValueFactory(new PropertyValueFactory("cpf"));
+        colNome.setCellValueFactory(new PropertyValueFactory("nome"));
+        colCargo.setCellValueFactory(new PropertyValueFactory("cargo"));
+        
+        MaskFieldUtil.cepField(tbCep);
+        MaskFieldUtil.cpfField(tbCpf);
+        MaskFieldUtil.foneField(tbTelefone);
+       
         estadoOriginal();
-        
-
-        
     }    
 
     @FXML
@@ -126,9 +129,9 @@ public class FXMLGenFuncionarioController implements Initializable {
             tbNome.setText(F.getNome());
             tbRua.setText(F.getRua());
             tbSenha.setText(F.getSenha());
+            tbUf.setText(F.getUf());
             tbTelefone.setText(F.getTel());
             dtpickerNasc.valueProperty().set(F.getDt_nasc());
-            tbUf.setText("");
             alterando();
             cbCargo.getSelectionModel().select(F.getCargo());
             cbNvAcesso.getSelectionModel().select(F.getNivel()); 
@@ -154,12 +157,11 @@ public class FXMLGenFuncionarioController implements Initializable {
                 a.showAndWait();
             }
         }
-        
     }
 
     @FXML
     private void clkBtnConfirmar(ActionEvent event) {
-        Funcionario F = new Funcionario(tbCpf.getText(),tbNome.getText(),tbTelefone.getText(),tbRua.getText(),tbCidade.getText(),tbCep.getText(),tbEmail.getText(),dtpickerNasc.getValue(),tbSenha.getText(),cbCargo.getValue(),cbNvAcesso.getValue());
+        Funcionario F = new Funcionario(tbCpf.getText(),tbNome.getText(),tbTelefone.getText(),tbRua.getText(),tbCidade.getText(),tbCep.getText(),tbEmail.getText(),dtpickerNasc.getValue(),tbSenha.getText(),cbCargo.getValue(),cbNvAcesso.getValue(), tbUf.getText());
         if(tbCpf.isDisable())//alterando
         {
             if(!F.alterar())
@@ -265,7 +267,7 @@ public class FXMLGenFuncionarioController implements Initializable {
         
         List <Character> dadosCBNV = new ArrayList();
         //Nivel de acesso do funcionário para tal CRUD,  Total, Apenas gravaçao, Apenas Leitura
-        dadosCBNV.add('A');dadosCBNV.add('G');dadosCBNV.add('L');
+        dadosCBNV.add('A');dadosCBNV.add('F');dadosCBNV.add('L');dadosCBNV.add('B');
         ObservableList <Character> obsListConteudoCBNV = FXCollections.observableList(dadosCBNV);
         cbNvAcesso.setItems(obsListConteudoCBNV);
     }
