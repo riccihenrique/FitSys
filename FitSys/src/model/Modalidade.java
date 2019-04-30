@@ -1,5 +1,11 @@
 package model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import util.Banco;
+
 public class Modalidade 
 {
     private int cod;
@@ -47,5 +53,23 @@ public class Modalidade
     @Override
     public String toString() {
         return nome;
+    }
+    
+    public static List<Modalidade> get(String filtro)
+    {
+        List<Modalidade> L = new ArrayList<>();
+        String sql = "select * from modalidade";
+        if(!filtro.isEmpty())
+            sql += " where " + filtro;
+        
+        ResultSet rs = Banco.getCon().consultar(sql);
+        try
+        {
+            while(rs.next())
+                L.add(new Modalidade(rs.getString("mod_nome"), rs.getDouble("mod_preco")));
+        }
+        catch(SQLException e){}
+        
+        return L;
     }
 }
