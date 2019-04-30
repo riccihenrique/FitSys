@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLParametrizacaoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLParametrizacaoController">
    <children>
       <HBox alignment="CENTER" prefHeight="23.0" prefWidth="600.0">
          <children>
@@ -18,7 +18,7 @@
             <JFXButton fx:id="btCancelar" onAction="#btnCancelar" text="Cancelar" />
          </children>
       </HBox>
-      <AnchorPane fx:id="pnDados" prefHeight="367.0" prefWidth="600.0">
+      <AnchorPane fx:id="pnDados" prefHeight="403.0" prefWidth="600.0">
          <children>
             <JFXTextField id="0" fx:id="tbRazao" labelFloat="true" layoutX="231.0" layoutY="28.0" prefHeight="25.0" prefWidth="325.0" promptText="Razão Social*" />
             <JFXTextField id="2" fx:id="tbCep" labelFloat="true" layoutX="42.0" layoutY="72.0" prefHeight="25.0" prefWidth="181.0" promptText="CEP*" />
@@ -40,5 +40,11 @@
             <Label layoutX="326.0" layoutY="197.0" text="Background:" />
          </children>
       </AnchorPane>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Label" />
+            <Label text="Label" />
+         </children>
+      </HBox>
    </children>
 </VBox>
