@@ -1,12 +1,5 @@
 package util;
 
-
-/*
-Autor: Rog�rio M. de Queiroz 
-modificado por Silvio A. Carro
-
-*/
-
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -255,6 +248,14 @@ public abstract class MaskFieldUtil {
             return null;
         }
         return result.replaceAll("[^0-9]", "");
+    }
+    
+    public static String onlyAlfaValue(TextField field) {
+        String result = field.getText();
+        if (result == null) {
+            return null;
+        }
+        return result;
     }
 
     static {

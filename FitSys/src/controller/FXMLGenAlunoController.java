@@ -23,9 +23,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -86,6 +88,12 @@ public class FXMLGenAlunoController implements Initializable {
     private JFXButton btnApagar;
 
     boolean cpf = false;
+    @FXML
+    private RadioButton rdioNome;
+    @FXML
+    private RadioButton rdioCpf;
+    @FXML
+    private ToggleGroup busca;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colNome.setCellValueFactory(new PropertyValueFactory("nome"));
@@ -218,7 +226,10 @@ public class FXMLGenAlunoController implements Initializable {
 
     @FXML
     private void clkPesquisar(ActionEvent event) {
-        carregaTabela("UPPER(alu_nome) like '%" + tbBusca.getText().toUpperCase() + "%'");
+        if(rdioNome.isSelected())
+            carregaTabela("UPPER(alu_nome) like '%" + tbBusca.getText().toUpperCase() + "%'");
+        else
+            carregaTabela("alu_cpf like '%" + tbBusca.getText().replace(".", "").replace("-", "") + "%'");
     }     
 
     @FXML
@@ -331,6 +342,21 @@ public class FXMLGenAlunoController implements Initializable {
         {
             btnAlterar.setDisable(false);
             btnApagar.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void clkRdio(ActionEvent event) {
+        tbBusca.setText("");
+        if(rdioCpf.isSelected())
+        {
+            MaskFieldUtil.cpfField(tbBusca);
+            tbBusca.setPromptText("Digite um CPF");
+        }
+        else
+        {
+            MaskFieldUtil.onlyAlfaValue(tbBusca);
+            tbBusca.setPromptText("Digite um nome");
         }
     }
 }
