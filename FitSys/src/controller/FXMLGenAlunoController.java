@@ -93,7 +93,7 @@ public class FXMLGenAlunoController implements Initializable {
         colEmail.setCellValueFactory(new PropertyValueFactory("email"));
         
         MaskFieldUtil.cepField(tbCep);
-        MaskFieldUtil.cpfCnpjField(tbCpf);
+        MaskFieldUtil.cpfField(tbCpf);
         MaskFieldUtil.foneField(tbTelefone);
         
         tbCpf.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -153,7 +153,8 @@ public class FXMLGenAlunoController implements Initializable {
             tbTelefone.setText(a.getTel());
             tbEmail.setText(a.getEmail());
             dttNascimemto.setValue(a.getDt_nasc());
-                        
+            cbSexo.setValue(a.getSexo());
+            
             estadoEdicao();    
             tbCpf.setDisable(true);
         }
@@ -266,6 +267,7 @@ public class FXMLGenAlunoController implements Initializable {
         ObservableList o = FXCollections.observableList(l);
         cbSexo.setItems(o);
         
+        tbCpf.setStyle("-fx-background-color:#fffff");
         carregaTabela("");
     }
     
