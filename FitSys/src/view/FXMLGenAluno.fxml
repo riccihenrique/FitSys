@@ -36,12 +36,12 @@
                   <JFXTextField fx:id="tbTelefone" labelFloat="true" layoutX="56.0" layoutY="97.0" prefHeight="25.0" prefWidth="174.0" promptText="Celular*:" />
                   <JFXTextField fx:id="tbEmail" labelFloat="true" layoutX="252.0" layoutY="97.0" prefHeight="25.0" prefWidth="288.0" promptText="Email*:" />
                   <JFXComboBox fx:id="cbSexo" labelFloat="true" layoutX="56.0" layoutY="139.0" prefHeight="25.0" prefWidth="174.0" promptText="Sexo*:" />
-                  <JFXDatePicker fx:id="dttNascimemto" defaultColor="#c68729" layoutX="252.0" layoutY="139.0" overLay="true" prefHeight="25.0" prefWidth="135.0" promptText="Nascimento" />
                   <JFXTextField fx:id="tbCep" labelFloat="true" layoutX="396.0" layoutY="139.0" prefHeight="25.0" prefWidth="144.0" promptText="CEP*:" />
                   <JFXTextField fx:id="tbEndereco" labelFloat="true" layoutX="56.0" layoutY="188.0" prefHeight="25.0" prefWidth="209.0" promptText="Endereco*:" />
                   <JFXTextField fx:id="tbCidade" labelFloat="true" layoutX="288.0" layoutY="188.0" prefHeight="25.0" prefWidth="254.0" promptText="Cidade*:" />
                   <Label layoutX="59.0" layoutY="230.0" text="Todos os campos são obrigatórios" />
                   <Label layoutX="53.0" layoutY="230.0" text="*" textFill="RED" />
+                  <JFXDatePicker fx:id="dttNascimemto" layoutX="252.0" layoutY="139.0" prefHeight="25.0" prefWidth="135.0" promptText="Nascimento" />
                </children>
             </AnchorPane>
          </children>
