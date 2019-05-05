@@ -8,12 +8,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import model.Funcionario;
@@ -35,21 +42,68 @@ public class FXMLGerTreinoController implements Initializable {
     @FXML
     private JFXComboBox<Funcionario> cbFuncionario;
     @FXML
-    private JFXTextField tbQtdeTreinos;
-    @FXML
     private JFXButton btConfirmar;
+    @FXML
+    private Spinner<Integer> spQtdTreinos;
 
     private Matricula mat;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        String[] treinos = {"A", "B", "C", "D", "E"};
+        
+        try
+        {
+            Tab t = new Tab();
+            t.setText("Treino " + treinos[0]);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
+            Parent root = null;
+            root = (Parent) loader.load();
+            t.setContent(root);
+            tbPane.getTabs().add(t);
+        }
+        catch(Exception e)
+        {
+            
+        }
+        
         tbPane.setDisable(true);
         btConfirmar.setDisable(true);
         
         dttTreino.setValue(LocalDate.now());
         dttVenciTreino.setValue(LocalDate.now());
         
-        MaskFieldUtil.maxField(tbQtdeTreinos, 5);
+        SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
+        spQtdTreinos.setValueFactory(values);
+        
+        spQtdTreinos.valueProperty().addListener(new ChangeListener<Integer>() {
+ 
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable,//
+                    Integer oldValue, Integer newValue) {
+                if(oldValue < newValue)
+                {
+                    try
+                    {
+                        Tab t = new Tab();
+                        t.setText("Treino " + treinos[newValue - 1]);
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
+                        Parent root = null;
+                        root = (Parent) loader.load();
+                        t.setContent(root);
+                        tbPane.getTabs().add(t);
+                    } 
+                    catch (IOException ex) 
+                    {
+                        
+                    }
+                }
+                else
+                {
+                    tbPane.getTabs().remove(oldValue - 1);
+                }
+            }
+        });
     }    
 
     @FXML

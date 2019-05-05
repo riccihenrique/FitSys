@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -30,12 +31,12 @@
                         <JFXDatePicker fx:id="dttTreino" layoutX="54.0" layoutY="97.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino" />
                         <JFXDatePicker fx:id="dttVenciTreino" layoutX="295.0" layoutY="97.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino" />
                         <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="54.0" layoutY="144.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário" />
-                        <JFXTextField fx:id="tbQtdeTreinos" labelFloat="true" layoutX="295.0" layoutY="144.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC)" />
+                        <JFXTextField labelFloat="true" layoutX="295.0" layoutY="144.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC)" text=" " />
+                        <Spinner fx:id="spQtdTreinos" focusTraversable="false" layoutX="295.0" layoutY="144.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Treino A" />
          </tabs>
       </TabPane>
       <Line endX="451.29290771484375" endY="1.2928931713104248" startX="-100.0" />
