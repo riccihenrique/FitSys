@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="338.0" prefWidth="553.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView layoutX="16.0" layoutY="14.0" prefHeight="196.0" prefWidth="522.0">
+         <columns>
+            <TableColumn prefWidth="58.0" text="Ordem" />
+            <TableColumn prefWidth="246.0" text="Exercício" />
+            <TableColumn prefWidth="71.0" text="Séries" />
+            <TableColumn prefWidth="85.0" text="Repetições" />
+            <TableColumn prefWidth="61.0" text="Carga" />
+         </columns>
+      </TableView>
+      <JFXComboBox labelFloat="true" layoutX="38.0" layoutY="220.0" prefHeight="25.0" prefWidth="212.0" promptText="Grupo Muscular" />
+      <JFXComboBox labelFloat="true" layoutX="298.0" layoutY="220.0" prefHeight="25.0" prefWidth="212.0" promptText="Exercício" />
+      <JFXTextField labelFloat="true" layoutX="38.0" layoutY="260.0" prefHeight="25.0" prefWidth="95.0" promptText="Ordem" />
+      <JFXTextField labelFloat="true" layoutX="155.0" layoutY="260.0" prefHeight="25.0" prefWidth="95.0" promptText="Séries" />
+      <JFXTextField labelFloat="true" layoutX="298.0" layoutY="260.0" prefHeight="25.0" prefWidth="87.0" promptText="Repetições" />
+      <JFXTextField labelFloat="true" layoutX="423.0" layoutY="260.0" prefHeight="25.0" prefWidth="87.0" promptText="Carga" />
+      <JFXButton layoutX="442.0" layoutY="299.0" prefHeight="25.0" prefWidth="68.0" text="Incluir" />
+      <JFXButton layoutX="360.0" layoutY="299.0" prefHeight="25.0" prefWidth="68.0" text="Excluir" />
+   </children>
+</AnchorPane>

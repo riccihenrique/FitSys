@@ -119,4 +119,14 @@ public class FXMLMainController implements Initializable {
     private void btnRestore(ActionEvent event) {
         Banco.realizaBackup("restore");
     }
+
+    @FXML
+    private void clkGerarTreino(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLGerTreino.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        stage.showAndWait();
+    }
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLBuscaAlunoController">
+   <children>
+      <AnchorPane prefHeight="61.0" prefWidth="407.0">
+         <children>
+            <JFXRadioButton fx:id="rbCpf" layoutX="14.0" layoutY="11.0" text="CPF">
+               <toggleGroup>
+                  <ToggleGroup fx:id="busca" />
+               </toggleGroup>
+            </JFXRadioButton>
+            <JFXRadioButton fx:id="rbNome" layoutX="14.0" layoutY="34.0" selected="true" text="Nome" toggleGroup="$busca" />
+            <JFXButton layoutX="324.0" layoutY="22.0" onAction="#clkBuscar" text="Buscar" />
+            <JFXTextField fx:id="tbPesquisa" layoutX="87.0" layoutY="18.0" prefHeight="25.0" prefWidth="231.0" promptText="Digite um nome:" />
+         </children>
+      </AnchorPane>
+      <TableView fx:id="tbvAlunos" onMouseClicked="#clkTabela" prefHeight="289.0" prefWidth="407.0">
+        <columns>
+          <TableColumn fx:id="colMatricula" prefWidth="130.0" text="Matricula" />
+          <TableColumn fx:id="colNome" prefWidth="276.0" text="Nome" />
+        </columns>
+      </TableView>
+      <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="600.0">
+         <children>
+            <JFXButton fx:id="btConfirmar" onAction="#clkConfirmar" text="Confirmar" />
+         </children>
+         <padding>
+            <Insets right="15.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>
