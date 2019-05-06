@@ -15,6 +15,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,14 +38,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import model.Funcionario;
+import org.json.JSONObject;
 import util.Banco;
+import util.BuscaCep;
 import util.MaskFieldUtil;
+import util.ValidaCpf;
 
-/**
- * FXML Controller class
- *
- * @author Alexandre
- */
+
 public class FXMLGenFuncionarioController implements Initializable {
 
     @FXML
@@ -96,18 +98,103 @@ public class FXMLGenFuncionarioController implements Initializable {
     @FXML
     private TableColumn<Funcionario, String> colCargo;
 
-    /**
-     * Initializes the controller class.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //red #e61919
+        //green #32CD32
+        //https://colorate.azurewebsites.net/Color/FF9900
+        
         colCpf.setCellValueFactory(new PropertyValueFactory("cpf"));
         colNome.setCellValueFactory(new PropertyValueFactory("nome"));
         colCargo.setCellValueFactory(new PropertyValueFactory("cargo"));
         
+        tbCep.setStyle("-fx-prompt-text-fill: white");
+        tbCep.setStyle("-fx-text-inner-color: white");
+        tbCidade.setStyle("-fx-prompt-text-fill: white");
+        tbCidade.setStyle("-fx-text-inner-color: white");
+        tbCpf.setStyle("-fx-prompt-text-fill: white");
+        tbCpf.setStyle("-fx-text-inner-color: white");
+        tbEmail.setStyle("-fx-prompt-text-fill: white");
+        tbEmail.setStyle("-fx-text-inner-color: white");
+        tbNome.setStyle("-fx-prompt-text-fill: white");
+        tbNome.setStyle("-fx-text-inner-color: white");
+        tbPesquisa.setStyle("-fx-prompt-text-fill: white");
+        tbPesquisa.setStyle("-fx-text-inner-color: white");
+        tbRua.setStyle("-fx-prompt-text-fill: white");
+        tbRua.setStyle("-fx-text-inner-color: white");
+        tbSenha.setStyle("-fx-prompt-text-fill: white");
+        tbSenha.setStyle("-fx-text-inner-color: white");
+        tbTelefone.setStyle("-fx-prompt-text-fill: white");
+        tbTelefone.setStyle("-fx-text-inner-color: white");
+        tbUf.setStyle("-fx-prompt-text-fill: white");
+        tbUf.setStyle("-fx-text-inner-color: white");
+        cbCargo.setStyle("-fx-prompt-text-fill: white");
+        cbCargo.setStyle("-fx-text-inner-color: white");
+        
         MaskFieldUtil.cepField(tbCep);
         MaskFieldUtil.cpfField(tbCpf);
         MaskFieldUtil.foneField(tbTelefone);
+        
+        
+        tbCpf.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            boolean cpf = false;
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) 
+            {
+                if(!newValue)
+                {
+                    if(ValidaCpf.validaCpf(tbCpf.getText()))
+                    {
+                        cpf = true;
+                        tbCpf.setStyle("-fx-background-color:#32CD32");
+                    }
+                    else
+                    {
+                        cpf = false;
+                        tbCpf.setStyle("-fx-background-color:#e61919");
+                    }
+                }
+             }
+        });
+        
+        tbCep.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) 
+            {
+                if(!newValue)
+                {
+                    String json = BuscaCep.consultaCep(tbCep.getText().replace("-", ""));
+                    Platform.runLater(()-> {
+                        JSONObject ob = new JSONObject(json);
+                        tbCidade.setText(ob.getString("localidade"));
+                        tbRua.setText(ob.getString("logradouro"));
+                        tbUf.setText(ob.getString("uf"));
+                    });
+                }
+            }
+        });
+        
+        /*tbCidade.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            boolean flag = false;
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) 
+            {
+                if(!newValue)
+                {
+                    if(tbCidade.getText() !="")
+                    {
+                        flag = true;
+                        tbCidade.setStyle("-fx-background-color:#32CD32");
+                    }
+                    else
+                    {
+                        flag = false;
+                        tbCidade.setStyle("-fx-background-color:#e61919");
+                    }
+                }
+             }
+        });*/
        
         estadoOriginal();
     }    
@@ -161,6 +248,8 @@ public class FXMLGenFuncionarioController implements Initializable {
 
     @FXML
     private void clkBtnConfirmar(ActionEvent event) {
+        
+        
         Funcionario F = new Funcionario(tbCpf.getText(),tbNome.getText(),tbTelefone.getText(),tbRua.getText(),tbCidade.getText(),tbCep.getText(),tbEmail.getText(),dtpickerNasc.getValue(),tbSenha.getText(),cbCargo.getValue(),cbNvAcesso.getValue(), tbUf.getText());
         if(tbCpf.isDisable())//alterando
         {
@@ -192,13 +281,9 @@ public class FXMLGenFuncionarioController implements Initializable {
         }
         else
         {
-            if(tbCpf.getText().isEmpty())
-            JOptionPane.showMessageDialog(null, "Não é possível cancelar esta operação");
-            else
-            {
-                Stage stage = (Stage) BtnConfirmar.getScene().getWindow(); //Obtendo a janela atual
-                stage.close(); //Fechando o Stage
-            }
+            Stage stage = (Stage) BtnConfirmar.getScene().getWindow(); //Obtendo a janela atual
+            stage.close(); //Fechando o Stage
+            
         }
     }
 
@@ -284,6 +369,7 @@ public class FXMLGenFuncionarioController implements Initializable {
             BtnNovo.setDisable(false);
             tbCpf.setDisable(true);
             tbNome.setDisable(true);
+            tbCpf.setStyle("-fx-background-color:#FF");
 
             ObservableList<Node> componentes = pnDados.getChildren(); //”limpa” os componentes
             for (Node n : componentes) {

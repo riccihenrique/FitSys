@@ -151,7 +151,7 @@ public class Funcionario
         
         sql=sql.replaceAll("#1", cpf.replace(".", "").replace("-", ""));
         sql=sql.replaceAll("#2", nome);
-        sql=sql.replaceAll("#3", tel.replace("-", ""));
+        sql=sql.replaceAll("#3", tel.replace("-", "").replace(")", "").replace("(", ""));
         sql=sql.replaceAll("#4", rua);
         sql=sql.replaceAll("#5", dt_nasc.toString());
         sql=sql.replaceAll("#6", cidade);
@@ -172,7 +172,7 @@ public class Funcionario
     public boolean alterar()
     {
         //aaaaaaa
-        String sql="update funcionario set fun_nome='#2', fun_tel='#3', fun_rua='#4', fun_dtnasc='#5', fun_cidade='#6', fun_cep='#7', fun_email='#8', fun_cargo='#9', fun_senha='#!', fun_nivel='#@', fun_uf='#%' where fun_cpf='"+cpf+"'";
+        String sql="update funcionario set fun_nome='#2', fun_tel='#3', fun_rua='#4', fun_dtnasc='#5', fun_cidade='#6', fun_cep='#7', fun_email='#8', fun_cargo='#9', fun_senha='#!', fun_nivel='#@', fun_uf='#%' where fun_cpf='"+cpf.replace(".", "").replace("-", "")+"'";
         
         sql=sql.replaceAll("#2", nome);
         sql=sql.replaceAll("#3", tel.replace("-", "").replace("(", "").replace(")", ""));

@@ -11,34 +11,50 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="splitPane" dividerPositions="0.488135593220339" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="626.0" prefWidth="784.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGenFuncionarioController">
+<SplitPane fx:id="splitPane" dividerPositions="0.488135593220339" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="626.0" prefWidth="784.0" style="-fx-background-color: #65A6D3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGenFuncionarioController">
    <items>
       <VBox prefHeight="290.0" prefWidth="604.0">
          <children>
             <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="604.0" spacing="10.0">
                <children>
-                  <JFXButton fx:id="BtnNovo" layoutX="10.0" layoutY="10.0" onAction="#clkBtnNovo" prefHeight="36.0" prefWidth="119.0" text="Novo" />
-                  <JFXButton fx:id="BtnAlterar" onAction="#clkBtnAlterar" prefHeight="36.0" prefWidth="119.0" text="Alterar" />
-                  <JFXButton fx:id="BtnApagar" onAction="#clkBtnApagar" prefHeight="36.0" prefWidth="119.0" text="Apagar" />
-                  <JFXButton fx:id="BtnConfirmar" onAction="#clkBtnConfirmar" prefHeight="36.0" prefWidth="119.0" text="Confirmar" />
-                  <JFXButton fx:id="BtnCancelar" onAction="#clkBtnCancelar" prefHeight="36.0" prefWidth="119.0" text="Cancelar" />
+                  <JFXButton fx:id="BtnNovo" layoutX="10.0" layoutY="10.0" onAction="#clkBtnNovo" prefHeight="36.0" prefWidth="119.0" style="-fx-background-color: #ff9900;" text="Novo" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font></JFXButton>
+                  <JFXButton fx:id="BtnAlterar" onAction="#clkBtnAlterar" prefHeight="36.0" prefWidth="119.0" style="-fx-background-color: #ff9900;" text="Alterar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font></JFXButton>
+                  <JFXButton fx:id="BtnApagar" onAction="#clkBtnApagar" prefHeight="36.0" prefWidth="119.0" style="-fx-background-color: #ff9900;" text="Apagar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font></JFXButton>
+                  <JFXButton fx:id="BtnConfirmar" onAction="#clkBtnConfirmar" prefHeight="36.0" prefWidth="119.0" style="-fx-background-color: #ff9900;" text="Confirmar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font></JFXButton>
+                  <JFXButton fx:id="BtnCancelar" onAction="#clkBtnCancelar" prefHeight="36.0" prefWidth="119.0" style="-fx-background-color: #ff9900;" text="Cancelar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font></JFXButton>
                </children>
             </HBox>
             <AnchorPane fx:id="pnDados" prefHeight="262.0" prefWidth="782.0">
                <children>
-                  <JFXTextField fx:id="tbNome" labelFloat="true" layoutX="255.0" layoutY="33.0" prefHeight="25.0" prefWidth="265.0" promptText="Nome" />
-                  <JFXTextField fx:id="tbCpf" labelFloat="true" layoutX="28.0" layoutY="33.0" prefHeight="25.0" prefWidth="191.0" promptText="CPF" />
-                  <JFXTextField fx:id="tbCep" labelFloat="true" layoutX="28.0" layoutY="135.0" prefHeight="25.0" prefWidth="114.0" promptText="CEP:" />
-                  <JFXTextField fx:id="tbRua" labelFloat="true" layoutX="28.0" layoutY="181.0" prefHeight="25.0" prefWidth="197.0" promptText="Rua" />
-                  <JFXTextField fx:id="tbTelefone" labelFloat="true" layoutX="28.0" layoutY="80.0" prefHeight="25.0" prefWidth="191.0" promptText="Telefone" />
-                  <JFXTextField fx:id="tbCidade" labelFloat="true" layoutX="251.0" layoutY="181.0" prefHeight="25.0" prefWidth="274.0" promptText="Cidade" />
-                  <JFXTextField fx:id="tbUf" labelFloat="true" layoutX="160.0" layoutY="135.0" prefHeight="25.0" prefWidth="66.0" promptText="UF:" />
-                  <JFXTextField fx:id="tbEmail" labelFloat="true" layoutX="255.0" layoutY="80.0" prefHeight="25.0" prefWidth="265.0" promptText="E-mail" />
-                  <JFXComboBox fx:id="cbNvAcesso" layoutX="578.0" layoutY="181.0" prefHeight="25.0" prefWidth="114.0" promptText="Nível de Acesso" />
-                  <JFXComboBox fx:id="cbCargo" layoutX="580.0" layoutY="80.0" prefHeight="25.0" prefWidth="174.0" promptText="Cargo" />
+                  <JFXTextField fx:id="tbCpf" focusColor="#ff9900" labelFloat="true" layoutX="28.0" layoutY="33.0" prefHeight="25.0" prefWidth="191.0" promptText="CPF" />
+                  <JFXTextField fx:id="tbNome" focusColor="#ff9900" labelFloat="true" layoutX="255.0" layoutY="33.0" prefHeight="25.0" prefWidth="265.0" promptText="Nome" />
                   <DatePicker fx:id="dtpickerNasc" layoutX="580.0" layoutY="46.0" promptText="Data de Nascimento" />
-                  <JFXTextField fx:id="tbSenha" labelFloat="true" layoutX="578.0" layoutY="148.0" prefHeight="25.0" prefWidth="174.0" promptText="Senha" />
+                  <JFXTextField fx:id="tbTelefone" focusColor="#ff9900" labelFloat="true" layoutX="28.0" layoutY="80.0" prefHeight="25.0" prefWidth="191.0" promptText="Telefone" />
+                  <JFXTextField fx:id="tbEmail" focusColor="#ff9900" labelFloat="true" layoutX="255.0" layoutY="80.0" prefHeight="25.0" prefWidth="265.0" promptText="E-mail" />
+                  <JFXTextField fx:id="tbCep" focusColor="#ff9900" labelFloat="true" layoutX="28.0" layoutY="135.0" prefHeight="25.0" prefWidth="114.0" promptText="CEP:" />
+                  <JFXTextField fx:id="tbUf" focusColor="#ff9900" labelFloat="true" layoutX="160.0" layoutY="135.0" prefHeight="25.0" prefWidth="66.0" promptText="UF:" />
+                  <JFXTextField fx:id="tbRua" focusColor="#ff9900" labelFloat="true" layoutX="28.0" layoutY="181.0" prefHeight="25.0" prefWidth="197.0" promptText="Rua" />
+                  <JFXTextField fx:id="tbCidade" focusColor="#ff9900" labelFloat="true" layoutX="251.0" layoutY="181.0" prefHeight="25.0" prefWidth="274.0" promptText="Cidade" />
+                  <JFXComboBox fx:id="cbCargo" focusColor="#ff9900" layoutX="580.0" layoutY="80.0" prefHeight="25.0" prefWidth="174.0" promptText="Cargo" />
+                  <JFXTextField fx:id="tbSenha" focusColor="#ff9900" labelFloat="true" layoutX="578.0" layoutY="148.0" prefHeight="25.0" prefWidth="174.0" promptText="Senha" />
+                  <JFXComboBox fx:id="cbNvAcesso" focusColor="#ff9900" layoutX="578.0" layoutY="181.0" prefHeight="25.0" prefWidth="114.0" promptText="Nível de Acesso" />
                   <Label layoutX="25.0" layoutY="231.0" text="*" textFill="RED" />
                   <Label layoutX="33.0" layoutY="231.0" text="Todos os campos são obrigatórios" />
                </children>
@@ -50,7 +66,10 @@
             <HBox alignment="CENTER" prefHeight="35.0" prefWidth="604.0">
                <children>
                   <JFXTextField fx:id="tbPesquisa" prefHeight="25.0" prefWidth="481.0" promptText="Informe o nome do funcionário" />
-                  <JFXButton fx:id="BtnPesquisar" onAction="#clkBtnPesquisar" prefHeight="36.0" prefWidth="114.0" text="Pesquisar" />
+                  <JFXButton fx:id="BtnPesquisar" onAction="#clkBtnPesquisar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Pesquisar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font></JFXButton>
                </children>
             </HBox>
             <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="261.0" prefWidth="818.0">

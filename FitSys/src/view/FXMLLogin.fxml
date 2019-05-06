@@ -1,11 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLLoginController">
-    
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="539.0" style="-fx-background-color: #65A6D3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FXMLLoginController">
+   <children>
+      <JFXTextField fx:id="tfUser" focusColor="#ff9900" labelFloat="true" layoutX="162.0" layoutY="151.0" prefHeight="30.0" prefWidth="266.0" promptText="CPF">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="tfSenha" focusColor="#ff9900" labelFloat="true" layoutX="162.0" layoutY="220.0" prefHeight="30.0" prefWidth="266.0" promptText="Senha">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXTextField>
+      <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="112.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../icones/user.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="112.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@password.png" />
+         </image>
+      </ImageView>
+      <JFXButton layoutX="386.0" layoutY="308.0" onAction="#clkBtLogin" style="-fx-background-color: #ff9900;" text="Login" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="224.0" layoutY="39.0" text="Fit" textFill="#ff9900">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="263.0" layoutY="39.0" text="Sys" textFill="WHITE">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbAviso" layoutX="112.0" layoutY="277.0" prefHeight="20.0" prefWidth="318.0" textFill="#ff9900">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
 </AnchorPane>

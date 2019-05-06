@@ -36,6 +36,12 @@
                   <MenuItem mnemonicParsing="false" onAction="#clkGerarTreino" text="Gerar Treino" />
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Avaliações">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#clkAgendarAV" text="Agendar" />
+                  <MenuItem mnemonicParsing="false" onAction="#clkEfetuarAV" text="Efetuar" />
+               </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Ajuda">
                <items>
                   <MenuItem mnemonicParsing="false" text="Sobre" />
