@@ -7,24 +7,24 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="338.0" prefWidth="553.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLTreinoController">
+<AnchorPane fx:id="pnDados" minHeight="0.0" minWidth="0.0" prefHeight="348.0" prefWidth="553.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLTreinoController">
    <children>
-      <TableView layoutX="16.0" layoutY="14.0" prefHeight="196.0" prefWidth="522.0">
+      <TableView fx:id="tbvDados" layoutX="16.0" layoutY="14.0" prefHeight="190.0" prefWidth="522.0">
          <columns>
-            <TableColumn prefWidth="58.0" text="Ordem" />
-            <TableColumn prefWidth="246.0" text="Exercício" />
-            <TableColumn prefWidth="71.0" text="Séries" />
-            <TableColumn prefWidth="85.0" text="Repetições" />
-            <TableColumn prefWidth="61.0" text="Carga" />
+            <TableColumn fx:id="colOrdem" prefWidth="58.0" text="Ordem" />
+            <TableColumn fx:id="colExercicio" prefWidth="246.0" text="Exercício" />
+            <TableColumn fx:id="colSerie" prefWidth="71.0" text="Séries" />
+            <TableColumn fx:id="colRepeticao" prefWidth="85.0" text="Repetições" />
+            <TableColumn fx:id="colCarga" prefWidth="61.0" text="Carga" />
          </columns>
       </TableView>
-      <JFXComboBox labelFloat="true" layoutX="38.0" layoutY="220.0" prefHeight="25.0" prefWidth="212.0" promptText="Grupo Muscular" />
-      <JFXComboBox labelFloat="true" layoutX="298.0" layoutY="220.0" prefHeight="25.0" prefWidth="212.0" promptText="Exercício" />
-      <JFXTextField labelFloat="true" layoutX="38.0" layoutY="260.0" prefHeight="25.0" prefWidth="95.0" promptText="Ordem" />
-      <JFXTextField labelFloat="true" layoutX="155.0" layoutY="260.0" prefHeight="25.0" prefWidth="95.0" promptText="Séries" />
-      <JFXTextField labelFloat="true" layoutX="298.0" layoutY="260.0" prefHeight="25.0" prefWidth="87.0" promptText="Repetições" />
-      <JFXTextField labelFloat="true" layoutX="423.0" layoutY="260.0" prefHeight="25.0" prefWidth="87.0" promptText="Carga" />
-      <JFXButton layoutX="442.0" layoutY="299.0" prefHeight="25.0" prefWidth="68.0" text="Incluir" />
-      <JFXButton layoutX="360.0" layoutY="299.0" prefHeight="25.0" prefWidth="68.0" text="Excluir" />
+      <JFXComboBox fx:id="cbGrupoMuscular" labelFloat="true" layoutX="41.0" layoutY="230.0" prefHeight="25.0" prefWidth="212.0" promptText="Grupo Muscular" />
+      <JFXComboBox fx:id="cbExercicio" labelFloat="true" layoutX="301.0" layoutY="230.0" prefHeight="25.0" prefWidth="212.0" promptText="Exercício" />
+      <JFXTextField fx:id="tbOrdem" labelFloat="true" layoutX="41.0" layoutY="270.0" prefHeight="25.0" prefWidth="95.0" promptText="Ordem" />
+      <JFXTextField fx:id="tbSeries" labelFloat="true" layoutX="158.0" layoutY="270.0" prefHeight="25.0" prefWidth="95.0" promptText="Séries" />
+      <JFXTextField fx:id="tbRepeticoes" labelFloat="true" layoutX="301.0" layoutY="270.0" prefHeight="25.0" prefWidth="87.0" promptText="Repetições" />
+      <JFXTextField fx:id="tbCarga" labelFloat="true" layoutX="426.0" layoutY="270.0" prefHeight="25.0" prefWidth="87.0" promptText="Carga" />
+      <JFXButton fx:id="btIncluir" layoutX="445.0" layoutY="309.0" onAction="#clkIncluir" prefHeight="25.0" prefWidth="68.0" text="Incluir" />
+      <JFXButton fx:id="btExcluir" layoutX="363.0" layoutY="309.0" onAction="#clkExcluir" prefHeight="25.0" prefWidth="68.0" text="Excluir" />
    </children>
 </AnchorPane>

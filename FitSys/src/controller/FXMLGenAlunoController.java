@@ -355,7 +355,7 @@ public class FXMLGenAlunoController implements Initializable {
         }
         else
         {
-            MaskFieldUtil.onlyAlfaValue(tbBusca);
+            MaskFieldUtil.onlyAlfaNumericValue(tbBusca);
             tbBusca.setPromptText("Digite um nome");
         }
     }

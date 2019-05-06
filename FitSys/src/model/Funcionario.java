@@ -189,7 +189,7 @@ public class Funcionario
         return Banco.getCon().manipular(sql);
     }
     
-    public List<Funcionario> get(String filtro)
+    public static List<Funcionario> get(String filtro)
     {
         List<Funcionario> L = new ArrayList();
         

@@ -7,11 +7,14 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +27,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import model.Funcionario;
+import model.GrupoMuscular;
 import model.Matricula;
-import util.MaskFieldUtil;
 
 public class FXMLGerTreinoController implements Initializable {
 
@@ -62,10 +65,7 @@ public class FXMLGerTreinoController implements Initializable {
             t.setContent(root);
             tbPane.getTabs().add(t);
         }
-        catch(Exception e)
-        {
-            
-        }
+        catch(Exception e){}
         
         tbPane.setDisable(true);
         btConfirmar.setDisable(true);
@@ -104,6 +104,10 @@ public class FXMLGerTreinoController implements Initializable {
                 }
             }
         });
+        
+        List <Funcionario> funcionarios = Funcionario.get("");
+        ObservableList <Funcionario> obsFuncionario = FXCollections.observableList(funcionarios);
+        cbFuncionario.setItems(obsFuncionario);
     }    
 
     @FXML
@@ -122,6 +126,7 @@ public class FXMLGerTreinoController implements Initializable {
             tbMatricula.setText("" + mat.getCod());
             tbAluno.setText(mat.getAluno().getNome());
             tbPane.setDisable(false);
+            btConfirmar.setDisable(false);
         }
     }
 
