@@ -9,8 +9,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -19,16 +17,22 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
+import model.ExercicioTreino;
 import model.Funcionario;
-import model.GrupoMuscular;
 import model.Matricula;
+import model.Treino;
+import util.Banco;
 
 public class FXMLGerTreinoController implements Initializable {
 
@@ -88,15 +92,14 @@ public class FXMLGerTreinoController implements Initializable {
                         Tab t = new Tab();
                         t.setText("Treino " + treinos[newValue - 1]);
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
+                        FXMLTreinoController cont = loader.getController();
+                        cont.setTipo(treinos[newValue - 1].charAt(0));
                         Parent root = null;
                         root = (Parent) loader.load();
                         t.setContent(root);
                         tbPane.getTabs().add(t);
                     } 
-                    catch (IOException ex) 
-                    {
-                        
-                    }
+                    catch (IOException ex) { }
                 }
                 else
                 {
@@ -138,5 +141,46 @@ public class FXMLGerTreinoController implements Initializable {
 
     @FXML
     private void clkConfirmar(ActionEvent event) {
+        boolean ok = true;
+        
+        for(Tab t : tbPane.getTabs())
+        {
+            ObservableList<Node> componentes =  ((AnchorPane) t.getContent()).getChildren(); //”limpa” os componentes
+            for (Node n : componentes) {
+                if (n instanceof TableView) // textfield, textarea e htmleditor
+                    if(((TableView) n).getItems().isEmpty())
+                        ok = false;
+            }
+        }
+        
+        if(ok)
+        {
+            Treino t = new Treino(dttTreino.getValue(), dttVenciTreino.getValue(), mat, cbFuncionario.getValue());
+            if(t.gravar())
+            {
+                t.setCod(Banco.getCon().getMaxPK("treino", "treino_cod"));
+                
+                for(Tab tab: tbPane.getTabs())
+                {
+                    ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
+                    for (Node n : componentes) {
+                        if (n instanceof TableView) // textfield, textarea e htmleditor
+                        {
+                            ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
+                            for(ExercicioTreino ex : obExTrei)
+                            {
+                                ex.setTreino(t);
+                                if(!ex.gravar())
+                                    JOptionPane.showConfirmDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
+                            }
+                        }
+                    }
+                }
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Erro ao gravar treino: " + Banco.getCon().getMensagemErro());
+        }
+        else
+            JOptionPane.showMessageDialog(null, "Há treinos sem montar");
     }
 }

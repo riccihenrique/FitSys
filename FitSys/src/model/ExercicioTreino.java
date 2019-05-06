@@ -1,5 +1,7 @@
 package model;
 
+import util.Banco;
+
 public class ExercicioTreino 
 {
     Exercicio exercicio;
@@ -86,5 +88,21 @@ public class ExercicioTreino
 
     public void setCarga(int carga) {
         this.carga = carga;
+    }
+    
+    public boolean gravar()
+    {
+        String SQL = "insert into Exercicio_Treino values(#1, #2, '#3', #4, #5, #6, #7)";
+        
+        SQL = SQL.replace("#1", "" + exercicio.getCod());
+        SQL = SQL.replace("#2", "" + treino.getCod());
+        SQL = SQL.replace("#3", "" + tipo);
+        SQL = SQL.replace("#4", "" + repeticao);
+        SQL = SQL.replace("#5", "" + serie);
+        SQL = SQL.replace("#6", "" + carga);
+        SQL = SQL.replace("#7", "" + ordem);
+        
+        return Banco.getCon().manipular(SQL);
+        
     }
 }

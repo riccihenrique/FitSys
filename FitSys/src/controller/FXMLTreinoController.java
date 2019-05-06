@@ -60,7 +60,8 @@ public class FXMLTreinoController implements Initializable {
     List<ExercicioTreino> lista;
     @FXML
     private AnchorPane pnDados;
-
+    
+    private char tipo;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -105,14 +106,11 @@ public class FXMLTreinoController implements Initializable {
     private void clkIncluir(ActionEvent event) {
         try
         {
-            lista.add(new ExercicioTreino(cbExercicio.getValue(), 'a', Integer.parseInt(tbOrdem.getText()),  
+            lista.add(new ExercicioTreino(cbExercicio.getValue(), tipo, Integer.parseInt(tbOrdem.getText()),  
                 Integer.parseInt(tbRepeticoes.getText()), Integer.parseInt(tbSeries.getText()), 
                 Integer.parseInt(tbCarga.getText())));
         }
-        catch(Exception e)
-        {
-            
-        }
+        catch(Exception e){ }
                 
         ObservableList<ExercicioTreino> modelo;
         modelo = FXCollections.observableArrayList(lista);
@@ -125,5 +123,10 @@ public class FXMLTreinoController implements Initializable {
             if (n instanceof ComboBox)
                 ((ComboBox) n).getItems().clear();
         }
+    }
+        
+    public void setTipo(char tipo)
+    {
+        this.tipo = tipo; 
     }
 }
