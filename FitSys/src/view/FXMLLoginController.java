@@ -7,6 +7,7 @@ package view;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import controller.FXMLMainController;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -20,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.Funcionario;
 import util.Banco;
 import util.MaskFieldUtil;
 
@@ -37,9 +39,8 @@ public class FXMLLoginController implements Initializable {
     @FXML
     private Label lbAviso;
 
-    /**
-     * Initializes the controller class.
-     */
+    Funcionario F;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -48,6 +49,24 @@ public class FXMLLoginController implements Initializable {
         tfSenha.setStyle("-fx-prompt-text-fill: #ffffff");
         tfSenha.setStyle("-fx-text-inner-color: #ffffff");
         MaskFieldUtil.cpfField(tfUser);
+        
+        try
+        {
+            if(!Banco.getCon().consultar("select * from funcionario").next())
+            {
+                Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLGenFuncionario.fxml"));
+
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+
+                stage.showAndWait();
+                 if(!Banco.getCon().consultar("select * from funcionario").next())
+                    System.exit(-1);
+            }
+        }
+        catch(Exception e){ }
+       
     }
 
     @FXML
@@ -57,17 +76,23 @@ public class FXMLLoginController implements Initializable {
         sql = sql.replaceAll("#1", tfUser.getText().replace(".", "").replace("-", ""));
         ResultSet rs = Banco.getCon().consultar(sql);
         if (rs.next()) {
-            sql = "select * from funcionario where fun_senha = '#1'";
-            sql = sql.replaceAll("#1", tfSenha.getText());
-            rs = Banco.getCon().consultar(sql);
-            if (rs.next()) {
-                if (rs.getString("fun_nivel").equals("B")) {
+            F = new Funcionario(rs.getString("fun_cpf"), rs.getString("fun_nome"), rs.getString("fun_cargo"), rs.getString("fun_nivel").charAt(0), rs.getString("fun_senha"));
+            if (F.getSenha().equals(tfSenha.getText())) {
+                if (F.getNivel() == 'B') {
                     lbAviso.setText("Usuário desativado");
                 } 
                 else 
                 {
+                    Parent root = null;
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLMain.fxml"));
+                    root = (Parent) loader.load();
+                    FXMLMainController controlador = loader.getController(); 
+                    controlador.setFuncionario(F);
+                   
                     Stage stage = (Stage) lbAviso.getScene().getWindow(); //Obtendo a janela atual
-                    stage.close();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
                 }
             } 
             else 
@@ -78,5 +103,10 @@ public class FXMLLoginController implements Initializable {
         } else {
             lbAviso.setText("Usuário Inexistente");
         }
+    }
+    
+    public Funcionario getFuncionario()
+    {
+        return F;
     }
 }

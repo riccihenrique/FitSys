@@ -267,7 +267,7 @@ public class FXMLGenFuncionarioController implements Initializable {
                 JOptionPane.showMessageDialog(null, "Erro: " + Banco.getCon().getMensagemErro());
             else
             {
-                JOptionPane.showMessageDialog(null, "Funcionario cadastrado!");
+                //JOptionPane.showMessageDialog(null, "Funcionario cadastrado!");
                 estadoOriginal();
             } 
         }
@@ -352,7 +352,7 @@ public class FXMLGenFuncionarioController implements Initializable {
         
         List <Character> dadosCBNV = new ArrayList();
         //Nivel de acesso do funcionário para tal CRUD,  Total, Apenas gravaçao, Apenas Leitura
-        dadosCBNV.add('A');dadosCBNV.add('F');dadosCBNV.add('L');dadosCBNV.add('B');
+        dadosCBNV.add('A');dadosCBNV.add('F');dadosCBNV.add('B');
         ObservableList <Character> obsListConteudoCBNV = FXCollections.observableList(dadosCBNV);
         cbNvAcesso.setItems(obsListConteudoCBNV);
     }
