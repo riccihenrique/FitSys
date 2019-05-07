@@ -54,11 +54,9 @@ public class FXMLGerTreinoController implements Initializable {
     private Spinner<Integer> spQtdTreinos;
 
     private Matricula mat;
-    
+    private String[] treinos = {"A", "B", "C", "D", "E"};
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        String[] treinos = {"A", "B", "C", "D", "E"};
-        
         try
         {
             Tab t = new Tab();
@@ -92,19 +90,14 @@ public class FXMLGerTreinoController implements Initializable {
                         Tab t = new Tab();
                         t.setText("Treino " + treinos[newValue - 1]);
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
-                        FXMLTreinoController cont = loader.getController();
-                        cont.setTipo(treinos[newValue - 1].charAt(0));
-                        Parent root = null;
-                        root = (Parent) loader.load();
+                        Parent root = (Parent) loader.load();
                         t.setContent(root);
                         tbPane.getTabs().add(t);
                     } 
                     catch (IOException ex) { }
                 }
                 else
-                {
-                    tbPane.getTabs().remove(oldValue - 1);
-                }
+                    tbPane.getTabs().remove(oldValue);
             }
         });
         
@@ -163,6 +156,7 @@ public class FXMLGerTreinoController implements Initializable {
                 for(Tab tab: tbPane.getTabs())
                 {
                     ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
+                    int i = 0;
                     for (Node n : componentes) {
                         if (n instanceof TableView) // textfield, textarea e htmleditor
                         {
@@ -170,8 +164,9 @@ public class FXMLGerTreinoController implements Initializable {
                             for(ExercicioTreino ex : obExTrei)
                             {
                                 ex.setTreino(t);
+                                ex.setTipo(treinos[i++].charAt(0));
                                 if(!ex.gravar())
-                                    JOptionPane.showConfirmDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
+                                    JOptionPane.showMessageDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
                             }
                         }
                     }

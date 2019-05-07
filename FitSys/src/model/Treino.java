@@ -84,7 +84,7 @@ public class Treino
     
     public boolean gravar()
     {
-        String SQL = "insert into treino values()";
+        String SQL = "insert into treino values(#1, '#2', '#3', '#4', #5)";
         SQL = SQL.replace("#1", "" + cod);
         SQL = SQL.replace("#2", dataTreino.toString());
         SQL = SQL.replace("#3", dataProximo.toString());
