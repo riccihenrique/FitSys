@@ -209,6 +209,31 @@ public class Funcionario
         }
         catch(SQLException e){ }
         return L;    
-    } 
+    }
     
+    public boolean getFuncionario(String cpf)
+    {
+       ResultSet rs = Banco.getCon().consultar("select * from aluno where alu_cpf = '" + cpf.replace(".", "").replace("-", "") + "'");
+        try
+        {
+            if(rs != null && rs.next())
+            {
+                this.cpf = rs.getString("fun_cpf");
+                this.nome = rs.getString("fun_nome");
+                this.tel = rs.getString("fun_tel");
+                this.rua = rs.getString("fun_rua");
+                this.cidade = rs.getString("fun_cidade");
+                this.cep = rs.getString("fun_cep");
+                this.email = rs.getString("fun_email");
+                this.dt_nasc = rs.getDate("fun_dtnasc").toLocalDate();
+                this.senha = rs.getString("fun_email");
+                this.cargo = rs.getString("fun_cargo");
+                this.uf = rs.getString("fun_uf");
+                this.cargo = rs.getString("fun_cargo");
+                return true;
+            }
+        }
+        catch(SQLException e){return false;}
+        return false;
+    }    
 }
