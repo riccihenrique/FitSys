@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import model.Aluno;
 import model.Avaliacao;
+import model.Matricula;
 import util.Banco;
 
 /**
@@ -48,11 +49,11 @@ public class FXMLAgendarAvaliacaoController implements Initializable {
     @FXML
     private JFXButton BtnPesquisar;
     @FXML
-    private TableView<Aluno> tbvDados;
+    private TableView<Matricula> tbvDados;
     @FXML
-    private TableColumn<Aluno, String> colCpf;
+    private TableColumn<Matricula, String> colCpf;
     @FXML
-    private TableColumn<Aluno, String> colNome;
+    private TableColumn<Matricula, String> colNome;
     @FXML
     private JFXButton BtnNovo;
     @FXML
@@ -79,14 +80,12 @@ public class FXMLAgendarAvaliacaoController implements Initializable {
         {
             BtnNovo.setDisable(false);
             BtnAlterar.setDisable(false);
-            
         }
     }
     private void carregaTabela(String filtro) {
-        Aluno A = new Aluno();
-        List<Aluno> res = A.get(filtro);
-        ObservableList<Aluno> modelo;
-        modelo = FXCollections.observableArrayList(res);
+        List<Matricula> M = Matricula.getMatriculas(filtro);
+        ObservableList<Matricula> modelo;
+        modelo = FXCollections.observableArrayList(M);
         tbvDados.setItems(modelo);
     }
     
@@ -166,7 +165,7 @@ public class FXMLAgendarAvaliacaoController implements Initializable {
     private void clkBtnConfirmar(ActionEvent event) {
         if(cbHorarios.getSelectionModel().getSelectedItem()!=null && dtPicker.getValue()!=null)
         {
-            Avaliacao AV = new Avaliacao(dtPicker.getValue(),"111111", tbvDados.getSelectionModel().getSelectedItem().getCpf());
+            Avaliacao AV = new Avaliacao(dtPicker.getValue(),"111111", tbvDados.getSelectionModel().getSelectedItem().getAluno().getCpf());
             
             
                 if(!AV.gravar())
