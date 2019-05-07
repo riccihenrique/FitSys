@@ -112,7 +112,13 @@ public class FXMLMainController implements Initializable {
     }
 
     @FXML
-    private void btnGerPacote(ActionEvent event) {
+    private void btnGerPacote(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLGenPacote.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        stage.showAndWait();
     }
 
     @FXML
@@ -143,7 +149,7 @@ public class FXMLMainController implements Initializable {
         stage.setScene(scene);
 
         stage.showAndWait();
-    }
+    }   
 
     @FXML
     private void clkEfetuarAV(ActionEvent event) throws IOException {

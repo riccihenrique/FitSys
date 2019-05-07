@@ -91,7 +91,7 @@ public class Pacote
     
     public boolean alterar()
     {
-        String sql="update pacote SET pct_desc = '#1', pct_porcdesconto = #2, pct_total = #3";
+        String sql="update pacote SET pct_desc = '#1', pct_porcdesconto = #2, pct_total = #3 where pct_cod = " + this.getCod();
 
         sql=sql.replaceAll("#1", getDescricao());
         sql=sql.replaceAll("#2", Integer.toString(desconto));
