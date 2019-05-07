@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
@@ -9,55 +10,73 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="735.0" prefWidth="593.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGenPacoteController">
+<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="1126.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGenPacoteController">
    <children>
-      <JFXTextField editable="false" layoutX="41.0" layoutY="41.0" prefHeight="25.0" prefWidth="88.0" promptText="Código" />
-      <JFXTextField alignment="TOP_LEFT" labelFloat="true" layoutX="147.0" layoutY="41.0" prefHeight="25.0" prefWidth="401.0" promptText="*Descrição" />
-      <JFXTextField labelFloat="true" layoutX="493.0" layoutY="335.0" prefHeight="25.0" prefWidth="35.0" />
+      <JFXTextField fx:id="txtCod" editable="false" focusColor="#d35400" layoutX="41.0" layoutY="41.0" prefHeight="25.0" prefWidth="88.0" promptText="Código" />
+      <JFXTextField fx:id="txtDesc" alignment="TOP_LEFT" focusColor="#d35400" labelFloat="true" layoutX="147.0" layoutY="41.0" prefHeight="25.0" prefWidth="401.0" promptText="*Descrição" />
+      <JFXTextField fx:id="txtDesconto" alignment="CENTER_RIGHT" focusColor="#d35400" labelFloat="true" layoutX="97.0" layoutY="328.0" onKeyReleased="#calcTotal" prefHeight="25.0" prefWidth="35.0" />
       <ListView fx:id="livModalidades" layoutX="40.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0" />
       <ListView fx:id="livSelec" layoutX="351.0" layoutY="126.0" prefHeight="200.0" prefWidth="200.0" />
       <JFXButton layoutX="268.0" layoutY="186.0" onAction="#btnSelecionar" style="-fx-background-color: #d35400;" text="   --&gt;   " textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
       <Label layoutX="42.0" layoutY="100.0" text="Modalidades:" />
-      <Label layoutX="472.0" layoutY="373.0" text="Total: R$" />
-      <Label layoutX="534.0" layoutY="341.0" text="\%" />
+      <Label layoutX="76.0" layoutY="366.0" text="Total: R$" />
+      <Label layoutX="138.0" layoutY="337.0" text="\%" />
       <Label layoutX="351.0" layoutY="100.0" text="Selecionadas:" />
       <JFXButton layoutX="268.0" layoutY="241.0" onAction="#btnRetirar" style="-fx-background-color: #d35400;" text="    &lt;--   " textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <JFXButton layoutX="338.0" layoutY="671.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #d35400;" text="CONFIRMAR" textFill="WHITE">
+      <JFXButton fx:id="btnConfirmar" layoutX="463.0" layoutY="334.0" onAction="#btnConfirmar" prefHeight="36.0" prefWidth="88.0" style="-fx-background-color: #d35400;" text="CONFIRMAR" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <JFXButton layoutX="454.0" layoutY="671.0" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: #d35400;" text="CANCELAR" textFill="WHITE">
+      <JFXButton fx:id="btnCancela" layoutX="363.0" layoutY="334.0" onAction="#limpaCampos" prefHeight="36.0" prefWidth="88.0" style="-fx-background-color: #d35400;" text="CANCELAR" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <Label layoutX="436.0" layoutY="344.0" text="Desconto:" />
-      <TableView layoutX="40.0" layoutY="419.0" prefHeight="239.0" prefWidth="513.0">
+      <Label layoutX="40.0" layoutY="337.0" text="Desconto:" />
+      <TableView fx:id="tabPacotes" layoutX="576.0" layoutY="66.0" prefHeight="261.0" prefWidth="513.0">
          <columns>
-            <TableColumn editable="false" maxWidth="1000.0" prefWidth="100.0" text="Código" />
-            <TableColumn editable="false" prefWidth="75.0" text="Descrição" />
+            <TableColumn fx:id="tabCod" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Código" />
+            <TableColumn fx:id="tabDesc" editable="false" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="412.0" resizable="false" text="Descrição" />
          </columns>
       </TableView>
-      <JFXButton layoutX="42.0" layoutY="671.0" prefHeight="36.0" prefWidth="72.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE">
+      <JFXButton fx:id="btnAlterar" layoutX="937.0" layoutY="335.0" onAction="#btnAlterar" prefHeight="36.0" prefWidth="72.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <JFXButton layoutX="122.0" layoutY="671.0" prefHeight="36.0" prefWidth="72.0" style="-fx-background-color: #d35400;" text="Deletar" textFill="WHITE">
+      <JFXButton fx:id="btnDeletar" layoutX="1017.0" layoutY="335.0" onAction="#btnDeletar" prefHeight="36.0" prefWidth="72.0" style="-fx-background-color: #d35400;" text="Deletar" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <Label fx:id="lbMensagem" layoutX="40.0" layoutY="373.0" textFill="#ff3c00" />
-      <Label layoutX="522.0" layoutY="373.0" text="0,00" />
+      <Label fx:id="lbMensagem" layoutX="578.0" layoutY="342.0" textFill="#ff3c00" />
+      <Label fx:id="txtTotal" layoutX="126.0" layoutY="366.0" text="0,00" />
    </children>
 </AnchorPane>
