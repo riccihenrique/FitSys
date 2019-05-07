@@ -136,10 +136,31 @@ public class FXMLGerTreinoController implements Initializable {
     private void clkConfirmar(ActionEvent event) {
         boolean ok = true;
         
+        if(cbFuncionario.getValue() == null)
+        {
+           cbFuncionario.setStyle("-fx-background-color:#e61919");
+           ok = false; 
+        }
+        else
+            cbFuncionario.setStyle("-fx-background-color:#fffff");
+        
+        if(dttVenciTreino.getValue().isBefore(dttTreino.getValue()))
+        {
+            ok = false;
+            dttTreino.setStyle("-fx-background-color:#e61919");
+            dttVenciTreino.setStyle("-fx-background-color:#e61919");
+        }
+        else
+        {
+            dttTreino.setStyle("-fx-background-color:#fffff");
+            dttVenciTreino.setStyle("-fx-background-color:#fffff");
+        }
+            
         for(Tab t : tbPane.getTabs())
         {
             ObservableList<Node> componentes =  ((AnchorPane) t.getContent()).getChildren(); //”limpa” os componentes
-            for (Node n : componentes) {
+            for (Node n : componentes) 
+            {
                 if (n instanceof TableView) // textfield, textarea e htmleditor
                     if(((TableView) n).getItems().isEmpty())
                         ok = false;
@@ -148,28 +169,40 @@ public class FXMLGerTreinoController implements Initializable {
         
         if(ok)
         {
+            ok = true;
             Treino t = new Treino(dttTreino.getValue(), dttVenciTreino.getValue(), mat, cbFuncionario.getValue());
             if(t.gravar())
             {
                 t.setCod(Banco.getCon().getMaxPK("treino", "treino_cod"));
-                
+                int i = -1;
                 for(Tab tab: tbPane.getTabs())
                 {
                     ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
-                    int i = 0;
-                    for (Node n : componentes) {
+                    for (Node n : componentes) 
+                    {
                         if (n instanceof TableView) // textfield, textarea e htmleditor
                         {
                             ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
                             for(ExercicioTreino ex : obExTrei)
                             {
                                 ex.setTreino(t);
-                                ex.setTipo(treinos[i++].charAt(0));
+                                ex.setTipo(treinos[i].charAt(0));
                                 if(!ex.gravar())
+                                {
                                     JOptionPane.showMessageDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
+                                    ok = false;
+                                }
                             }
                         }
                     }
+                    i++;
+                }
+                
+                if(ok)
+                {
+                    JOptionPane.showMessageDialog(null, "Treino inserido com sucesso:");
+                    Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
+                    stage.close(); //Fechando o Stage
                 }
             }
             else

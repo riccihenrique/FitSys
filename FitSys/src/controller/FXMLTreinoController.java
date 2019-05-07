@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javax.swing.JOptionPane;
 import model.Exercicio;
 import model.ExercicioTreino;
 import model.GrupoMuscular;
@@ -74,9 +75,7 @@ public class FXMLTreinoController implements Initializable {
         colSerie.setCellValueFactory(new PropertyValueFactory("serie"));
         
         // Carrega combobox com grupos musculares
-        List <GrupoMuscular> gruposMusculares = GrupoMuscular.get("");
-        ObservableList <GrupoMuscular> obsGruposMusculares = FXCollections.observableList(gruposMusculares);
-        cbGrupoMuscular.setItems(obsGruposMusculares);
+        carregaCombobox();
         
         cbGrupoMuscular.valueProperty().addListener(new ChangeListener<GrupoMuscular>() {
             @Override
@@ -98,28 +97,86 @@ public class FXMLTreinoController implements Initializable {
 
     @FXML
     private void clkExcluir(ActionEvent event) {
+        if(tbvDados.getSelectionModel().getSelectedItem() != null)
+        {
+            lista.remove(tbvDados.getSelectionModel().getSelectedItem());
+            carregaTabela();
+        }
     }
 
     @FXML
     private void clkIncluir(ActionEvent event) {
-        try
+        boolean ok = true;
+        if(isOk())
         {
-            lista.add(new ExercicioTreino(cbExercicio.getValue(), 'Q', Integer.parseInt(tbOrdem.getText()),  
-                Integer.parseInt(tbRepeticoes.getText()), Integer.parseInt(tbSeries.getText()), 
-                Integer.parseInt(tbCarga.getText())));
+            for(ExercicioTreino ex : lista)
+                if(ex.getExercicio() == cbExercicio.getValue())
+                {
+                    ok = false;
+                    JOptionPane.showMessageDialog(null, "Exercício já inserido");
+                }
+            if(ok)
+            {
+                try
+                {
+                    lista.add(new ExercicioTreino(cbExercicio.getValue(), 'Q', Integer.parseInt(tbOrdem.getText()),  
+                        Integer.parseInt(tbRepeticoes.getText()), Integer.parseInt(tbSeries.getText()), 
+                        Integer.parseInt(tbCarga.getText())));
+                }
+                catch(Exception e){ }
+
+                carregaTabela();
+
+                ObservableList<Node> componentes = pnDados.getChildren(); //”limpa” os componentes
+                for (Node n : componentes) {
+                    if (n instanceof TextInputControl) // textfield, textarea e htmleditor
+                        ((TextInputControl) n).setText("");
+                    if (n instanceof ComboBox)
+                        ((ComboBox) n).getItems().clear();
+                }
+
+                carregaCombobox();
+            }
         }
-        catch(Exception e){ }
-                
+    }
+    
+    private void carregaTabela()
+    {
         ObservableList<ExercicioTreino> modelo;
         modelo = FXCollections.observableArrayList(lista);
         tbvDados.setItems(modelo);
-        
+    }
+
+    private void carregaCombobox() {
+        List <GrupoMuscular> gruposMusculares = GrupoMuscular.get("");
+        ObservableList <GrupoMuscular> obsGruposMusculares = FXCollections.observableList(gruposMusculares);
+        cbGrupoMuscular.setItems(obsGruposMusculares);
+    }
+    
+    private boolean isOk()
+    {
+        boolean ok = true;
         ObservableList<Node> componentes = pnDados.getChildren(); //”limpa” os componentes
         for (Node n : componentes) {
             if (n instanceof TextInputControl) // textfield, textarea e htmleditor
-                ((TextInputControl) n).setText("");
+                if(((TextInputControl) n).getText().isEmpty())
+                {
+                    n.setStyle("-fx-background-color:#e61919");
+                    ok = false;
+                }
+                else
+                    n.setStyle("-fx-background-color:#fffff");
+            
             if (n instanceof ComboBox)
-                ((ComboBox) n).getItems().clear();
+                if(((ComboBox) n).getSelectionModel().getSelectedItem() == null)
+                {
+                    n.setStyle("-fx-background-color:#e61919");
+                    ok = false;
+                }
+                else
+                    n.setStyle("-fx-background-color:#fffff");
         }
+        
+        return ok;
     }
 }

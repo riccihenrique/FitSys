@@ -84,12 +84,11 @@ public class Treino
     
     public boolean gravar()
     {
-        String SQL = "insert into treino values(#1, '#2', '#3', '#4', #5)";
-        SQL = SQL.replace("#1", "" + cod);
-        SQL = SQL.replace("#2", dataTreino.toString());
-        SQL = SQL.replace("#3", dataProximo.toString());
-        SQL = SQL.replace("#4", funcinario.getCpf());
-        SQL = SQL.replace("#5", "" + matricula.getCod());
+        String SQL = "insert into treino (treino_data, treino_dataprox, fun_cpf, mat_cod) values('#1', '#2', '#3', #4)";
+        SQL = SQL.replace("#1", dataTreino.toString());
+        SQL = SQL.replace("#2", dataProximo.toString());
+        SQL = SQL.replace("#3", funcinario.getCpf());
+        SQL = SQL.replace("#4", "" + matricula.getCod());
         
         return Banco.getCon().manipular(SQL);
     }

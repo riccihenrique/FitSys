@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,13 +19,15 @@
             <TableColumn fx:id="colCarga" prefWidth="61.0" text="Carga" />
          </columns>
       </TableView>
-      <JFXComboBox fx:id="cbGrupoMuscular" labelFloat="true" layoutX="41.0" layoutY="230.0" prefHeight="25.0" prefWidth="212.0" promptText="Grupo Muscular" />
-      <JFXComboBox fx:id="cbExercicio" labelFloat="true" layoutX="301.0" layoutY="230.0" prefHeight="25.0" prefWidth="212.0" promptText="Exercício" />
-      <JFXTextField fx:id="tbOrdem" labelFloat="true" layoutX="41.0" layoutY="270.0" prefHeight="25.0" prefWidth="95.0" promptText="Ordem" />
-      <JFXTextField fx:id="tbSeries" labelFloat="true" layoutX="158.0" layoutY="270.0" prefHeight="25.0" prefWidth="95.0" promptText="Séries" />
-      <JFXTextField fx:id="tbRepeticoes" labelFloat="true" layoutX="301.0" layoutY="270.0" prefHeight="25.0" prefWidth="87.0" promptText="Repetições" />
-      <JFXTextField fx:id="tbCarga" labelFloat="true" layoutX="426.0" layoutY="270.0" prefHeight="25.0" prefWidth="87.0" promptText="Carga" />
+      <JFXComboBox fx:id="cbGrupoMuscular" labelFloat="true" layoutX="41.0" layoutY="230.0" prefHeight="25.0" prefWidth="212.0" promptText="Grupo Muscular:*" />
+      <JFXComboBox fx:id="cbExercicio" labelFloat="true" layoutX="301.0" layoutY="230.0" prefHeight="25.0" prefWidth="212.0" promptText="Exercício*:" />
+      <JFXTextField fx:id="tbOrdem" labelFloat="true" layoutX="41.0" layoutY="270.0" prefHeight="25.0" prefWidth="95.0" promptText="Ordem*:" />
+      <JFXTextField fx:id="tbSeries" labelFloat="true" layoutX="158.0" layoutY="270.0" prefHeight="25.0" prefWidth="95.0" promptText="Séries*:" />
+      <JFXTextField fx:id="tbRepeticoes" labelFloat="true" layoutX="301.0" layoutY="270.0" prefHeight="25.0" prefWidth="87.0" promptText="Repetições*:" />
+      <JFXTextField fx:id="tbCarga" labelFloat="true" layoutX="426.0" layoutY="270.0" prefHeight="25.0" prefWidth="87.0" promptText="Carga*:" />
       <JFXButton fx:id="btIncluir" layoutX="445.0" layoutY="309.0" onAction="#clkIncluir" prefHeight="25.0" prefWidth="68.0" text="Incluir" />
       <JFXButton fx:id="btExcluir" layoutX="363.0" layoutY="309.0" onAction="#clkExcluir" prefHeight="25.0" prefWidth="68.0" text="Excluir" />
+      <Label layoutX="22.0" layoutY="313.0" text="Campos  de preenchimento obrigatório" />
+      <Label layoutX="16.0" layoutY="313.0" text="*" textFill="RED" />
    </children>
 </AnchorPane>

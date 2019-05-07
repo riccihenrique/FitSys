@@ -5,6 +5,7 @@
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -28,11 +29,13 @@
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="312.0" prefWidth="552.0">
                      <children>
-                        <JFXDatePicker fx:id="dttTreino" layoutX="54.0" layoutY="97.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino" />
-                        <JFXDatePicker fx:id="dttVenciTreino" layoutX="295.0" layoutY="97.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino" />
-                        <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="54.0" layoutY="144.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário" />
-                        <JFXTextField labelFloat="true" layoutX="295.0" layoutY="144.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC)" text=" " />
+                        <JFXDatePicker fx:id="dttTreino" layoutX="54.0" layoutY="97.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino:*" />
+                        <JFXDatePicker fx:id="dttVenciTreino" layoutX="295.0" layoutY="97.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino:*" />
+                        <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="54.0" layoutY="144.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário:*" />
+                        <JFXTextField labelFloat="true" layoutX="295.0" layoutY="144.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC):*" text=" " />
                         <Spinner fx:id="spQtdTreinos" focusTraversable="false" layoutX="295.0" layoutY="144.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
+                        <Label layoutX="69.0" layoutY="240.0" text="Campos  de preenchimento obrigatório" />
+                        <Label layoutX="63.0" layoutY="240.0" text="*" textFill="RED" />
                      </children>
                   </AnchorPane>
                </content>
