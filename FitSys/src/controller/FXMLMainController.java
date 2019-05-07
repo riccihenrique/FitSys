@@ -1,18 +1,23 @@
 package controller;
 
+import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import util.Banco;
 
@@ -61,15 +66,16 @@ public class FXMLMainController implements Initializable {
                 stage.setScene(scene);
 
                 stage.showAndWait();
-                
-                rs = Banco.getCon().consultar("select * from parametrizacao");
-                if(!rs.next())
-                   System.exit(-1);
+                 if(!Banco.getCon().consultar("select * from parametrizacao").next())
+                    System.exit(-1);
             }
             
             lbNome.setText(rs.getString("razao_social"));
        }
-       catch(Exception e) { }
+       catch(Exception e)
+       {
+           
+       }
     }    
 
     @FXML

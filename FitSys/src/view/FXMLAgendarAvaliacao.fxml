@@ -1,15 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FXMLAgendarAvaliacaoController">
+<SplitPane dividerPositions="0.5, 0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="435.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FXMLAgendarAvaliacaoController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="363.0" prefWidth="598.0">
          <children>
-            <DatePicker fx:id="dtPicker" layoutX="95.0" layoutY="77.0" />
+            <JFXComboBox fx:id="cbHorarios" layoutX="100.0" layoutY="73.0" prefHeight="25.0" prefWidth="139.0" />
+            <HBox alignment="TOP_CENTER" prefHeight="56.0" prefWidth="600.0" spacing="40.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="8.0">
+               <children>
+                  <JFXButton fx:id="BtnNovo" onAction="#clkBtnNovo" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Novo" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="BtnAlterar" onAction="#clkBtnAlterar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Alterar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="BtnConfirmar" onAction="#clkBtnConfirmar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Confirmar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="BtnCancelar" onAction="#clkBtnCancelar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Cancelar" textFill="WHITE">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <DatePicker fx:id="dtPicker" layoutX="332.0" layoutY="73.0" />
          </children></AnchorPane>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
+      <HBox alignment="CENTER" prefHeight="35.0" prefWidth="604.0">
+         <children>
+            <JFXTextField fx:id="tbPesquisa" prefHeight="25.0" prefWidth="481.0" promptText="Informe o nome do aluno" />
+            <JFXButton fx:id="BtnPesquisar" onAction="#clkBtnPesquisar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Pesquisar" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+      <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="261.0" prefWidth="818.0">
+         <columns>
+            <TableColumn fx:id="colCpf" prefWidth="159.0" text="CPF" />
+            <TableColumn fx:id="colNome" minWidth="0.0" prefWidth="439.0" text="Nome" />
+         </columns>
+      </TableView>
   </items>
 </SplitPane>

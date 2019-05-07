@@ -5,6 +5,7 @@
  */
 package view;
 
+import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +33,7 @@ public class FXMLLoginController implements Initializable {
     @FXML
     private JFXTextField tfUser;
     @FXML
-    private JFXTextField tfSenha;
+    private JFXPasswordField tfSenha;
     @FXML
     private Label lbAviso;
 
@@ -47,10 +48,6 @@ public class FXMLLoginController implements Initializable {
         tfSenha.setStyle("-fx-prompt-text-fill: #ffffff");
         tfSenha.setStyle("-fx-text-inner-color: #ffffff");
         MaskFieldUtil.cpfField(tfUser);
-        //Consultar se há usuario no banco, se nao chamar o cadastro
-        //Nao deixar apagar o ultimo admin
-        //carregar o nivel de acesso no combo-box ao alterar o funcionario
-        //Remover os botoes da janela
     }
 
     @FXML
@@ -66,11 +63,15 @@ public class FXMLLoginController implements Initializable {
             if (rs.next()) {
                 if (rs.getString("fun_nivel").equals("B")) {
                     lbAviso.setText("Usuário desativado");
-                } else {
+                } 
+                else 
+                {
                     Stage stage = (Stage) lbAviso.getScene().getWindow(); //Obtendo a janela atual
                     stage.close();
                 }
-            } else {
+            } 
+            else 
+            {
                 lbAviso.setText("Senha Inválida");
             }
 
