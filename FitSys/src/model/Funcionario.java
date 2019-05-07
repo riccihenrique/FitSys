@@ -26,6 +26,14 @@ public class Funcionario
     public Funcionario() {
     }
 
+    public Funcionario(String cpf, String nome, String cargo, char nivel, String senha) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.cargo = cargo;
+        this.nivel = nivel;
+        this.senha = senha;
+    }
+
     public Funcionario(String cpf, String nome, String tel, String rua, String cidade, String cep, String email, LocalDate dt_nasc, String senha, String cargo, char nivel, String uf) {
         this.cpf = cpf;
         this.nome = nome;

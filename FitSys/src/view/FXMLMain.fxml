@@ -14,7 +14,7 @@
             <Menu mnemonicParsing="false" text="Arquivo">
                <items>
                   <MenuItem fx:id="btnConf" mnemonicParsing="false" onAction="#btnConf" text="Configurações" />
-                  <Menu mnemonicParsing="false" text="Backup / Restore">
+                  <Menu fx:id="menuBackup" mnemonicParsing="false" text="Backup / Restore">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#btnBkp" text="Backup" />
                       <MenuItem mnemonicParsing="false" onAction="#btnRestore" text="Restore" />

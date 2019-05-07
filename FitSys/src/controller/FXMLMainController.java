@@ -16,10 +16,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import model.Funcionario;
 import util.Banco;
+import view.FXMLLoginController;
 
 public class FXMLMainController implements Initializable {
 
@@ -29,34 +32,20 @@ public class FXMLMainController implements Initializable {
     private MenuItem btnSair;
     @FXML
     private Label lbNome;
+    
+    Funcionario fun;
+    @FXML
+    private Menu menuBackup;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
        try
        {
-           ResultSet rs;
-           if(!Banco.getCon().consultar("select * from funcionario").next())
-            {
-                Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLGenFuncionario.fxml"));
-                
-                Stage stage = new Stage();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                
-                stage.showAndWait();
-                 if(!Banco.getCon().consultar("select * from funcionario").next())
-                    System.exit(-1);
-            }
-           
-            Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLLogin.fxml"));
-                
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.showAndWait();
-           
-            rs = Banco.getCon().consultar("select * from parametrizacao");
+            Parent root;
+            Stage stage;
+            Scene scene;
+            ResultSet rs = Banco.getCon().consultar("select * from parametrizacao");
             if(!rs.next())
             {
                 root = FXMLLoader.load(getClass().getResource("/view/FXMLParametrizacao.fxml"));
@@ -66,18 +55,21 @@ public class FXMLMainController implements Initializable {
                 stage.setScene(scene);
 
                 stage.showAndWait();
-                 if(!Banco.getCon().consultar("select * from parametrizacao").next())
+                rs = Banco.getCon().consultar("select * from parametrizacao");
+                if(!rs.next())
                     System.exit(-1);
             }
             
             lbNome.setText(rs.getString("razao_social"));
+            estadoBotoes();
        }
        catch(Exception e)
        {
-           
+           System.out.println(e.getMessage());
        }
     }    
-
+    
+    
     @FXML
     private void btnConf(ActionEvent event) throws IOException, SQLException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLParametrizacao.fxml"));
@@ -120,7 +112,13 @@ public class FXMLMainController implements Initializable {
     }
 
     @FXML
-    private void btnGerPacote(ActionEvent event) {
+    private void btnGerPacote(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLGenPacote.fxml"));
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        stage.showAndWait();
     }
 
     @FXML
@@ -151,7 +149,7 @@ public class FXMLMainController implements Initializable {
         stage.setScene(scene);
 
         stage.showAndWait();
-    }
+    }   
 
     @FXML
     private void clkEfetuarAV(ActionEvent event) throws IOException {
@@ -161,6 +159,21 @@ public class FXMLMainController implements Initializable {
         stage.setScene(scene);
 
         stage.showAndWait();   
+    }
+    
+    public void setFuncionario(Funcionario f)
+    {
+        fun = f;
+        estadoBotoes();
+    }
+
+    private void estadoBotoes() {
+        if(fun.getNivel() == 'F')
+        {
+            btnConf.setVisible(false);
+            menuBackup.setVisible(false);
+        }
+        
     }
 }
         
