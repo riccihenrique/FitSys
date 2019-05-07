@@ -30,6 +30,7 @@ import model.Pacote;
 import model.PacoteModalidade;
 import util.Banco;
 import util.Conexao;
+import util.MaskFieldUtil;
 
 public class FXMLGenPacoteController implements Initializable {
 
@@ -74,6 +75,8 @@ public class FXMLGenPacoteController implements Initializable {
         tabDesc.setCellValueFactory(new PropertyValueFactory("descricao"));
         
         carregaTabela("");
+        
+        MaskFieldUtil.numericField(txtDesconto);
     }
     
     private void carregaTabela(String filtro) {
@@ -90,9 +93,14 @@ public class FXMLGenPacoteController implements Initializable {
         lbMensagem.setTextFill(Paint.valueOf("red"));
         if(livModalidades.getSelectionModel().getSelectedItem() != null)
         {
-            if(!selectedMod.contains(livModalidades.getSelectionModel().getSelectedItem()))
+            boolean flag = false;
+            for(Modalidade x : selectedMod)
+                if(x.getCod() == livModalidades.getSelectionModel().getSelectedItem().getCod()) flag = true;
+                
+            if(!flag)
             {
                 selectedMod.add(livModalidades.getSelectionModel().getSelectedItem());
+                livSelec.setItems(FXCollections.observableList(selectedMod));
                 livSelec.refresh();
             }else
             {
@@ -112,9 +120,14 @@ public class FXMLGenPacoteController implements Initializable {
         lbMensagem.setTextFill(Paint.valueOf("red"));
         if(livSelec.getSelectionModel().getSelectedItem() != null)
         {
-            if(selectedMod.contains(livModalidades.getSelectionModel().getSelectedItem()))
+            boolean flag = false;
+            for(Modalidade x : selectedMod)
+                if(x.getCod() == livSelec.getSelectionModel().getSelectedItem().getCod()) flag = true;
+            
+            if(flag)
             {
                 selectedMod.remove(livSelec.getSelectionModel().getSelectedItem());
+                livSelec.setItems(FXCollections.observableList(selectedMod));
                 livSelec.refresh();
             }else
             {
@@ -132,7 +145,7 @@ public class FXMLGenPacoteController implements Initializable {
     private void calcTotal(KeyEvent event) {
         Double total = .00;
         
-        for(Modalidade x : livSelec.getItems())
+        for(Modalidade x : selectedMod)
             total += x.getPreco();
         
         if(!txtDesconto.getText().equals(""))
@@ -148,6 +161,7 @@ public class FXMLGenPacoteController implements Initializable {
         txtDesc.clear();
         txtTotal.setText("00.00");
         selectedMod.clear();
+        livSelec.getItems().clear();
         livSelec.refresh();
         txtDesconto.clear();
     }
@@ -159,7 +173,7 @@ public class FXMLGenPacoteController implements Initializable {
         PacoteModalidade pct_mod;
         if(!txtDesc.getText().isEmpty())
         {
-            if(!livSelec.getItems().isEmpty())
+            if(!selectedMod.isEmpty())
             {
                 if(txtCod.getText().isEmpty()) //inserção
                 {
@@ -177,17 +191,18 @@ public class FXMLGenPacoteController implements Initializable {
                         Pacote p = new Pacote(txtDesc.getText(), desconto, selectedMod, total);
                         p.gravar();
 
-                        for(Modalidade x : livSelec.getItems())
+                        for(Modalidade x : selectedMod)
                         {
                             pct_mod = new PacoteModalidade(Banco.getCon().getMaxPK("pacote", "pct_cod"), x.getCod());
+                            System.out.println(pct_mod.getMod_cod());
                             if(pct_mod.gravar())
                             {
                                 lbMensagem.setTextFill(Paint.valueOf("green"));
                                 lbMensagem.setText("Gravado com sucesso!");
                                 carregaTabela("");
-                                limpaCampos(null);
                             }else lbMensagem.setText("Erro ao gravar");
                         }
+                        limpaCampos(null);
                     }catch(Exception ex){System.out.println("Erro: " + ex.getMessage());}
                 }
                 else //alteração
@@ -195,7 +210,7 @@ public class FXMLGenPacoteController implements Initializable {
                     try
                     {
                         PacoteModalidade.apagaTodos(Integer.parseInt(txtCod.getText()));
-                        for(Modalidade x : livSelec.getItems())
+                        for(Modalidade x : selectedMod)
                         {
                             pct_mod = new PacoteModalidade(Banco.getCon().getMaxPK("pacote", "pct_cod"), x.getCod());
                             pct_mod.gravar();
@@ -212,17 +227,17 @@ public class FXMLGenPacoteController implements Initializable {
                         
                         Pacote p = new Pacote(Integer.parseInt(txtCod.getText()), txtDesc.getText(), desconto, selectedMod, total);
                         if(p.alterar())
-                            {
-                                lbMensagem.setTextFill(Paint.valueOf("green"));
-                                lbMensagem.setText("Alterado com sucesso!");
-                                carregaTabela("");
-                                limpaCampos(null);
-                            }else lbMensagem.setText("*Erro ao alterar!");
+                        {
+                            lbMensagem.setTextFill(Paint.valueOf("green"));
+                            lbMensagem.setText("Alterado com sucesso!");
+                            carregaTabela("");
+                            limpaCampos(null);
+                        }else lbMensagem.setText("*Erro ao alterar!");
                     }catch(Exception ex){System.out.println("Erro: " + ex.getMessage());}
                 }
             }else{lbMensagem.setText("*Selecione pelo menos uma modalidade!");}
         }else{lbMensagem.setText("*Campo Descrição é obrigatório!");}
-        
+        selectedMod.clear();
     }
 
     @FXML
@@ -245,6 +260,7 @@ public class FXMLGenPacoteController implements Initializable {
         for(Modalidade x : lst_aux)
             selectedMod.add(x);
         
+        livSelec.setItems(FXCollections.observableList(selectedMod));
         livSelec.refresh();
     }
 
@@ -266,7 +282,6 @@ public class FXMLGenPacoteController implements Initializable {
                     lbMensagem.setTextFill(Paint.valueOf("green"));
                     lbMensagem.setText("*Pacote deletado com sucesso");
                     carregaTabela("");
-                    limpaCampos(null);
                 }
                 else
                 {
