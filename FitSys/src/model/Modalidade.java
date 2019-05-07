@@ -66,7 +66,7 @@ public class Modalidade
         try
         {
             while(rs.next())
-                L.add(new Modalidade(rs.getString("mod_nome"), rs.getDouble("mod_preco")));
+                L.add(new Modalidade(rs.getInt("mod_cod"), rs.getString("mod_nome"), rs.getDouble("mod_preco")));
         }
         catch(SQLException e){}
         
