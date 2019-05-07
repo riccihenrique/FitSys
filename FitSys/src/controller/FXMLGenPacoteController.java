@@ -67,6 +67,7 @@ public class FXMLGenPacoteController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) 
     {
         selectedMod = new ArrayList<>();
+        livSelec.setItems(FXCollections.observableList(selectedMod));
         livModalidades.setItems(FXCollections.observableList(Modalidade.get("")));
         
         tabCod.setCellValueFactory(new PropertyValueFactory("cod"));
@@ -92,7 +93,6 @@ public class FXMLGenPacoteController implements Initializable {
             if(!selectedMod.contains(livModalidades.getSelectionModel().getSelectedItem()))
             {
                 selectedMod.add(livModalidades.getSelectionModel().getSelectedItem());
-                livSelec.setItems(FXCollections.observableList(selectedMod));
                 livSelec.refresh();
             }else
             {
@@ -115,7 +115,6 @@ public class FXMLGenPacoteController implements Initializable {
             if(selectedMod.contains(livModalidades.getSelectionModel().getSelectedItem()))
             {
                 selectedMod.remove(livSelec.getSelectionModel().getSelectedItem());
-                livSelec.setItems(FXCollections.observableList(selectedMod));
                 livSelec.refresh();
             }else
             {
@@ -241,7 +240,7 @@ public class FXMLGenPacoteController implements Initializable {
         txtTotal.setText(""+tot);
         
         List<Modalidade> lst_aux = tabPacotes.selectionModelProperty().get().getSelectedItem().getModalidades();
-
+        selectedMod.clear();
         
         for(Modalidade x : lst_aux)
             selectedMod.add(x);
