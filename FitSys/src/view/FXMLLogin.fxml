@@ -9,13 +9,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="539.0" style="-fx-background-color: #65A6D3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FXMLLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="539.0" style="-fx-background-color: #65A6D3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLLoginController">
    <children>
-      <JFXTextField fx:id="tfUser" focusColor="#ff9900" labelFloat="true" layoutX="162.0" layoutY="151.0" prefHeight="30.0" prefWidth="266.0" promptText="CPF">
+      <JFXTextField fx:id="tfUser" focusColor="#ff9900" labelFloat="true" layoutX="162.0" layoutY="151.0" onKeyPressed="#clkEnter" prefHeight="30.0" prefWidth="266.0" promptText="CPF">
          <font>
             <Font size="14.0" />
          </font>
       </JFXTextField>
+      <JFXPasswordField fx:id="tfSenha" focusColor="#ff9900" labelFloat="true" layoutX="162.0" layoutY="221.0" onKeyPressed="#clkEnter" prefHeight="30.0" prefWidth="266.0" promptText="Senha">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXPasswordField>
+      <JFXButton layoutX="386.0" layoutY="308.0" onAction="#clkBtLogin" style="-fx-background-color: #ff9900;" text="Login" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
       <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="112.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@user.png" />
@@ -26,11 +36,6 @@
             <Image url="@password.png" />
          </image>
       </ImageView>
-      <JFXButton layoutX="386.0" layoutY="308.0" onAction="#clkBtLogin" style="-fx-background-color: #ff9900;" text="Login" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </JFXButton>
       <Label layoutX="224.0" layoutY="39.0" text="Fit" textFill="#ff9900">
          <font>
             <Font size="36.0" />
@@ -46,10 +51,5 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <JFXPasswordField fx:id="tfSenha" focusColor="#ff9900" labelFloat="true" layoutX="162.0" layoutY="221.0" prefHeight="30.0" prefWidth="266.0" promptText="Senha">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </JFXPasswordField>
    </children>
 </AnchorPane>

@@ -176,7 +176,6 @@ public class FXMLTreinoController implements Initializable {
                 else
                     n.setStyle("-fx-background-color:#fffff");
         }
-        
         return ok;
     }
 }

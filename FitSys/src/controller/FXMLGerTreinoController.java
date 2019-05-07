@@ -3,10 +3,13 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
+import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -20,14 +23,23 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import model.Aluno;
 import model.ExercicioTreino;
 import model.Funcionario;
 import model.Matricula;
@@ -55,26 +67,39 @@ public class FXMLGerTreinoController implements Initializable {
 
     private Matricula mat;
     private String[] treinos = {"A", "B", "C", "D", "E"};
+    @FXML
+    private JFXButton btnNovo;
+    @FXML
+    private JFXButton btnAlterar;
+    @FXML
+    private JFXButton btnApagar;
+    @FXML
+    private RadioButton rdioNome;
+    @FXML
+    private ToggleGroup busca;
+    @FXML
+    private RadioButton rdioCpf;
+    @FXML
+    private JFXTextField tbBusca;
+    @FXML
+    private JFXButton btnPesquisar;
+    @FXML
+    private AnchorPane pnDados;
+    @FXML
+    private TableView<Treino> tbvDados;
+    @FXML
+    private TableColumn<Treino, String> colCod;
+    @FXML
+    private TableColumn<Treino, String> colData;
+    @FXML
+    private TableColumn<Treino, String> colVencimento;
+    @FXML
+    private JFXButton btCancelar;
+    
+    Treino t;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try
-        {
-            Tab t = new Tab();
-            t.setText("Treino " + treinos[0]);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
-            Parent root = null;
-            root = (Parent) loader.load();
-            t.setContent(root);
-            tbPane.getTabs().add(t);
-        }
-        catch(Exception e){}
-        
-        tbPane.setDisable(true);
-        btConfirmar.setDisable(true);
-        
-        dttTreino.setValue(LocalDate.now());
-        dttVenciTreino.setValue(LocalDate.now());
-        
+                
         SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
         spQtdTreinos.setValueFactory(values);
         
@@ -169,46 +194,169 @@ public class FXMLGerTreinoController implements Initializable {
         
         if(ok)
         {
-            ok = true;
-            Treino t = new Treino(dttTreino.getValue(), dttVenciTreino.getValue(), mat, cbFuncionario.getValue());
-            if(t.gravar())
+            if(t.getCod() != 0)
             {
-                t.setCod(Banco.getCon().getMaxPK("treino", "treino_cod"));
-                int i = -1;
-                for(Tab tab: tbPane.getTabs())
+                ok = true;
+                t = new Treino(dttTreino.getValue(), dttVenciTreino.getValue(), mat, cbFuncionario.getValue());
+
+
+                if(t.gravar())
                 {
-                    ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
-                    for (Node n : componentes) 
+                    t.setCod(Banco.getCon().getMaxPK("treino", "treino_cod"));
+                    int i = -1;
+                    for(Tab tab: tbPane.getTabs())
                     {
-                        if (n instanceof TableView) // textfield, textarea e htmleditor
+                        ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
+                        for (Node n : componentes) 
                         {
-                            ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
-                            for(ExercicioTreino ex : obExTrei)
+                            if (n instanceof TableView) // textfield, textarea e htmleditor
                             {
-                                ex.setTreino(t);
-                                ex.setTipo(treinos[i].charAt(0));
-                                if(!ex.gravar())
+                                ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
+                                for(ExercicioTreino ex : obExTrei)
                                 {
-                                    JOptionPane.showMessageDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
-                                    ok = false;
+                                    ex.setTreino(t);
+                                    ex.setTipo(treinos[i].charAt(0));
+                                    if(!ex.gravar())
+                                    {
+                                        JOptionPane.showMessageDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
+                                        ok = false;
+                                    }
                                 }
                             }
                         }
+                        i++;
                     }
-                    i++;
+
+                    if(ok)
+                    {
+                        JOptionPane.showMessageDialog(null, "Treino inserido com sucesso:");
+                        Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
+                        stage.close(); //Fechando o Stage
+                    }
                 }
-                
-                if(ok)
-                {
-                    JOptionPane.showMessageDialog(null, "Treino inserido com sucesso:");
-                    Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
-                    stage.close(); //Fechando o Stage
-                }
+                else
+                    JOptionPane.showMessageDialog(null, "Erro ao gravar treino: " + Banco.getCon().getMensagemErro());
             }
-            else
-                JOptionPane.showMessageDialog(null, "Erro ao gravar treino: " + Banco.getCon().getMensagemErro());
+            
         }
         else
             JOptionPane.showMessageDialog(null, "Há treinos sem montar");
+    }
+
+    @FXML
+    private void clkNovo(ActionEvent event) {
+        estadoEdicao();
+    }
+
+    @FXML
+    private void clkAlterar(ActionEvent event) {
+       if(tbvDados.getSelectionModel().getSelectedItem() != null)
+        {
+            t = (Treino)tbvDados.getSelectionModel().getSelectedItem();
+            dttTreino.setValue(t.getDataTreino());
+            dttVenciTreino.setValue(t.getDataProximo());
+            cbFuncionario.setValue(t.getFuncinario());
+            
+            estadoEdicao();
+        }
+    }
+
+    @FXML
+    private void clkApagar(ActionEvent event) {
+         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setContentText("Deseja realmente apagar?"); 
+        if(a.showAndWait().get() == ButtonType.OK)
+        {
+            a = new Alert(Alert.AlertType.INFORMATION);
+            if(Treino.apagar(tbvDados.getSelectionModel().getSelectedItem().getCod()))
+            {
+                snackBar("Treino deletado com sucesso");
+                carregaTabela("");
+                estadoOriginal();
+            }
+            else
+            {
+                a.setContentText("Erro ao deletar treino: " + Banco.getCon().getMensagemErro());
+                a.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    private void clkRdio(ActionEvent event) {
+    }
+
+    @FXML
+    private void clkPesquisar(ActionEvent event) {
+        if(rdioNome.isSelected())
+            carregaTabela("treino_data = " + btnPesquisar.getText());
+        else
+            carregaTabela("");
+    }
+    
+    private void estadoEdicao()
+    {   
+        btnNovo.setDisable(true);  
+        tbBusca.setDisable(true);
+        pnDados.setDisable(false);
+        btConfirmar.setDisable(false);
+        btnApagar.setDisable(true);
+        btnAlterar.setDisable(true);
+        dttTreino.setFocusTraversable(true);
+    }
+    
+    private void estadoOriginal() {
+        btnPesquisar.setDisable(false);
+        btnNovo.setDisable(true);
+        pnDados.setDisable(true);
+        btConfirmar.setDisable(true);
+        btCancelar.setDisable(false);
+        btnApagar.setDisable(true);
+        btnAlterar.setDisable(true);
+        btnNovo.setDisable(false);
+        tbBusca.setDisable(false);
+               
+        try
+        {
+            Tab t = new Tab();
+            t.setText("Treino " + treinos[0]);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
+            Parent root = null;
+            root = (Parent) loader.load();
+            t.setContent(root);
+            tbPane.getTabs().add(t);
+        }
+        catch(Exception e){}
+         
+        dttTreino.setValue(LocalDate.now());
+        dttVenciTreino.setValue(LocalDate.now());
+        
+        carregaTabela("");
+    }
+    
+    private void carregaTabela(String filtro) {
+        
+        List<Treino> res = Treino.get(filtro);
+        ObservableList<Treino> modelo;
+        modelo = FXCollections.observableArrayList(res);
+        tbvDados.setItems(modelo);
+    }
+
+    @FXML
+    private void clkTabela(MouseEvent event) {
+        if(tbvDados.getSelectionModel().getSelectedItem() != null)
+        {
+            btnAlterar.setDisable(true);
+            btnApagar.setDisable(true);
+        }
+            
+    }
+    
+     private void snackBar(String texto)
+    {
+        JFXSnackbar snacbar = new JFXSnackbar(pnDados);
+        JFXSnackbarLayout layout = new JFXSnackbarLayout(texto);
+        layout.setStyle("-fx-backgroundcolor:#FFFFF");
+        snacbar.fireEvent(new JFXSnackbar.SnackbarEvent(layout));
     }
 }

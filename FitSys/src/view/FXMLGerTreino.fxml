@@ -6,15 +6,19 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGerTreinoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGerTreinoController">
    <children>
       <HBox alignment="CENTER" prefHeight="53.0" prefWidth="552.0" spacing="15.0">
          <children>
@@ -23,34 +27,60 @@
             <JFXButton onAction="#clkBuscarAluno" text="Buscar Aluno" />
          </children>
       </HBox>
-      <TabPane fx:id="tbPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="367.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE">
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="552.0" spacing="15.0">
+         <children>
+            <JFXButton fx:id="btnNovo" onAction="#clkNovo" prefWidth="72.0" text="Novo" />
+            <JFXButton fx:id="btnAlterar" onAction="#clkAlterar" prefWidth="72.0" text="Alterar" />
+            <JFXButton fx:id="btnApagar" onAction="#clkApagar" prefHeight="25.0" prefWidth="72.0" text="Apagar" />
+            <JFXButton fx:id="btConfirmar" layoutX="260.0" layoutY="10.0" onAction="#clkConfirmar" prefWidth="72.0" text="Confirmar" />
+            <JFXButton fx:id="btCancelar" onAction="#clkCancelar" prefWidth="72.0" text="Cancelar" />
+         </children>
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </HBox>
+      <TabPane fx:id="tbPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab text="Detalhes">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="312.0" prefWidth="552.0">
+                  <AnchorPane fx:id="pnDados" minHeight="0.0" minWidth="0.0" prefHeight="284.0" prefWidth="552.0">
                      <children>
-                        <JFXDatePicker fx:id="dttTreino" layoutX="54.0" layoutY="97.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino:*" />
-                        <JFXDatePicker fx:id="dttVenciTreino" layoutX="295.0" layoutY="97.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino:*" />
-                        <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="54.0" layoutY="144.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário:*" />
-                        <JFXTextField labelFloat="true" layoutX="295.0" layoutY="144.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC):*" text=" " />
-                        <Spinner fx:id="spQtdTreinos" focusTraversable="false" layoutX="295.0" layoutY="144.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
-                        <Label layoutX="69.0" layoutY="240.0" text="Campos  de preenchimento obrigatório" />
-                        <Label layoutX="63.0" layoutY="240.0" text="*" textFill="RED" />
+                        <JFXDatePicker fx:id="dttTreino" layoutX="53.0" layoutY="67.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino:*" />
+                        <JFXDatePicker fx:id="dttVenciTreino" layoutX="294.0" layoutY="67.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino:*" />
+                        <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="53.0" layoutY="114.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário:*" />
+                        <JFXTextField labelFloat="true" layoutX="294.0" layoutY="114.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC):*" text=" " />
+                        <Spinner fx:id="spQtdTreinos" focusTraversable="false" layoutX="296.0" layoutY="115.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
+                        <Label layoutX="63.0" layoutY="189.0" text="Campos  de preenchimento obrigatório" />
+                        <Label layoutX="57.0" layoutY="189.0" text="*" textFill="RED" />
+                        <Line endX="451.29290771484375" endY="1.2928931713104248" layoutX="101.0" layoutY="237.0" startX="-100.0" />
+                        <HBox alignment="CENTER" layoutX="-3.0" layoutY="238.0" prefHeight="56.0" prefWidth="552.0" spacing="20.0">
+                           <children>
+                              <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <RadioButton fx:id="rdioNome" mnemonicParsing="false" onAction="#clkRdio" selected="true" text="Data">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="busca" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rdioCpf" mnemonicParsing="false" onAction="#clkRdio" text="Vencimento" toggleGroup="$busca" />
+                                 </children>
+                              </VBox>
+                              <JFXTextField fx:id="tbBusca" prefHeight="25.0" prefWidth="288.0" promptText="Digite uma data" />
+                              <JFXButton fx:id="btnPesquisar" onAction="#clkPesquisar" text="Pesquisar" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="tbvDados" layoutX="-3.0" layoutY="285.0" onMouseClicked="#clkTabela" prefHeight="142.0" prefWidth="552.0">
+                           <columns>
+                              <TableColumn fx:id="colCod" prefWidth="196.0" text="Treino" />
+                              <TableColumn fx:id="colData" prefWidth="171.00006103515625" text="Data" />
+                              <TableColumn fx:id="colVencimento" prefWidth="184.00006103515625" text="Vencimento" />
+                           </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
          </tabs>
       </TabPane>
-      <Line endX="451.29290771484375" endY="1.2928931713104248" startX="-100.0" />
-      <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="10.0" prefHeight="41.0" prefWidth="552.0" spacing="15.0">
-         <children>
-            <JFXButton onAction="#clkCancelar" text="Cancelar" />
-            <JFXButton fx:id="btConfirmar" layoutX="260.0" layoutY="10.0" onAction="#clkConfirmar" text="Confirmar" />
-         </children>
-         <padding>
-            <Insets right="20.0" />
-         </padding>
-      </HBox>
    </children>
 </VBox>

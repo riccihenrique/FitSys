@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package view;
+
+package controller;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import controller.FXMLMainController;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -20,16 +15,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import model.Funcionario;
 import util.Banco;
 import util.MaskFieldUtil;
 
-/**
- * FXML Controller class
- *
- * @author Alexandre
- */
 public class FXMLLoginController implements Initializable {
 
     @FXML
@@ -38,7 +30,6 @@ public class FXMLLoginController implements Initializable {
     private JFXPasswordField tfSenha;
     @FXML
     private Label lbAviso;
-
     Funcionario F;
     
     @Override
@@ -103,10 +94,11 @@ public class FXMLLoginController implements Initializable {
         } else {
             lbAviso.setText("Usuário Inexistente");
         }
-    }
-    
-    public Funcionario getFuncionario()
-    {
-        return F;
+    }    
+
+    @FXML
+    private void clkEnter(KeyEvent event) throws SQLException, IOException {
+        if(event.getCode() == KeyCode.ENTER)
+            clkBtLogin(null);
     }
 }

@@ -22,7 +22,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Funcionario;
 import util.Banco;
-import view.FXMLLoginController;
 
 public class FXMLMainController implements Initializable {
 
