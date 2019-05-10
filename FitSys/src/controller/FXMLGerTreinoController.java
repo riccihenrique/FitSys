@@ -9,7 +9,6 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
@@ -25,7 +24,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -33,13 +31,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputControl;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
-import model.Aluno;
 import model.ExercicioTreino;
 import model.Funcionario;
 import model.Matricula;
@@ -64,9 +60,6 @@ public class FXMLGerTreinoController implements Initializable {
     private JFXButton btConfirmar;
     @FXML
     private Spinner<Integer> spQtdTreinos;
-
-    private Matricula mat;
-    private String[] treinos = {"A", "B", "C", "D", "E"};
     @FXML
     private JFXButton btnNovo;
     @FXML
@@ -95,8 +88,11 @@ public class FXMLGerTreinoController implements Initializable {
     private TableColumn<Treino, String> colVencimento;
     @FXML
     private JFXButton btCancelar;
-    
+
+    private Matricula mat;
+    private String[] treinos = {"A", "B", "C", "D", "E"};
     Treino t;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
                 
@@ -129,6 +125,8 @@ public class FXMLGerTreinoController implements Initializable {
         List <Funcionario> funcionarios = Funcionario.get("");
         ObservableList <Funcionario> obsFuncionario = FXCollections.observableList(funcionarios);
         cbFuncionario.setItems(obsFuncionario);
+        
+        estadoOriginal();
     }    
 
     @FXML
@@ -147,7 +145,8 @@ public class FXMLGerTreinoController implements Initializable {
             tbMatricula.setText("" + mat.getCod());
             tbAluno.setText(mat.getAluno().getNome());
             tbPane.setDisable(false);
-            btConfirmar.setDisable(false);
+            estadoOriginal();
+            carregaTabela("mat_cod = " + mat.getCod());
         }
     }
 
@@ -184,12 +183,10 @@ public class FXMLGerTreinoController implements Initializable {
         for(Tab t : tbPane.getTabs())
         {
             ObservableList<Node> componentes =  ((AnchorPane) t.getContent()).getChildren(); //”limpa” os componentes
-            for (Node n : componentes) 
-            {
-                if (n instanceof TableView) // textfield, textarea e htmleditor
+            for (Node n : componentes)
+                if (n instanceof TableView && !((TableView) n).getId().equals("")) // textfield, textarea e htmleditor
                     if(((TableView) n).getItems().isEmpty())
                         ok = false;
-            }
         }
         
         if(ok)
@@ -198,7 +195,6 @@ public class FXMLGerTreinoController implements Initializable {
             {
                 ok = true;
                 t = new Treino(dttTreino.getValue(), dttVenciTreino.getValue(), mat, cbFuncionario.getValue());
-
 
                 if(t.gravar())
                 {
@@ -233,11 +229,19 @@ public class FXMLGerTreinoController implements Initializable {
                         Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
                         stage.close(); //Fechando o Stage
                     }
+                    
+                    tbAluno.clear();
+                    tbMatricula.clear();;
+                    mat = null;
+                    estadoOriginal();
                 }
                 else
                     JOptionPane.showMessageDialog(null, "Erro ao gravar treino: " + Banco.getCon().getMensagemErro());
             }
-            
+            else
+            {
+                
+            }
         }
         else
             JOptionPane.showMessageDialog(null, "Há treinos sem montar");
@@ -306,27 +310,37 @@ public class FXMLGerTreinoController implements Initializable {
     }
     
     private void estadoOriginal() {
-        btnPesquisar.setDisable(false);
-        btnNovo.setDisable(true);
-        pnDados.setDisable(true);
-        btConfirmar.setDisable(true);
-        btCancelar.setDisable(false);
-        btnApagar.setDisable(true);
-        btnAlterar.setDisable(true);
-        btnNovo.setDisable(false);
-        tbBusca.setDisable(false);
-               
-        try
+        
+        if(tbMatricula.getText().isEmpty())
         {
-            Tab t = new Tab();
-            t.setText("Treino " + treinos[0]);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
-            Parent root = null;
-            root = (Parent) loader.load();
-            t.setContent(root);
-            tbPane.getTabs().add(t);
+            btnApagar.setDisable(true);
+            btnAlterar.setDisable(true);
+            btnNovo.setDisable(true);
+            btnPesquisar.setDisable(true);
+            btConfirmar.setDisable(true);
         }
-        catch(Exception e){}
+        else
+        {
+            btnApagar.setDisable(true);
+            btnAlterar.setDisable(true);
+            btnNovo.setDisable(false);
+            btnPesquisar.setDisable(false);
+            btConfirmar.setDisable(true);
+            
+            try
+            {
+                Tab t = new Tab();
+                t.setText("Treino " + treinos[0]);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
+                Parent root = null;
+                root = (Parent) loader.load();
+                t.setContent(root);
+                tbPane.getTabs().add(t);
+            }
+            catch(Exception e){}
+        }
+        pnDados.setDisable(true);
+        btCancelar.setDisable(false);
          
         dttTreino.setValue(LocalDate.now());
         dttVenciTreino.setValue(LocalDate.now());
@@ -349,7 +363,6 @@ public class FXMLGerTreinoController implements Initializable {
             btnAlterar.setDisable(true);
             btnApagar.setDisable(true);
         }
-            
     }
     
      private void snackBar(String texto)
