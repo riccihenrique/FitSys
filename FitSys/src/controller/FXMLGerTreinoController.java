@@ -32,8 +32,10 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import model.ExercicioTreino;
@@ -92,13 +94,20 @@ public class FXMLGerTreinoController implements Initializable {
     private Matricula mat;
     private String[] treinos = {"A", "B", "C", "D", "E"};
     Treino t;
+    @FXML
+    private VBox pnDados2;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-                
+        // Inicia as colunas da tabela
+        colCod.setCellValueFactory(new PropertyValueFactory("cod"));
+        colData.setCellValueFactory(new PropertyValueFactory("dataTreino"));
+        colVencimento.setCellValueFactory(new PropertyValueFactory("dataProximo"));
+        
+        
+        // Adiciona os numeros dos treinos
         SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
         spQtdTreinos.setValueFactory(values);
-        
         spQtdTreinos.valueProperty().addListener(new ChangeListener<Integer>() {
  
             @Override
@@ -147,13 +156,19 @@ public class FXMLGerTreinoController implements Initializable {
             tbPane.setDisable(false);
             estadoOriginal();
             carregaTabela("mat_cod = " + mat.getCod());
+            pnDados2.setDisable(false);
         }
     }
 
     @FXML
     private void clkCancelar(ActionEvent event) {
-        Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
-        stage.close(); //Fechando o Stage
+        if(pnDados.isDisable())
+        {
+            Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
+            stage.close(); //Fechando o Stage
+        }
+        else
+            estadoOriginal();
     }
 
     @FXML
@@ -184,7 +199,7 @@ public class FXMLGerTreinoController implements Initializable {
         {
             ObservableList<Node> componentes =  ((AnchorPane) t.getContent()).getChildren(); //”limpa” os componentes
             for (Node n : componentes)
-                if (n instanceof TableView && !((TableView) n).getId().equals("")) // textfield, textarea e htmleditor
+                if (n instanceof TableView && !((TableView) n).getId().equals("tbvDados")) // textfield, textarea e htmleditor
                     if(((TableView) n).getItems().isEmpty())
                         ok = false;
         }
@@ -205,7 +220,7 @@ public class FXMLGerTreinoController implements Initializable {
                         ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
                         for (Node n : componentes) 
                         {
-                            if (n instanceof TableView) // textfield, textarea e htmleditor
+                            if (n instanceof TableView && !((TableView) n).getId().equals("tbvDados")) // textfield, textarea e htmleditor
                             {
                                 ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
                                 for(ExercicioTreino ex : obExTrei)
@@ -340,12 +355,11 @@ public class FXMLGerTreinoController implements Initializable {
             catch(Exception e){}
         }
         pnDados.setDisable(true);
+        pnDados2.setDisable(true);
         btCancelar.setDisable(false);
          
         dttTreino.setValue(LocalDate.now());
         dttVenciTreino.setValue(LocalDate.now());
-        
-        carregaTabela("");
     }
     
     private void carregaTabela(String filtro) {
@@ -360,8 +374,8 @@ public class FXMLGerTreinoController implements Initializable {
     private void clkTabela(MouseEvent event) {
         if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
-            btnAlterar.setDisable(true);
-            btnApagar.setDisable(true);
+            btnAlterar.setDisable(false);
+            btnApagar.setDisable(false);
         }
     }
     

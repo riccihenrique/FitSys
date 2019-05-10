@@ -10,7 +10,7 @@
 
 <AnchorPane fx:id="pnDados" minHeight="0.0" minWidth="0.0" prefHeight="348.0" prefWidth="553.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLTreinoController">
    <children>
-      <TableView fx:id="tbvDados" layoutX="16.0" layoutY="14.0" prefHeight="190.0" prefWidth="522.0">
+      <TableView fx:id="tbvDados1" layoutX="16.0" layoutY="14.0" prefHeight="190.0" prefWidth="522.0">
          <columns>
             <TableColumn fx:id="colOrdem" prefWidth="58.0" text="Ordem" />
             <TableColumn fx:id="colExercicio" prefWidth="246.0" text="Exercício" />

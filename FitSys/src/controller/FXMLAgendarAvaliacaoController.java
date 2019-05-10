@@ -59,8 +59,8 @@ public class FXMLAgendarAvaliacaoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        colCpf.setCellValueFactory(new PropertyValueFactory("cpf"));
-        colNome.setCellValueFactory(new PropertyValueFactory("nome"));
+        colCpf.setCellValueFactory(new PropertyValueFactory("cod"));
+        colNome.setCellValueFactory(new PropertyValueFactory("aluno"));
         estadoOriginal();
     }    
 

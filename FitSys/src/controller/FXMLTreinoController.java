@@ -30,8 +30,6 @@ import util.MaskFieldUtil;
 public class FXMLTreinoController implements Initializable {
 
     @FXML
-    private TableView<ExercicioTreino> tbvDados;
-    @FXML
     private TableColumn<ExercicioTreino, String> colOrdem;
     @FXML
     private TableColumn<ExercicioTreino, String> colExercicio;
@@ -61,6 +59,8 @@ public class FXMLTreinoController implements Initializable {
     List<ExercicioTreino> lista;
     @FXML
     private AnchorPane pnDados;
+    @FXML
+    private TableView<ExercicioTreino> tbvDados1;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,9 +97,9 @@ public class FXMLTreinoController implements Initializable {
 
     @FXML
     private void clkExcluir(ActionEvent event) {
-        if(tbvDados.getSelectionModel().getSelectedItem() != null)
+        if(tbvDados1.getSelectionModel().getSelectedItem() != null)
         {
-            lista.remove(tbvDados.getSelectionModel().getSelectedItem());
+            lista.remove(tbvDados1.getSelectionModel().getSelectedItem());
             carregaTabela();
         }
     }
@@ -144,7 +144,7 @@ public class FXMLTreinoController implements Initializable {
     {
         ObservableList<ExercicioTreino> modelo;
         modelo = FXCollections.observableArrayList(lista);
-        tbvDados.setItems(modelo);
+        tbvDados1.setItems(modelo);
     }
 
     private void carregaCombobox() {
