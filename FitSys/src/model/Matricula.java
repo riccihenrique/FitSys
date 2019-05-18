@@ -12,26 +12,23 @@ public class Matricula
 {
     int cod;
     LocalDate data;
-    Aluno aluno;
-    Pacote pacote;
-    Treino treino;
+    Aluno aluno = new Aluno();
+    Pacote pacote = new Pacote();
 
     public Matricula() {
     }
 
-    public Matricula(LocalDate data, Aluno aluno, Pacote pacote, Treino treino) {
+    public Matricula(LocalDate data, Aluno aluno, Pacote pacote) {
         this.data = data;
         this.aluno = aluno;
         this.pacote = pacote;
-        this.treino = treino;
     }
 
-    public Matricula(int cod, LocalDate data, Aluno aluno, Pacote pacote, Treino treino) {
+    public Matricula(int cod, LocalDate data, Aluno aluno, Pacote pacote) {
         this.cod = cod;
         this.data = data;
         this.aluno = aluno;
         this.pacote = pacote;
-        this.treino = treino;
     }
 
     public int getCod() {
@@ -65,40 +62,28 @@ public class Matricula
     public void setPacote(Pacote pacote) {
         this.pacote = pacote;
     }
-
-    public Treino getTreino() {
-        return treino;
-    }
-
-    public void setTreino(Treino treino) {
-        this.treino = treino;
-    } 
     
-    public Matricula get(int cod)
+    public boolean get(int cod)
     {
-        String SQl = "select * from matricula where mat_Cod = " + cod;
+        String SQl = "select * from matricula where mat_cod = " + cod;
         
         try
         {
             ResultSet rs = Banco.getCon().consultar(SQl);
             if(rs.next())
-            {
-                Aluno alu = new Aluno();
-                alu.geti(rs.getString("alu_Cpf"));
-                Pacote pac = new Pacote();
-                // Falta pacote
-                Treino tre = new Treino();
-                //Falta treino
-                
-                return new Matricula(rs.getInt("mat_Cod"), rs.getDate("mat_DTMat").toLocalDate(), 
-                       alu, pac, tre);
+            {                
+                this.aluno.geti("alu_cpf");
+                this.cod = cod;
+                this.data = rs.getDate("mat_DTMat").toLocalDate();
+                this.pacote = null; //Aguardando o cod do pacote
+                return true;
             }
         }
         catch(SQLException e)
         {
-            return null;
+            return false;
         }
-        return null;
+        return false;
     }
     
     public static List<Matricula> getMatriculas(String filtro)
@@ -118,13 +103,10 @@ public class Matricula
                 alu.geti(rs.getString("alu_Cpf"));
                 Pacote pac = new Pacote();
                 // Falta pacote
-                Treino tre = new Treino();
-                //Falta treino
                 
                 l.add(new Matricula(rs.getInt("mat_Cod"), rs.getDate("mat_DTMat").toLocalDate(), 
-                       alu, pac, tre));
+                       alu, pac));
             }
-            
         }
         catch(Exception e)
         {

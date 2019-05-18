@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import util.Banco;
@@ -8,7 +9,7 @@ import util.Banco;
 public class Exercicio {
     int Cod;
    String Descricao;
-   GrupoMuscular grupoMuscular;
+   GrupoMuscular grupoMuscular = new GrupoMuscular();
 
     public Exercicio() {
     }
@@ -82,4 +83,20 @@ public class Exercicio {
         return l;
     }
            
+   public boolean geti(int cod)
+    {
+        ResultSet rs = Banco.getCon().consultar("select * from exercicios where exe_cod = " + cod);
+        try
+        {
+            if(rs != null && rs.next())
+            {
+                this.Cod = cod;
+                this.Descricao = rs.getString("exe_desc");
+                this.grupoMuscular.get(rs.getInt("gru_cod"));
+                return true;
+            }
+        }
+        catch(SQLException e){return false;}
+        return false;
+    }
 }

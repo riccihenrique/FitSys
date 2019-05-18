@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,8 @@ public class Treino
     int cod;
     LocalDate dataTreino;
     LocalDate dataProximo;
-    Matricula matricula;
-    Funcionario funcinario;
+    Matricula matricula = new Matricula();
+    Funcionario funcinario = new Funcionario();
 
     public Treino()
     {
@@ -136,9 +137,30 @@ public class Treino
                 l.add(new Treino(rs.getInt("treino_cod"), rs.getDate("treino_data").toLocalDate(), rs.getDate("treino_dataprox").toLocalDate(), m, f));
             }
         }
-        catch(Exception e) { }
+        catch(Exception e) 
+        {
+            System.out.println(e.getMessage());
+        }        
         
         return l;
     }
-        
+        public boolean geti(int cod)
+    {
+        ResultSet rs = Banco.getCon().consultar("select * from treino where treino_cod = " + cod);
+        try
+        {
+            if(rs != null && rs.next())
+            {
+                this.cod = cod;
+                this.dataProximo = rs.getDate("treino_dataprox").toLocalDate();
+                this.dataTreino = rs.getDate("treino_data").toLocalDate();
+                this.funcinario.getFuncionario(rs.getString("fun_cpf"));
+                this.matricula.get(rs.getInt("mat_cod"));
+               
+                return true;
+            }
+        }
+        catch(SQLException e){return false;}
+        return false;
+    }
 }

@@ -1,11 +1,14 @@
 package model;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import util.Banco;
 
 public class ExercicioTreino 
 {
-    Exercicio exercicio;
-    Treino treino;
+    Exercicio exercicio = new Exercicio();
+    Treino treino = new Treino();
     char tipo;
     int ordem;
     int repeticao;
@@ -103,6 +106,30 @@ public class ExercicioTreino
         SQL = SQL.replace("#7", "" + ordem);
         
         return Banco.getCon().manipular(SQL);
+    }
+    
+    public static List<ExercicioTreino> getEx(int cod)
+    {
+        List<ExercicioTreino> et = new ArrayList<>();
+        String SQL = "select * from exercicio_treino where treino_cod = " + cod + " order by ext_tipo, ext_ordem";
         
+        ResultSet rs = Banco.getCon().consultar(SQL);
+        
+        try
+        {
+            while(rs.next())
+            {
+                Exercicio e = new Exercicio();
+                e.geti(rs.getInt("exe_cod"));
+                Treino t = new Treino();
+                t.geti(rs.getInt("treino_cod"));
+                //Exercicio exercicio, Treino treino, char tipo, int ordem, int repeticao, int serie, int carga
+                et.add(new ExercicioTreino(e, t,  rs.getString("ext_tipo").charAt(0), rs.getInt("ext_ordem"), 
+                        rs.getInt("ext_repeticao"), rs.getInt("ext_serie"), rs.getInt("ext_carga")));
+            }
+        }
+        catch(Exception e) { }
+        
+        return et;
     }
 }
