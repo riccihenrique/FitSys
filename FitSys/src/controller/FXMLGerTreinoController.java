@@ -90,12 +90,12 @@ public class FXMLGerTreinoController implements Initializable {
     private TableColumn<Treino, String> colVencimento;
     @FXML
     private JFXButton btCancelar;
-
+    @FXML
+    private VBox pnDados2;
+    
     private Matricula mat;
     private String[] treinos = {"A", "B", "C", "D", "E"};
     Treino t;
-    @FXML
-    private VBox pnDados2;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -135,6 +135,7 @@ public class FXMLGerTreinoController implements Initializable {
         ObservableList <Funcionario> obsFuncionario = FXCollections.observableList(funcionarios);
         cbFuncionario.setItems(obsFuncionario);
         
+        t = new Treino();
         estadoOriginal();
     }    
 
@@ -174,6 +175,7 @@ public class FXMLGerTreinoController implements Initializable {
     @FXML
     private void clkConfirmar(ActionEvent event) {
         boolean ok = true;
+        int i, c;
         
         if(cbFuncionario.getValue() == null)
         {
@@ -194,19 +196,23 @@ public class FXMLGerTreinoController implements Initializable {
             dttTreino.setStyle("-fx-background-color:#fffff");
             dttVenciTreino.setStyle("-fx-background-color:#fffff");
         }
-            
+        c = 0;
         for(Tab t : tbPane.getTabs())
         {
-            ObservableList<Node> componentes =  ((AnchorPane) t.getContent()).getChildren(); //”limpa” os componentes
-            for (Node n : componentes)
-                if (n instanceof TableView && !((TableView) n).getId().equals("tbvDados")) // textfield, textarea e htmleditor
-                    if(((TableView) n).getItems().isEmpty())
-                        ok = false;
+            if(c != 0)
+            {
+                ObservableList<Node> componentes = ((AnchorPane) t.getContent()).getChildren(); //”limpa” os componentes
+                for (Node n : componentes)
+                    if (n instanceof TableView) // textfield, textarea e htmleditor
+                        if(((TableView) n).getItems().isEmpty())
+                            ok = false;
+            }
+            c++;
         }
         
         if(ok)
         {
-            if(t.getCod() != 0)
+            if(t.getCod() == 0) // Novo Treino
             {
                 ok = true;
                 t = new Treino(dttTreino.getValue(), dttVenciTreino.getValue(), mat, cbFuncionario.getValue());
@@ -214,28 +220,33 @@ public class FXMLGerTreinoController implements Initializable {
                 if(t.gravar())
                 {
                     t.setCod(Banco.getCon().getMaxPK("treino", "treino_cod"));
-                    int i = -1;
+                    i = 0;
+                    c = 0;
                     for(Tab tab: tbPane.getTabs())
                     {
-                        ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
-                        for (Node n : componentes) 
-                        {
-                            if (n instanceof TableView && !((TableView) n).getId().equals("tbvDados")) // textfield, textarea e htmleditor
+                        if(c != 0)
+                        {                            
+                            ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
+                            for (Node n : componentes) 
                             {
-                                ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
-                                for(ExercicioTreino ex : obExTrei)
+                                if (n instanceof TableView) // textfield, textarea e htmleditor
                                 {
-                                    ex.setTreino(t);
-                                    ex.setTipo(treinos[i].charAt(0));
-                                    if(!ex.gravar())
+                                    ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
+                                    for(ExercicioTreino ex : obExTrei)
                                     {
-                                        JOptionPane.showMessageDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
-                                        ok = false;
+                                        ex.setTreino(t);
+                                        ex.setTipo(treinos[i].charAt(0));
+                                        if(!ex.gravar())
+                                        {
+                                            JOptionPane.showMessageDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
+                                            ok = false;
+                                        }
                                     }
                                 }
                             }
+                            i++;
                         }
-                        i++;
+                        c++;                                
                     }
 
                     if(ok)
@@ -268,13 +279,41 @@ public class FXMLGerTreinoController implements Initializable {
     }
 
     @FXML
-    private void clkAlterar(ActionEvent event) {
+    private void clkAlterar(ActionEvent event) throws IOException {
        if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
             t = (Treino)tbvDados.getSelectionModel().getSelectedItem();
             dttTreino.setValue(t.getDataTreino());
             dttVenciTreino.setValue(t.getDataProximo());
             cbFuncionario.setValue(t.getFuncinario());
+            
+            List<ExercicioTreino> l = ExercicioTreino.getEx(t.getCod());
+            int[] vet = new int[5];
+            
+            for(ExercicioTreino et : l)
+                vet[et.getTipo() - 65]++;
+            
+            int c = 0, j = 0;
+            
+            while(c < 5 && vet[c] != 0)
+            {
+                Tab t = new Tab();
+                t.setText("Treino " + l.get(j).getTipo());
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
+                Parent root = (Parent) loader.load();
+                t.setContent(root);
+                
+                for(int i = 0; i < vet[c]; i++)
+                {
+                    ObservableList<Node> componentes = ((AnchorPane) t.getContent()).getChildren();
+                    for (Node n : componentes)
+                        if (n instanceof TableView)
+                            ((TableView) n).getItems().add(l.get(j));
+                    tbPane.getTabs().add(t);
+                }
+                j++;
+                c++;
+            }
             
             estadoEdicao();
         }
@@ -302,15 +341,11 @@ public class FXMLGerTreinoController implements Initializable {
     }
 
     @FXML
-    private void clkRdio(ActionEvent event) {
-    }
-
-    @FXML
     private void clkPesquisar(ActionEvent event) {
         if(rdioNome.isSelected())
             carregaTabela("treino_data = " + btnPesquisar.getText());
         else
-            carregaTabela("");
+            carregaTabela("treino_dataProx = " + btnPesquisar.getText());
     }
     
     private void estadoEdicao()
@@ -322,6 +357,7 @@ public class FXMLGerTreinoController implements Initializable {
         btnApagar.setDisable(true);
         btnAlterar.setDisable(true);
         dttTreino.setFocusTraversable(true);
+        tbPane.setDisable(false);
     }
     
     private void estadoOriginal() {
@@ -357,6 +393,7 @@ public class FXMLGerTreinoController implements Initializable {
         pnDados.setDisable(true);
         pnDados2.setDisable(true);
         btCancelar.setDisable(false);
+        tbPane.setDisable(true);
          
         dttTreino.setValue(LocalDate.now());
         dttVenciTreino.setValue(LocalDate.now());
