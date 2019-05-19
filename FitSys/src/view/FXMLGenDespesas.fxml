@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="569.0" tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="controller.FXMLGenDespesasController">
+  <tabs>
+    <Tab text="Despesas">
+         <content>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="32.0" prefWidth="600.0" spacing="20.0">
+                     <children>
+                        <JFXButton fx:id="btnNovo" onAction="#clkNovo" text="Novo" />
+                        <JFXButton fx:id="btnAlterar" layoutX="10.0" layoutY="10.0" onAction="#clkAlterar" text="Alterar" />
+                        <JFXButton fx:id="btnApagar" layoutX="62.0" layoutY="10.0" onAction="#clkApagar" text="Apagar" />
+                        <JFXButton fx:id="btnConfirmar" layoutX="114.0" layoutY="10.0" onAction="#clkConfirmar" text="Confirmar" />
+                        <JFXButton fx:id="btnCancelar" alignment="CENTER" layoutX="166.0" layoutY="10.0" onAction="#clkCancelar" text="Cancelar" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </HBox>
+              <AnchorPane fx:id="pnDados" minHeight="0.0" minWidth="0.0" prefHeight="208.0" prefWidth="600.0">
+                     <children>
+                        <JFXComboBox fx:id="cbTpDespesa" layoutX="19.0" layoutY="38.0" prefHeight="25.0" prefWidth="233.0" promptText="Tipo de Despesas:" />
+                        <JFXTextField fx:id="tbValor" labelFloat="true" layoutX="292.0" layoutY="38.0" prefHeight="25.0" prefWidth="216.0" promptText="Valor:" />
+                        <JFXDatePicker fx:id="dtVencimento" layoutX="14.0" layoutY="131.0" prefHeight="25.0" prefWidth="242.0" promptText="Vencimento" />
+                        <JFXCheckBox fx:id="chkQuitar" layoutX="285.0" layoutY="95.0" text="Quitar:" wrapText="true" />
+                        <AnchorPane fx:id="tbDadosQuitado" layoutX="285.0" layoutY="110.0" prefHeight="92.0" prefWidth="230.0">
+                           <children>
+                              <JFXDatePicker fx:id="dtPagamento" layoutX="7.0" layoutY="46.0" prefHeight="25.0" prefWidth="214.0" promptText="Pagamento:" />
+                              <JFXTextField fx:id="tbValorQuitado" labelFloat="true" layoutX="7.0" layoutY="14.0" prefHeight="25.0" prefWidth="213.0" promptText="Valor:" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="tbcDados" onMouseClicked="#clkTabela" prefHeight="133.0" prefWidth="600.0">
+                    <columns>
+                      <TableColumn fx:id="colCod" prefWidth="62.0" text="Código" />
+                      <TableColumn fx:id="colTpDespesa" minWidth="8.0" prefWidth="137.0" text="Tipo da Despesa" />
+                        <TableColumn fx:id="colVenc" minWidth="8.0" prefWidth="152.0" text="Vencimento" />
+                        <TableColumn fx:id="colValor" minWidth="0.0" prefWidth="115.0" text="Valor" />
+                        <TableColumn fx:id="colPaga" minWidth="8.0" prefWidth="102.0" text="Paga" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </content>
+    </Tab>
+    <Tab text="Quitar Despesas">
+         <content>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+              <AnchorPane fx:id="pnDadosQuitar" minHeight="0.0" minWidth="0.0" prefHeight="221.0" prefWidth="569.0">
+                     <children>
+                        <JFXComboBox fx:id="cbTpDespesa1" layoutX="28.0" layoutY="41.0" prefHeight="25.0" prefWidth="233.0" promptText="Tipo de Despesas:" />
+                        <JFXTextField fx:id="tbValorQuitado1" labelFloat="true" layoutX="312.0" layoutY="135.0" prefHeight="25.0" prefWidth="212.0" promptText="Valor Pago:" />
+                        <JFXDatePicker fx:id="dtVencimento1" layoutX="29.0" layoutY="91.0" prefHeight="25.0" prefWidth="234.0" promptText="Vencimento" />
+                        <JFXDatePicker fx:id="dtPagamento1" layoutX="311.0" layoutY="91.0" prefHeight="25.0" prefWidth="214.0" promptText="Pagamento:" />
+                        <JFXTextField fx:id="tbValor1" labelFloat="true" layoutX="28.0" layoutY="135.0" prefHeight="25.0" prefWidth="230.0" promptText="Valor da Despesa:" />
+                        <JFXButton fx:id="btCancelarQuitar" layoutX="392.0" layoutY="180.0" onAction="#clkCancelarQuitar" text="Cancelar" />
+                        <JFXButton fx:id="tbConfirmarQuitar" layoutX="472.0" layoutY="180.0" onAction="#clkConfirmarQuitar" text="Confirmar" />
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="tbvDadosQuitar" onMouseClicked="#clkTabelaQuitar" prefHeight="154.0" prefWidth="569.0">
+                     <columns>
+                        <TableColumn fx:id="colCod1" prefWidth="62.0" text="Código" />
+                        <TableColumn fx:id="colTpDespesa1" minWidth="8.0" prefWidth="222.0" text="Tipo da Despesa" />
+                        <TableColumn fx:id="colVenc1" minWidth="8.0" prefWidth="154.0" text="Vencimento" />
+                        <TableColumn fx:id="colValor1" minWidth="0.0" prefWidth="129.0" text="Valor" />
+                     </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </content>
+    </Tab>
+  </tabs>
+</TabPane>
