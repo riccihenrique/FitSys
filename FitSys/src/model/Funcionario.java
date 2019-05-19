@@ -144,8 +144,6 @@ public class Funcionario
     public void setNivel(char nivel) {
         this.nivel = nivel;
     }
-
-    
     
     @Override
     public String toString()
@@ -221,7 +219,7 @@ public class Funcionario
     
     public boolean getFuncionario(String cpf)
     {
-       ResultSet rs = Banco.getCon().consultar("select * from aluno where alu_cpf = '" + cpf.replace(".", "").replace("-", "") + "'");
+        ResultSet rs = Banco.getCon().consultar("select * from funcionario where fun_cpf = '" + cpf.replace(".", "").replace("-", "") + "'");
         try
         {
             if(rs != null && rs.next())
