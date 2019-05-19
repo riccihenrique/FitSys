@@ -110,9 +110,7 @@ public class Treino
     
     public static boolean apagar(int c)
     {
-        Banco.getCon().manipular("delete from exercicio_treino where treino_cod = " + c);
-        
-        return Banco.getCon().manipular("delete from treino where treino_cod = " + c);
+        return Banco.getCon().manipular("delete from exercicio_treino where treino_cod = " + c) && Banco.getCon().manipular("delete from treino where treino_cod = " + c);
     }
     
     public static List<Treino> get(String filtro)

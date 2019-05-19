@@ -132,4 +132,9 @@ public class ExercicioTreino
         
         return et;
     }
+    
+    public static boolean apagar(int cod)
+    {
+        return Banco.getCon().manipular("delete from exercicio_treino where treino_cod = " + cod);
+    }
 }

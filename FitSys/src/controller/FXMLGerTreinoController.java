@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -92,10 +93,14 @@ public class FXMLGerTreinoController implements Initializable {
     private JFXButton btCancelar;
     @FXML
     private VBox pnDados2;
+    @FXML
+    private Tab tbDetalhes;
+    @FXML
+    private TableColumn<Treino, String> colFuncionario;
     
     private Matricula mat;
     private String[] treinos = {"A", "B", "C", "D", "E"};
-    Treino t;
+    Treino treino;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,13 +108,11 @@ public class FXMLGerTreinoController implements Initializable {
         colCod.setCellValueFactory(new PropertyValueFactory("cod"));
         colData.setCellValueFactory(new PropertyValueFactory("dataTreino"));
         colVencimento.setCellValueFactory(new PropertyValueFactory("dataProximo"));
-        
-        
+        colFuncionario.setCellValueFactory(new PropertyValueFactory("funcinario"));
         // Adiciona os numeros dos treinos
-        SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5);
+        SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
         spQtdTreinos.setValueFactory(values);
-        spQtdTreinos.valueProperty().addListener(new ChangeListener<Integer>() {
- 
+        spQtdTreinos.valueProperty().addListener(new ChangeListener<Integer>() { 
             @Override
             public void changed(ObservableValue<? extends Integer> observable,//
                     Integer oldValue, Integer newValue) {
@@ -127,7 +130,7 @@ public class FXMLGerTreinoController implements Initializable {
                     catch (IOException ex) { }
                 }
                 else
-                    tbPane.getTabs().remove(oldValue);
+                    tbPane.getTabs().remove(tbPane.getTabs().size() - 1);
             }
         });
         
@@ -135,7 +138,7 @@ public class FXMLGerTreinoController implements Initializable {
         ObservableList <Funcionario> obsFuncionario = FXCollections.observableList(funcionarios);
         cbFuncionario.setItems(obsFuncionario);
         
-        t = new Treino();
+        treino = new Treino();
         estadoOriginal();
     }    
 
@@ -154,10 +157,9 @@ public class FXMLGerTreinoController implements Initializable {
         {
             tbMatricula.setText("" + mat.getCod());
             tbAluno.setText(mat.getAluno().getNome());
-            tbPane.setDisable(false);
+            pnDados.setDisable(true);
             estadoOriginal();
             carregaTabela("mat_cod = " + mat.getCod());
-            pnDados2.setDisable(false);
         }
     }
 
@@ -173,10 +175,11 @@ public class FXMLGerTreinoController implements Initializable {
     }
 
     @FXML
-    private void clkConfirmar(ActionEvent event) {
+    private void clkConfirmar(ActionEvent event) throws SQLException {
         boolean ok = true;
         int i, c;
-        
+        Banco.getCon().getConnection().setAutoCommit(false);
+
         if(cbFuncionario.getValue() == null)
         {
            cbFuncionario.setStyle("-fx-background-color:#e61919");
@@ -196,6 +199,13 @@ public class FXMLGerTreinoController implements Initializable {
             dttTreino.setStyle("-fx-background-color:#fffff");
             dttVenciTreino.setStyle("-fx-background-color:#fffff");
         }
+        
+        if(tbPane.getTabs().size() == 1)
+        {
+            ok = false;
+            JOptionPane.showMessageDialog(null, "Deve haver pelo menos um treino");
+        }
+        
         c = 0;
         for(Tab t : tbPane.getTabs())
         {
@@ -212,14 +222,14 @@ public class FXMLGerTreinoController implements Initializable {
         
         if(ok)
         {
-            if(t.getCod() == 0) // Novo Treino
+            if(treino.getCod() == 0) // Novo Treino
             {
                 ok = true;
-                t = new Treino(dttTreino.getValue(), dttVenciTreino.getValue(), mat, cbFuncionario.getValue());
+                treino = new Treino(dttTreino.getValue(), dttVenciTreino.getValue(), mat, cbFuncionario.getValue());
 
-                if(t.gravar())
+                if(treino.gravar())
                 {
-                    t.setCod(Banco.getCon().getMaxPK("treino", "treino_cod"));
+                    treino.setCod(Banco.getCon().getMaxPK("treino", "treino_cod"));
                     i = 0;
                     c = 0;
                     for(Tab tab: tbPane.getTabs())
@@ -234,7 +244,7 @@ public class FXMLGerTreinoController implements Initializable {
                                     ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
                                     for(ExercicioTreino ex : obExTrei)
                                     {
-                                        ex.setTreino(t);
+                                        ex.setTreino(treino);
                                         ex.setTipo(treinos[i].charAt(0));
                                         if(!ex.gravar())
                                         {
@@ -255,6 +265,11 @@ public class FXMLGerTreinoController implements Initializable {
                         Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
                         stage.close(); //Fechando o Stage
                     }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Erro ao gravar exercicos do trieno: " + Banco.getCon().getMensagemErro());
+                        ok = false;
+                    }
                     
                     tbAluno.clear();
                     tbMatricula.clear();;
@@ -262,12 +277,71 @@ public class FXMLGerTreinoController implements Initializable {
                     estadoOriginal();
                 }
                 else
+                {
                     JOptionPane.showMessageDialog(null, "Erro ao gravar treino: " + Banco.getCon().getMensagemErro());
+                    ok = false;
+                }
             }
             else
             {
-                
+                if(treino.alterar())
+                {
+                    ok = ok && ExercicioTreino.apagar(treino.getCod());
+                    
+                    i = 0;
+                    c = 0;
+                    for(Tab tab: tbPane.getTabs())
+                    {
+                        if(c != 0)
+                        {                            
+                            ObservableList<Node> componentes = ((AnchorPane) tab.getContent()).getChildren(); //”limpa” os componentes
+                            for (Node n : componentes) 
+                            {
+                                if (n instanceof TableView) // textfield, textarea e htmleditor
+                                {
+                                    ObservableList<ExercicioTreino> obExTrei  = ((TableView) n).getItems();
+                                    for(ExercicioTreino ex : obExTrei)
+                                    {
+                                        ex.setTreino(treino);
+                                        ex.setTipo(treinos[i].charAt(0));
+                                        if(!ex.gravar())
+                                        {
+                                            JOptionPane.showMessageDialog(null, "Erro ao gravar exercicios: " + Banco.getCon().getMensagemErro());
+                                            ok = false;
+                                        }
+                                    }
+                                }
+                            }
+                            i++;
+                        }
+                        c++;                                
+                    }
+
+                    if(ok)
+                    {
+                        JOptionPane.showMessageDialog(null, "Treino alterado com sucesso:");
+                        Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
+                        stage.close(); //Fechando o Stage
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Erro ao alterar exercicos do trieno: " + Banco.getCon().getMensagemErro());
+                        ok = false;
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Erro ao alterar treino: " + Banco.getCon().getMensagemErro());
+                    ok = false;
+                }
             }
+            
+            if(ok)
+                Banco.getCon().getConnection().commit();
+            else
+                Banco.getCon().getConnection().rollback();
+            
+            Banco.getCon().getConnection().setAutoCommit(true);            
         }
         else
             JOptionPane.showMessageDialog(null, "Há treinos sem montar");
@@ -279,64 +353,69 @@ public class FXMLGerTreinoController implements Initializable {
     }
 
     @FXML
-    private void clkAlterar(ActionEvent event) throws IOException {
+    private void clkAlterar(ActionEvent event) {
        if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
-            t = (Treino)tbvDados.getSelectionModel().getSelectedItem();
-            dttTreino.setValue(t.getDataTreino());
-            dttVenciTreino.setValue(t.getDataProximo());
-            cbFuncionario.setValue(t.getFuncinario());
+            for(int i = 1; i < tbPane.getTabs().size(); i++)
+                tbPane.getTabs().remove(i);
+            SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
+            spQtdTreinos.setValueFactory(values);
             
-            List<ExercicioTreino> l = ExercicioTreino.getEx(t.getCod());
+            treino = (Treino)tbvDados.getSelectionModel().getSelectedItem();
+            dttTreino.setValue(treino.getDataTreino());
+            dttVenciTreino.setValue(treino.getDataProximo());
+            cbFuncionario.getSelectionModel().select(0);
+            cbFuncionario.getSelectionModel().select(treino.getFuncinario());
+            
+            List<ExercicioTreino> l = ExercicioTreino.getEx(treino.getCod());
             int[] vet = new int[5];
             
             for(ExercicioTreino et : l)
                 vet[et.getTipo() - 65]++;
             
             int c = 0, j = 0;
-            
             while(c < 5 && vet[c] != 0)
             {
-                Tab t = new Tab();
-                t.setText("Treino " + l.get(j).getTipo());
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
-                Parent root = (Parent) loader.load();
-                t.setContent(root);
+                spQtdTreinos.increment();
+                
+                Tab t = tbPane.getTabs().get(c + 1);
                 
                 for(int i = 0; i < vet[c]; i++)
                 {
                     ObservableList<Node> componentes = ((AnchorPane) t.getContent()).getChildren();
                     for (Node n : componentes)
                         if (n instanceof TableView)
-                            ((TableView) n).getItems().add(l.get(j));
-                    tbPane.getTabs().add(t);
+                            ((TableView) n).getItems().add(l.get(j++));
                 }
-                j++;
+                
                 c++;
             }
-            
             estadoEdicao();
         }
     }
 
     @FXML
-    private void clkApagar(ActionEvent event) {
+    private void clkApagar(ActionEvent event) throws SQLException {
          Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setContentText("Deseja realmente apagar?"); 
         if(a.showAndWait().get() == ButtonType.OK)
         {
+            Banco.getCon().getConnection().setAutoCommit(false);  
             a = new Alert(Alert.AlertType.INFORMATION);
             if(Treino.apagar(tbvDados.getSelectionModel().getSelectedItem().getCod()))
             {
+                Banco.getCon().getConnection().commit();
                 snackBar("Treino deletado com sucesso");
                 carregaTabela("");
                 estadoOriginal();
             }
             else
             {
+                Banco.getCon().getConnection().rollback();
                 a.setContentText("Erro ao deletar treino: " + Banco.getCon().getMensagemErro());
                 a.showAndWait();
             }
+            Banco.getCon().getConnection().setAutoCommit(true);      
         }
     }
 
@@ -377,26 +456,17 @@ public class FXMLGerTreinoController implements Initializable {
             btnNovo.setDisable(false);
             btnPesquisar.setDisable(false);
             btConfirmar.setDisable(true);
-            
-            try
-            {
-                Tab t = new Tab();
-                t.setText("Treino " + treinos[0]);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
-                Parent root = null;
-                root = (Parent) loader.load();
-                t.setContent(root);
-                tbPane.getTabs().add(t);
-            }
-            catch(Exception e){}
         }
         pnDados.setDisable(true);
-        pnDados2.setDisable(true);
         btCancelar.setDisable(false);
-        tbPane.setDisable(true);
          
         dttTreino.setValue(LocalDate.now());
         dttVenciTreino.setValue(LocalDate.now());
+        
+        for(int i = 1; i < tbPane.getTabs().size(); i++)
+                tbPane.getTabs().remove(i);
+        SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
+        spQtdTreinos.setValueFactory(values);
     }
     
     private void carregaTabela(String filtro) {

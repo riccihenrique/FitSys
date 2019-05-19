@@ -17,9 +17,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javax.swing.JOptionPane;
 import model.Exercicio;
@@ -55,12 +57,16 @@ public class FXMLTreinoController implements Initializable {
     private JFXButton btIncluir;
     @FXML
     private JFXButton btExcluir;
-    
-    List<ExercicioTreino> lista;
     @FXML
     private AnchorPane pnDados;
     @FXML
     private TableView<ExercicioTreino> tbvDados1;
+    
+    List<ExercicioTreino> lista;
+    int index;
+    boolean flag;
+    @FXML
+    private JFXButton btExcluir1;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -88,6 +94,25 @@ public class FXMLTreinoController implements Initializable {
             }
         });
         
+        tbvDados1.setRowFactory( tv -> {
+            TableRow<ExercicioTreino> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    flag = true;
+                    index = tbvDados1.getSelectionModel().getSelectedIndex();
+                    cbGrupoMuscular.getSelectionModel().select(0);
+                    cbGrupoMuscular.getSelectionModel().select(tbvDados1.getSelectionModel().getSelectedItem().getExercicio().getGrupoMuscular());
+                    cbExercicio.getSelectionModel().select(0);
+                    cbExercicio.getSelectionModel().select(tbvDados1.getSelectionModel().getSelectedItem().getExercicio());
+                    tbCarga.setText("" + tbvDados1.getSelectionModel().getSelectedItem().getCarga());
+                    tbOrdem.setText("" + tbvDados1.getSelectionModel().getSelectedItem().getOrdem());
+                    tbRepeticoes.setText("" + tbvDados1.getSelectionModel().getSelectedItem().getRepeticao());
+                    tbSeries.setText("" + tbvDados1.getSelectionModel().getSelectedItem().getSerie());
+                }
+            });
+            return row ;
+        });
+        
         // Define os campos como numericos
         MaskFieldUtil.numericField(tbOrdem);
         MaskFieldUtil.numericField(tbCarga);
@@ -109,34 +134,37 @@ public class FXMLTreinoController implements Initializable {
         boolean ok = true;
         if(isOk())
         {
+            if(flag)
+                lista.remove(index);
+            
             for(ExercicioTreino ex : lista)
                 if(ex.getExercicio() == cbExercicio.getValue())
                 {
                     ok = false;
                     JOptionPane.showMessageDialog(null, "Exercício já inserido");
                 }
-            if(ok)
-            {
-                try
-                {
-                    lista.add(new ExercicioTreino(cbExercicio.getValue(), 'Q', Integer.parseInt(tbOrdem.getText()),  
-                        Integer.parseInt(tbRepeticoes.getText()), Integer.parseInt(tbSeries.getText()), 
-                        Integer.parseInt(tbCarga.getText())));
-                }
-                catch(Exception e){ }
+                
+            if(flag)    
+                lista.add(index, new ExercicioTreino(cbExercicio.getValue(), 'Q', Integer.parseInt(tbOrdem.getText()),  
+                                Integer.parseInt(tbRepeticoes.getText()), Integer.parseInt(tbSeries.getText()), 
+                                Integer.parseInt(tbCarga.getText())));
+            else
+                lista.add(new ExercicioTreino(cbExercicio.getValue(), 'Q', Integer.parseInt(tbOrdem.getText()),  
+                                Integer.parseInt(tbRepeticoes.getText()), Integer.parseInt(tbSeries.getText()), 
+                                Integer.parseInt(tbCarga.getText())));
+                
+            carregaTabela();
 
-                carregaTabela();
-
-                ObservableList<Node> componentes = pnDados.getChildren(); //”limpa” os componentes
-                for (Node n : componentes) {
-                    if (n instanceof TextInputControl) // textfield, textarea e htmleditor
-                        ((TextInputControl) n).setText("");
-                    if (n instanceof ComboBox)
-                        ((ComboBox) n).getItems().clear();
-                }
-
-                carregaCombobox();
+            ObservableList<Node> componentes = pnDados.getChildren(); //”limpa” os componentes
+            for (Node n : componentes) {
+                if (n instanceof TextInputControl) // textfield, textarea e htmleditor
+                    ((TextInputControl) n).setText("");
+                if (n instanceof ComboBox)
+                    ((ComboBox) n).getItems().clear();
             }
+
+            carregaCombobox();
+            flag = false;
         }
     }
     
@@ -157,7 +185,8 @@ public class FXMLTreinoController implements Initializable {
     {
         boolean ok = true;
         ObservableList<Node> componentes = pnDados.getChildren(); //”limpa” os componentes
-        for (Node n : componentes) {
+        for (Node n : componentes) 
+        {
             if (n instanceof TextInputControl) // textfield, textarea e htmleditor
                 if(((TextInputControl) n).getText().isEmpty())
                 {
@@ -177,5 +206,21 @@ public class FXMLTreinoController implements Initializable {
                     n.setStyle("-fx-background-color:#fffff");
         }
         return ok;
+    }
+
+    @FXML
+    private void clkCancelar(ActionEvent event) {
+        carregaTabela();
+
+        ObservableList<Node> componentes = pnDados.getChildren(); //”limpa” os componentes
+        for (Node n : componentes) {
+            if (n instanceof TextInputControl) // textfield, textarea e htmleditor
+                ((TextInputControl) n).setText("");
+            if (n instanceof ComboBox)
+                ((ComboBox) n).getItems().clear();
+        }
+
+        carregaCombobox();
+        flag = false;
     }
 }

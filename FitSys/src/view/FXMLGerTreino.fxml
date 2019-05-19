@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -16,7 +17,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGerTreinoController">
    <children>
@@ -39,52 +39,56 @@
             <Insets right="20.0" />
          </padding>
       </HBox>
-      <TabPane fx:id="tbPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="268.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tbPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE">
          <tabs>
-            <Tab text="Detalhes">
+            <Tab fx:id="tbDetalhes" text="Detalhes">
                <content>
-                  <AnchorPane fx:id="pnDados" minHeight="0.0" minWidth="0.0" prefHeight="332.0" prefWidth="552.0">
-                     <children>
-                        <JFXDatePicker fx:id="dttTreino" layoutX="53.0" layoutY="67.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino:*" />
-                        <JFXDatePicker fx:id="dttVenciTreino" layoutX="294.0" layoutY="67.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino:*" />
-                        <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="53.0" layoutY="114.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário:*" />
-                        <JFXTextField labelFloat="true" layoutX="294.0" layoutY="114.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC):*" text=" " />
-                        <Spinner fx:id="spQtdTreinos" focusTraversable="false" layoutX="296.0" layoutY="115.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
-                        <Label layoutX="63.0" layoutY="189.0" text="Campos  de preenchimento obrigatório" />
-                        <Label layoutX="57.0" layoutY="189.0" text="*" textFill="RED" />
-                        <Line endX="451.29290771484375" endY="1.2928931713104248" layoutX="101.0" layoutY="237.0" startX="-100.0" />
-                     </children>
-                  </AnchorPane>
+                  <SplitPane dividerPositions="0.5420560747663551" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                    <items>
+                        <AnchorPane fx:id="pnDados" minHeight="0.0" minWidth="0.0" prefHeight="383.0" prefWidth="552.0">
+                           <children>
+                              <JFXDatePicker fx:id="dttTreino" layoutX="53.0" layoutY="67.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino:*" />
+                              <JFXDatePicker fx:id="dttVenciTreino" layoutX="294.0" layoutY="67.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino:*" />
+                              <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="53.0" layoutY="114.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário:*" />
+                              <JFXTextField labelFloat="true" layoutX="294.0" layoutY="114.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC):*" text=" " />
+                              <Spinner fx:id="spQtdTreinos" editable="true" focusTraversable="false" layoutX="296.0" layoutY="115.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
+                              <Label layoutX="63.0" layoutY="189.0" text="Campos  de preenchimento obrigatório" />
+                              <Label layoutX="57.0" layoutY="189.0" text="*" textFill="RED" />
+                           </children>
+                        </AnchorPane>
+                        <VBox fx:id="pnDados2" prefHeight="177.0" prefWidth="552.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="56.0" prefWidth="552.0" spacing="20.0">
+                                 <children>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <RadioButton fx:id="rdioNome" mnemonicParsing="false" selected="true" text="Data">
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="busca" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="rdioCpf" mnemonicParsing="false" text="Vencimento" toggleGroup="$busca" />
+                                       </children>
+                                    </VBox>
+                                    <JFXTextField fx:id="tbBusca" prefHeight="25.0" prefWidth="288.0" promptText="Digite uma data" />
+                                    <JFXButton fx:id="btnPesquisar" onAction="#clkPesquisar" text="Pesquisar" />
+                                 </children>
+                              </HBox>
+                              <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="137.0" prefWidth="560.0">
+                                 <columns>
+                                    <TableColumn fx:id="colCod" prefWidth="105.0" text="Treino" />
+                                    <TableColumn fx:id="colData" prefWidth="136.0" text="Data" />
+                                    <TableColumn fx:id="colVencimento" prefWidth="149.0" text="Vencimento" />
+                                    <TableColumn fx:id="colFuncionario" prefWidth="161.0" text="Funcionário" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                    </items>
+                  </SplitPane>
                </content>
             </Tab>
          </tabs>
       </TabPane>
-      <VBox fx:id="pnDados2" prefHeight="187.0" prefWidth="552.0">
-         <children>
-            <HBox alignment="CENTER" prefHeight="56.0" prefWidth="552.0" spacing="20.0">
-               <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <RadioButton fx:id="rdioNome" mnemonicParsing="false" selected="true" text="Data">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="busca" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="rdioCpf" mnemonicParsing="false" text="Vencimento" toggleGroup="$busca" />
-                     </children>
-                  </VBox>
-                  <JFXTextField fx:id="tbBusca" prefHeight="25.0" prefWidth="288.0" promptText="Digite uma data" />
-                  <JFXButton fx:id="btnPesquisar" onAction="#clkPesquisar" text="Pesquisar" />
-               </children>
-            </HBox>
-            <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="137.0" prefWidth="560.0">
-               <columns>
-                  <TableColumn fx:id="colCod" prefWidth="196.0" text="Treino" />
-                  <TableColumn fx:id="colData" prefWidth="171.00006103515625" text="Data" />
-                  <TableColumn fx:id="colVencimento" prefWidth="184.00006103515625" text="Vencimento" />
-               </columns>
-            </TableView>
-         </children>
-      </VBox>
    </children>
 </VBox>

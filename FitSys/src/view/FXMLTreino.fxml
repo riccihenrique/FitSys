@@ -29,5 +29,6 @@
       <JFXButton fx:id="btExcluir" layoutX="363.0" layoutY="309.0" onAction="#clkExcluir" prefHeight="25.0" prefWidth="68.0" text="Excluir" />
       <Label layoutX="22.0" layoutY="313.0" text="Campos  de preenchimento obrigatório" />
       <Label layoutX="16.0" layoutY="313.0" text="*" textFill="RED" />
+      <JFXButton fx:id="btExcluir1" layoutX="277.0" layoutY="309.0" onAction="#clkCancelar" prefHeight="25.0" prefWidth="68.0" text="Excluir" />
    </children>
 </AnchorPane>
