@@ -215,7 +215,7 @@ public class FXMLGenAlunoController implements Initializable {
 
     @FXML
     private void clkCancelar(ActionEvent event) {
-         if(!pnDados1.isDisable())
+        if(!pnDados1.isDisable())
             estadoOriginal();
         else
         {

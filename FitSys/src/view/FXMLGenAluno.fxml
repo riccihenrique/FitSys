@@ -31,7 +31,7 @@
                   <Insets />
                </opaqueInsets>
             </HBox>
-            <AnchorPane fx:id="pnDados1" prefHeight="286.0" prefWidth="598.0">
+            <AnchorPane fx:id="pnDados" prefHeight="286.0" prefWidth="598.0">
                <children>
                   <JFXTextField fx:id="tbCpf" labelFloat="true" layoutX="56.0" layoutY="48.0" prefHeight="25.0" prefWidth="174.0" promptText="CPF*:" />
                   <JFXTextField fx:id="tbNome" labelFloat="true" layoutX="252.0" layoutY="48.0" prefHeight="25.0" prefWidth="288.0" promptText="Nome*:" />

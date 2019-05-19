@@ -13,7 +13,7 @@ public class FitSys extends Application {
     @Override
     public void start(Stage stage) throws Exception 
     {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLGerTreino.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLGerDespesas.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
