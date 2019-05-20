@@ -51,7 +51,7 @@
                               <JFXDatePicker fx:id="dttVenciTreino" layoutX="294.0" layoutY="67.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino:*" />
                               <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="53.0" layoutY="114.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário:*" />
                               <JFXTextField labelFloat="true" layoutX="294.0" layoutY="114.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC):*" text=" " />
-                              <Spinner fx:id="spQtdTreinos" editable="true" focusTraversable="false" layoutX="296.0" layoutY="115.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
+                              <Spinner fx:id="spQtdTreinos" editable="false" focusTraversable="false" layoutX="296.0" layoutY="115.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
                               <Label layoutX="63.0" layoutY="189.0" text="Campos  de preenchimento obrigatório" />
                               <Label layoutX="57.0" layoutY="189.0" text="*" textFill="RED" />
                            </children>

@@ -125,7 +125,7 @@ public class FXMLGerTreinoController implements Initializable {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLTreino.fxml"));
                         Parent root = (Parent) loader.load();
                         t.setContent(root);
-                        tbPane.getTabs().add(t);
+                        tbPane.getTabs().add(newValue, t);
                     } 
                     catch (IOException ex) { }
                 }
@@ -341,7 +341,8 @@ public class FXMLGerTreinoController implements Initializable {
             else
                 Banco.getCon().getConnection().rollback();
             
-            Banco.getCon().getConnection().setAutoCommit(true);            
+            Banco.getCon().getConnection().setAutoCommit(true);   
+            treino = new Treino();
         }
         else
             JOptionPane.showMessageDialog(null, "Há treinos sem montar");
@@ -356,8 +357,9 @@ public class FXMLGerTreinoController implements Initializable {
     private void clkAlterar(ActionEvent event) {
        if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
-            for(int i = 1; i < tbPane.getTabs().size(); i++)
-                tbPane.getTabs().remove(i);
+            for(Tab t : tbPane.getTabs())
+                if(t.getText().contains("Treino"))
+                    tbPane.getTabs().remove(t);
             SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
             spQtdTreinos.setValueFactory(values);
             
@@ -463,8 +465,10 @@ public class FXMLGerTreinoController implements Initializable {
         dttTreino.setValue(LocalDate.now());
         dttVenciTreino.setValue(LocalDate.now());
         
-        for(int i = 1; i < tbPane.getTabs().size(); i++)
-                tbPane.getTabs().remove(i);
+        for(Tab t : tbPane.getTabs())
+            if(t.getText().contains("Treino"))
+                tbPane.getTabs().remove(t);
+        
         SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
         spQtdTreinos.setValueFactory(values);
     }
