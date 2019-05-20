@@ -35,14 +35,14 @@
                <children>
                   <JFXComboBox fx:id="cbTpDespesa" layoutX="14.0" layoutY="34.0" prefHeight="25.0" prefWidth="242.0" promptText="Tipo de Despesas:" />
                   <JFXDatePicker fx:id="dtVencimento" defaultColor="#e19b2a" layoutX="14.0" layoutY="92.0" prefHeight="25.0" prefWidth="242.0" promptText="Vencimento" />
-                  <AnchorPane fx:id="tbDadosQuitado" disable="true" layoutX="281.0" layoutY="71.0" prefHeight="109.0" prefWidth="242.0" style="-fx-border-color: BLACK;">
+                  <AnchorPane fx:id="pnDadosQuitado" disable="true" layoutX="281.0" layoutY="71.0" prefHeight="109.0" prefWidth="242.0" style="-fx-border-color: BLACK;">
                      <children>
                         <JFXDatePicker fx:id="dtPagamento" defaultColor="#e19b2a" layoutX="14.0" layoutY="70.0" prefHeight="25.0" prefWidth="214.0" promptText="Pagamento:" />
-                        <JFXTextField fx:id="tbValor" labelFloat="true" layoutX="13.0" layoutY="14.0" prefHeight="25.0" prefWidth="216.0" promptText="Valor:" />
+                        <JFXTextField fx:id="tbValorQuitado" labelFloat="true" layoutX="13.0" layoutY="14.0" prefHeight="25.0" prefWidth="216.0" promptText="Valor:" />
                      </children>
                   </AnchorPane>
-                  <JFXTextField fx:id="tbValorQuitado" labelFloat="true" layoutX="14.0" layoutY="137.0" prefHeight="25.0" prefWidth="242.0" promptText="Valor:" />
-                  <JFXCheckBox fx:id="chkQuitar" checkedColor="#e88026" layoutX="281.0" layoutY="43.0" prefHeight="15.0" prefWidth="61.0" text="Quitar" wrapText="true" />
+                  <JFXTextField fx:id="tbValor" labelFloat="true" layoutX="14.0" layoutY="137.0" prefHeight="25.0" prefWidth="242.0" promptText="Valor:" />
+                  <JFXCheckBox fx:id="chkQuitar" checkedColor="#e88026" layoutX="281.0" layoutY="43.0" onAction="#clkQuitar" prefHeight="15.0" prefWidth="61.0" text="Quitar" wrapText="true" />
                </children>
             </AnchorPane>
          </children>
@@ -77,7 +77,7 @@
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="542.0">
                <children>
-                  <JFXTextField fx:id="tbTotal" labelFloat="true" prefHeight="25.0" prefWidth="125.0" promptText="Total não pagas:">
+                  <JFXTextField fx:id="tbTotal" editable="false" labelFloat="true" prefHeight="25.0" prefWidth="125.0" promptText="Total não pagas:" text="0,00">
                      <HBox.margin>
                         <Insets top="15.0" />
                      </HBox.margin>

@@ -29,10 +29,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import model.Aluno;
 import model.Despesa;
 import model.TipoDespesa;
 import util.Banco;
+import util.MaskFieldUtil;
 
 public class FXMLGerDespesasController implements Initializable {
 
@@ -54,8 +56,6 @@ public class FXMLGerDespesasController implements Initializable {
     private JFXDatePicker dtVencimento;
     @FXML
     private JFXCheckBox chkQuitar;
-    @FXML
-    private AnchorPane tbDadosQuitado;
     @FXML
     private JFXDatePicker dtPagamento;
     @FXML
@@ -90,6 +90,8 @@ public class FXMLGerDespesasController implements Initializable {
     private TableView<Despesa> tbvDados;
     
     private Despesa despesa = new Despesa();
+    @FXML
+    private AnchorPane pnDadosQuitado;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -98,8 +100,11 @@ public class FXMLGerDespesasController implements Initializable {
         colVenc.setCellValueFactory(new PropertyValueFactory("vencimento"));
         colValor.setCellValueFactory(new PropertyValueFactory("valor"));
         colPaga.setCellValueFactory(new PropertyValueFactory("paga"));
-        colPag.setCellValueFactory(new PropertyValueFactory("pagamento"));
+        colPag.setCellValueFactory(new PropertyValueFactory("pagamento"));        
         
+        MaskFieldUtil.monetaryField(tbTotal);
+        MaskFieldUtil.monetaryField(tbValor);
+        MaskFieldUtil.monetaryField(tbValorQuitado);
         
         estadoOriginal();
     }    
@@ -111,6 +116,19 @@ public class FXMLGerDespesasController implements Initializable {
 
     @FXML
     private void clkAlterar(ActionEvent event) {
+        if(tbvDados.getSelectionModel().getSelectedItem() != null)
+        {
+            despesa = tbvDados.getSelectionModel().getSelectedItem();
+            tbValor.setText("" + despesa.getValor());
+            cbTpDespesa.getSelectionModel().select(0);
+            cbTpDespesa.getSelectionModel().select(despesa.getTpDespesa());
+            dtPagamento.setValue(despesa.getPagamento());
+            dtVencimento.setValue(despesa.getVencimento());
+            
+            chkQuitar.setSelected(despesa.isPaga());
+            tbValorQuitado.setDisable(despesa.isPaga());
+            estadoEdicao();
+        }
     }
 
     @FXML
@@ -122,13 +140,13 @@ public class FXMLGerDespesasController implements Initializable {
             a = new Alert(Alert.AlertType.INFORMATION);
             if(Despesa.apagar(tbvDados.getSelectionModel().getSelectedItem().getCod()))
             {
-                snackBar("Aluno deletado com sucesso");
+                snackBar("Despesa deletada com sucesso");
                 carregaTabela("");
                 estadoOriginal();
             }
             else
             {
-                a.setContentText("Erro ao deletar aluno: " + Banco.getCon().getMensagemErro());
+                a.setContentText("Erro ao deletar despesa: " + Banco.getCon().getMensagemErro());
                 a.showAndWait();
             }
         }
@@ -136,28 +154,47 @@ public class FXMLGerDespesasController implements Initializable {
 
     @FXML
     private void clkConfirmar(ActionEvent event) {
+        Alert al;
         if(isOk())
         {
             if(despesa.getCod() == 0) //Insere
             {
-                despesa = new Despesa(Double.parseDouble(tbValor.getText()), dtVencimento.getValue(),
-                        cbTpDespesa.getValue(),chkQuitar.isSelected() ? dtVencimento.getValue() : null , chkQuitar.isSelected());
+                despesa = new Despesa(Double.parseDouble(tbValor.getText().replace(".", "").replace(",", ".")), dtVencimento.getValue(),
+                        cbTpDespesa.getValue(),chkQuitar.isSelected() ? dtPagamento.getValue() : null , chkQuitar.isSelected());
                 
                 if(despesa.gravar())
                 {
-                    
+                    snackBar("Despesa gravada com sucesso"); 
+                    despesa = new Despesa();
+                    estadoOriginal();
                 }
                 else
                 {
-                    
+                    al = new Alert(Alert.AlertType.ERROR);
+                    al.setContentText("Erro ao gravar despesa: " + Banco.getCon().getMensagemErro());
+                    al.showAndWait();
                 }
             }
             else // Altera
             {
                 int cod = despesa.getCod();
-                despesa = new Despesa(cod, Double.parseDouble(tbValor.getText()), dtVencimento.getValue(),
-                        cbTpDespesa.getValue(),chkQuitar.isSelected() ? dtVencimento.getValue() : null , chkQuitar.isSelected());
+                despesa = new Despesa(cod, Double.parseDouble(tbValor.getText().replace(".", "").replace(",", ".")), dtVencimento.getValue(),
+                cbTpDespesa.getValue(),chkQuitar.isSelected() ? dtPagamento.getValue() : null , chkQuitar.isSelected());
+                
+                if(despesa.alterar())
+                {
+                    snackBar("Despesa alterado com sucesso");
+                    despesa = new Despesa();
+                    estadoOriginal();
+                }
+                else 
+                {
+                    al = new Alert(Alert.AlertType.ERROR);
+                    al.setContentText("Erro ao alterar Despesa: " + Banco.getCon().getMensagemErro());
+                    al.showAndWait();
+                }
             }
+            estadoOriginal();
         } 
     }
 
@@ -189,7 +226,7 @@ public class FXMLGerDespesasController implements Initializable {
             carregaTabela("desp_dtvencimento <= '" + tbBusca.getText().replace("/", "") + "'");
     }
     
-     private void estadoOriginal() {
+    private void estadoOriginal() {
         btnPesquisar.setDisable(false);
         btnNovo.setDisable(true);
         pnDados.setDisable(true);
@@ -209,21 +246,29 @@ public class FXMLGerDespesasController implements Initializable {
                 ((TextInputControl) n).setText("");
             if (n instanceof ComboBox)
                 ((ComboBox) n).getItems().clear();
-        }        
+        }  
+        
+        componentes = pnDadosQuitado.getChildren(); //”limpa” os componentes
+        for (Node n : componentes) {
+            if (n instanceof TextInputControl) // textfield, textarea e htmleditor
+                ((TextInputControl) n).setText("");
+            if (n instanceof ComboBox)
+                ((ComboBox) n).getItems().clear();
+        }
        
         carregaTabela("");
+        carregaComboBox();
     }
     
     private void carregaTabela(String filtro) {
         
         List<Despesa> res = Despesa.get(filtro);
-        ObservableList<Despesa> modelo;
-        modelo = FXCollections.observableArrayList(res);
+        ObservableList<Despesa> modelo = FXCollections.observableArrayList(res);
         tbvDados.setItems(modelo);
+        calculaValor();
     }
 
-    private void estadoEdicao()
-    {   
+    private void estadoEdicao() {   
         btnNovo.setDisable(true);  
         tbBusca.setDisable(true);
         pnDados.setDisable(false);
@@ -234,8 +279,7 @@ public class FXMLGerDespesasController implements Initializable {
         cbTpDespesa.requestFocus();
     }
     
-    private boolean isOk()
-    {
+    private boolean isOk() {
         boolean res = true;
         
         ObservableList<Node> componentes = pnDados.getChildren();
@@ -251,11 +295,37 @@ public class FXMLGerDespesasController implements Initializable {
                 res = false;
             }
         }
+        
+        if(chkQuitar.isSelected())
+        {
+            componentes = pnDadosQuitado.getChildren();
+            for (Node n : componentes) {
+                if (n instanceof TextInputControl)
+                    if(((TextInputControl) n).getText().isEmpty())
+                    {
+                        n.setStyle("-fx-background-color:#e61919");
+                        res = false;
+                    }
+                    else
+                        n.setStyle("-fx-background-color:#ffff");
+                if (n instanceof ComboBox)
+                    if(((ComboBox) n).getSelectionModel().getSelectedItem()== null)
+                    {
+                        n.setStyle("-fx-background-color:#e61919");
+                        res = false;
+                    }
+                    else
+                        n.setStyle("-fx-background-color:#ffff");
+            }
+            
+            if(dtVencimento.getValue() != null && dtPagamento.getValue().isBefore(dtVencimento.getValue()))
+                JOptionPane.showMessageDialog(null, "A data de pagamento não deve ser menor que a data de vencimento");  
+        }
+        
         return res;
     }
     
-    private void snackBar(String texto)
-    {
+    private void snackBar(String texto) {
         JFXSnackbar snacbar = new JFXSnackbar(pnDados);
         JFXSnackbarLayout layout = new JFXSnackbarLayout(texto);
         layout.setStyle("-fx-backgroundcolor:#FFFFF");
@@ -269,4 +339,33 @@ public class FXMLGerDespesasController implements Initializable {
         else
             tbBusca.setPromptText("Digite uma Data de Vencimento:");
     }
+    
+    private void carregaComboBox() { 
+        List <TipoDespesa> l = TipoDespesa.get("");
+        ObservableList<TipoDespesa> tpdesp = FXCollections.observableList(l);
+        cbTpDespesa.setItems(tpdesp);
+    }
+
+    @FXML
+    private void clkQuitar(ActionEvent event) {
+        if(chkQuitar.isSelected())
+            pnDadosQuitado.setDisable(false);
+        else
+        {
+            tbValorQuitado.setStyle("-fx-background-color:#ffff");
+            dtPagamento.setStyle("-fx-background-color:#ffff");
+            pnDadosQuitado.setDisable(true);
+        } 
+    }
+    
+    private void calculaValor()
+    {
+        double val = 0;
+        for(Despesa d : tbvDados.getItems())
+            if(!d.isPaga())
+                val += d.getValor();
+        
+        tbTotal.setText("" + val);
+    }
+    
 }

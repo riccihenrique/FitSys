@@ -101,10 +101,11 @@ public class Despesa {
             while(rs.next())
             {
                 TipoDespesa t = new TipoDespesa();
-                t.get(rs.getInt(""));
+                t.get(rs.getInt("tpd_cod"));
                 
-                l.add(new Despesa(rs.getInt(""), rs.getDouble(""),rs.getDate("").toLocalDate(), 
-                        t, rs.getDate("").toLocalDate(), rs.getDate("").toLocalDate() == null ? false : true));
+                l.add(new Despesa(rs.getInt("desp_cod"), rs.getDouble("desp_valor"),rs.getDate("desp_dtvencimento").toLocalDate(), 
+                        t, rs.getDate("desp_dtpagamento") == null ? null: rs.getDate("desp_dtpagamento").toLocalDate(), 
+                        rs.getDate("desp_dtpagamento") == null ? false : true));
             }    
         }
         catch(Exception e)
@@ -118,5 +119,34 @@ public class Despesa {
     public static boolean apagar(int cod)
     {
         return Banco.getCon().manipular("delete from despesa where desp_cod = " + cod);
+    }
+    
+    public boolean gravar()
+    {
+        String SQL = "insert into despesa (desp_valor, desp_dtvencimento, tpd_cod, desp_dtpagamento) values(#1, '#2', #3, #4)";
+        
+        SQL = SQL.replace("#1", "" + valor);
+        SQL = SQL.replace("#2", vencimento.toString());
+        SQL = SQL.replace("#3", "" + tpDespesa.getCod());
+        if(pagamento == null)
+            SQL = SQL.replace("#4", "null");
+        else
+            SQL = SQL.replace("#4", "'" + pagamento.toString() + "'");
+        
+        return Banco.getCon().manipular(SQL);
+    }
+    
+    public boolean alterar()
+    {
+        String SQL = "update despesa set desp_valor = #1, desp_dtvencimento = '#2', tpd_cod = #3, desp_dtpagamento = #4 where desp_cod = " + cod;
+        SQL = SQL.replace("#1", "" + valor);
+        SQL = SQL.replace("#2", vencimento.toString());
+        SQL = SQL.replace("#3", "" + tpDespesa.getCod());
+        if(pagamento == null)
+            SQL = SQL.replace("#4", "null");
+        else
+            SQL = SQL.replace("#4", "'" + pagamento.toString() + "'");
+        
+        return Banco.getCon().manipular(SQL);
     }
 }

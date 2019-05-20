@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import util.Banco;
 
 public class TipoDespesa {
@@ -48,7 +50,7 @@ public class TipoDespesa {
             if(rs.next())
             {
                 descricao = rs.getString("tpd_desc");
-                cod = cod;
+                this.cod = rs.getInt("tpd_cod");
                 return true;
             }
             return false;
@@ -57,5 +59,27 @@ public class TipoDespesa {
         {
             return false;
         }
+    }
+    
+    public static List<TipoDespesa> get(String filtro)
+    {
+        List<TipoDespesa> l = new ArrayList<>();
+        String SQL = "select * from tipodespesa";
+        if(!filtro.isEmpty())
+            SQL += " where " + filtro;
+        
+        ResultSet rs = Banco.getCon().consultar(SQL);
+        
+        try
+        {
+            while(rs.next())
+                l.add(new TipoDespesa(rs.getInt("tpd_cod"), rs.getString("tpd_desc")));
+        }
+        catch(Exception e) 
+        {
+            System.out.println(e.getMessage());
+        }        
+        
+        return l;
     }
 }
