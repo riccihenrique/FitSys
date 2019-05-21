@@ -50,6 +50,7 @@ public class FXMLLoginController implements Initializable {
                 Stage stage = new Stage();
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
+                stage.setTitle("Cadastro de Funcuinário");
 
                 stage.showAndWait();
                  if(!Banco.getCon().consultar("select * from funcionario").next())
@@ -82,6 +83,7 @@ public class FXMLLoginController implements Initializable {
                    
                     Stage stage = (Stage) lbAviso.getScene().getWindow(); //Obtendo a janela atual
                     Scene scene = new Scene(root);
+                    stage.setTitle("Home");
                     stage.setScene(scene);
                     stage.show();
                 }

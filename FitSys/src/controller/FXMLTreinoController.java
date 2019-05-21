@@ -60,12 +60,12 @@ public class FXMLTreinoController implements Initializable {
     private AnchorPane pnDados;
     @FXML
     private TableView<ExercicioTreino> tbvDados1;
+    @FXML
+    private JFXButton btExcluir1;
     
     List<ExercicioTreino> lista;
     int index;
     boolean flag;
-    @FXML
-    private JFXButton btExcluir1;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -123,6 +123,10 @@ public class FXMLTreinoController implements Initializable {
     private void clkExcluir(ActionEvent event) {
         if(tbvDados1.getSelectionModel().getSelectedItem() != null)
         {
+            lista.clear();
+            for(ExercicioTreino et: tbvDados1.getItems())
+                lista.add(et);
+            
             lista.remove(tbvDados1.getSelectionModel().getSelectedItem());
             carregaTabela();
         }
@@ -131,6 +135,11 @@ public class FXMLTreinoController implements Initializable {
     @FXML
     private void clkIncluir(ActionEvent event) {
         boolean ok = true;
+        
+        lista.clear();
+        for(ExercicioTreino et: tbvDados1.getItems())
+            lista.add(et);
+        
         if(isOk())
         {
             if(flag)
@@ -221,5 +230,5 @@ public class FXMLTreinoController implements Initializable {
 
         carregaCombobox();
         flag = false;
-    }
+    }    
 }
