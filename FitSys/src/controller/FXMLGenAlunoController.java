@@ -51,8 +51,6 @@ public class FXMLGenAlunoController implements Initializable {
     @FXML
     private JFXButton btnCancelar;
     @FXML
-    private AnchorPane pnDados1;
-    @FXML
     private JFXTextField tbCpf;
     @FXML
     private JFXTextField tbNome;
@@ -94,6 +92,8 @@ public class FXMLGenAlunoController implements Initializable {
     private RadioButton rdioCpf;
     @FXML
     private ToggleGroup busca;
+    @FXML
+    private AnchorPane pnDados;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colNome.setCellValueFactory(new PropertyValueFactory("nome"));
@@ -215,7 +215,7 @@ public class FXMLGenAlunoController implements Initializable {
 
     @FXML
     private void clkCancelar(ActionEvent event) {
-        if(!pnDados1.isDisable())
+        if(!pnDados.isDisable())
             estadoOriginal();
         else
         {
@@ -256,7 +256,7 @@ public class FXMLGenAlunoController implements Initializable {
     private void estadoOriginal() {
         btnPesquisar.setDisable(false);
         btnNovo.setDisable(true);
-        pnDados1.setDisable(true);
+        pnDados.setDisable(true);
         btnConfirmar.setDisable(true);
         btnCancelar.setDisable(false);
         btnApagar.setDisable(true);
@@ -264,7 +264,7 @@ public class FXMLGenAlunoController implements Initializable {
         btnNovo.setDisable(false);
         tbBusca.setDisable(false);
         dttNascimemto.setValue(LocalDate.now());
-        ObservableList<Node> componentes = pnDados1.getChildren(); //”limpa” os componentes
+        ObservableList<Node> componentes = pnDados.getChildren(); //”limpa” os componentes
         for (Node n : componentes) {
             if (n instanceof TextInputControl) // textfield, textarea e htmleditor
                 ((TextInputControl) n).setText("");
@@ -294,7 +294,7 @@ public class FXMLGenAlunoController implements Initializable {
     {   
         btnNovo.setDisable(true);  
         tbBusca.setDisable(true);
-        pnDados1.setDisable(false);
+        pnDados.setDisable(false);
         btnConfirmar.setDisable(false);
         btnApagar.setDisable(true);
         btnAlterar.setDisable(true);
@@ -312,7 +312,7 @@ public class FXMLGenAlunoController implements Initializable {
         if(!cpf)
             return false;
         
-        ObservableList<Node> componentes = pnDados1.getChildren();
+        ObservableList<Node> componentes = pnDados.getChildren();
         for (Node n : componentes) {
             if (n instanceof TextInputControl &&  ((TextInputControl) n).getText().isEmpty())
             {
@@ -330,7 +330,7 @@ public class FXMLGenAlunoController implements Initializable {
     
     private void snackBar(String texto)
     {
-        JFXSnackbar snacbar = new JFXSnackbar(pnDados1);
+        JFXSnackbar snacbar = new JFXSnackbar(pnDados);
         JFXSnackbarLayout layout = new JFXSnackbarLayout(texto);
         layout.setStyle("-fx-backgroundcolor:#FFFFF");
         snacbar.fireEvent(new JFXSnackbar.SnackbarEvent(layout));

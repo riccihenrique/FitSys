@@ -1,3 +1,4 @@
+
 package controller;
 
 import com.jfoenix.controls.JFXButton;
@@ -144,9 +145,9 @@ public class FXMLGerTreinoController implements Initializable {
 
     @FXML
     private void clkBuscarAluno(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLBuscaAluno.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLBuscaMatricula.fxml"));
         Parent root = (Parent) loader.load();
-        FXMLBuscaAlunoController ba = loader.getController();
+        FXMLBuscaMatriculaController ba = loader.getController();
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -357,11 +358,7 @@ public class FXMLGerTreinoController implements Initializable {
     private void clkAlterar(ActionEvent event) {
        if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
-            for(Tab t : tbPane.getTabs())
-                if(t.getText().contains("Treino"))
-                    tbPane.getTabs().remove(t);
-            SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
-            spQtdTreinos.setValueFactory(values);
+            estadoOriginal();
             
             treino = (Treino)tbvDados.getSelectionModel().getSelectedItem();
             dttTreino.setValue(treino.getDataTreino());
@@ -398,7 +395,7 @@ public class FXMLGerTreinoController implements Initializable {
 
     @FXML
     private void clkApagar(ActionEvent event) throws SQLException {
-         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setContentText("Deseja realmente apagar?"); 
         if(a.showAndWait().get() == ButtonType.OK)
         {
@@ -465,9 +462,9 @@ public class FXMLGerTreinoController implements Initializable {
         dttTreino.setValue(LocalDate.now());
         dttVenciTreino.setValue(LocalDate.now());
         
-        for(Tab t : tbPane.getTabs())
-            if(t.getText().contains("Treino"))
-                tbPane.getTabs().remove(t);
+        for(int i = tbPane.getTabs().size() - 1; i > 0; i--)
+            if(tbPane.getTabs().get(i).getText().contains("Treino"))
+                tbPane.getTabs().remove(i);
         
         SpinnerValueFactory<Integer> values = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 5);
         spQtdTreinos.setValueFactory(values);
@@ -476,8 +473,7 @@ public class FXMLGerTreinoController implements Initializable {
     private void carregaTabela(String filtro) {
         
         List<Treino> res = Treino.get(filtro);
-        ObservableList<Treino> modelo;
-        modelo = FXCollections.observableArrayList(res);
+        ObservableList<Treino> modelo = FXCollections.observableArrayList(res);
         tbvDados.setItems(modelo);
     }
 

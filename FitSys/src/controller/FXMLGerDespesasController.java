@@ -30,7 +30,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
-import model.Aluno;
 import model.Despesa;
 import model.TipoDespesa;
 import util.Banco;

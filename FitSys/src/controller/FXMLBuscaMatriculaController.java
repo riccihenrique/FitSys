@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import model.Matricula;
 
 
-public class FXMLBuscaAlunoController implements Initializable {
+public class FXMLBuscaMatriculaController implements Initializable {
 
     @FXML
     private JFXRadioButton rbCpf;
