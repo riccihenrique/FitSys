@@ -263,8 +263,7 @@ public class FXMLGerTreinoController implements Initializable {
                     if(ok)
                     {
                         JOptionPane.showMessageDialog(null, "Treino inserido com sucesso:");
-                        Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
-                        stage.close(); //Fechando o Stage
+                        estadoOriginal();
                     }
                     else
                     {
@@ -285,6 +284,10 @@ public class FXMLGerTreinoController implements Initializable {
             }
             else
             {
+                treino.setDataProximo(dttVenciTreino.getValue());
+                treino.setDataTreino(dttTreino.getValue());
+                treino.setFuncinario(cbFuncionario.getValue());
+                    
                 if(treino.alterar())
                 {
                     ok = ok && ExercicioTreino.apagar(treino.getCod());
@@ -321,8 +324,7 @@ public class FXMLGerTreinoController implements Initializable {
                     if(ok)
                     {
                         JOptionPane.showMessageDialog(null, "Treino alterado com sucesso:");
-                        Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
-                        stage.close(); //Fechando o Stage
+                        estadoOriginal();
                     }
                     else
                     {
@@ -338,22 +340,25 @@ public class FXMLGerTreinoController implements Initializable {
             }
             
             if(ok)
+            {
                 Banco.getCon().getConnection().commit();
+                treino = new Treino();
+                carregaTabela("");
+            }
             else
                 Banco.getCon().getConnection().rollback();
             
-            Banco.getCon().getConnection().setAutoCommit(true);   
-            treino = new Treino();
+            Banco.getCon().getConnection().setAutoCommit(true);
         }
         else
-            JOptionPane.showMessageDialog(null, "Há treinos sem montar");
+            JOptionPane.showMessageDialog(null, "Há treinos sem montar");        
     }
 
     @FXML
     private void clkNovo(ActionEvent event) {
         boolean ok = true;
         for(Treino tre: tbvDados.getItems())
-            if(tre.getDataTreino().isBefore(LocalDate.now()) && tre.getDataProximo().isAfter(LocalDate.now()))
+            if(tre.getDataTreino().isBefore(LocalDate.now()) && tre.getDataProximo().isAfter(LocalDate.now()) || tre.getDataProximo().isEqual(LocalDate.now()) || tre.getDataTreino().isEqual(LocalDate.now()))
                 ok = false;
         if(!ok)
             JOptionPane.showMessageDialog(null, "Já existe treino em vigor");
@@ -402,7 +407,6 @@ public class FXMLGerTreinoController implements Initializable {
                 }
                 estadoEdicao();
             }
-            treino = new Treino();
         }
     }
 
@@ -491,8 +495,6 @@ public class FXMLGerTreinoController implements Initializable {
         
         for(int i = tbPane.getTabs().size() - 1; i > 0; i--)
                 tbPane.getTabs().remove(i);
-        
-        
     }
     
     private void carregaTabela(String filtro) {

@@ -57,7 +57,6 @@ public class FXMLGerDespesasController implements Initializable {
     private JFXCheckBox chkQuitar;
     @FXML
     private JFXDatePicker dtPagamento;
-    @FXML
     private JFXTextField tbValorQuitado;
     @FXML
     private TableColumn<Despesa, String> colCod;
@@ -89,8 +88,9 @@ public class FXMLGerDespesasController implements Initializable {
     private TableView<Despesa> tbvDados;
     
     private Despesa despesa = new Despesa();
-    @FXML
     private AnchorPane pnDadosQuitado;
+    @FXML
+    private JFXButton btQuitar;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -118,35 +118,52 @@ public class FXMLGerDespesasController implements Initializable {
         if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
             despesa = tbvDados.getSelectionModel().getSelectedItem();
-            tbValor.setText("" + despesa.getValor());
-            cbTpDespesa.getSelectionModel().select(0);
-            cbTpDespesa.getSelectionModel().select(despesa.getTpDespesa());
-            dtPagamento.setValue(despesa.getPagamento());
-            dtVencimento.setValue(despesa.getVencimento());
-            
-            chkQuitar.setSelected(despesa.isPaga());
-            tbValorQuitado.setDisable(despesa.isPaga());
-            estadoEdicao();
+        
+            if(despesa.isPaga())
+                JOptionPane.showMessageDialog(null, "Impossível alterar uma despesa quitada");
+            else
+            {
+                despesa = tbvDados.getSelectionModel().getSelectedItem();
+                tbValor.setText("" + despesa.getValor());
+                cbTpDespesa.getSelectionModel().select(0);
+                cbTpDespesa.getSelectionModel().select(despesa.getTpDespesa());
+                dtPagamento.setValue(despesa.getPagamento());
+                dtVencimento.setValue(despesa.getVencimento());
+
+                chkQuitar.setSelected(despesa.isPaga());
+                tbValorQuitado.setDisable(despesa.isPaga());
+                estadoEdicao();
+            }            
         }
     }
 
     @FXML
     private void clkApagar(ActionEvent event) {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        a.setContentText("Deseja realmente apagar?"); 
-        if(a.showAndWait().get() == ButtonType.OK)
+        if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
-            a = new Alert(Alert.AlertType.INFORMATION);
-            if(Despesa.apagar(tbvDados.getSelectionModel().getSelectedItem().getCod()))
-            {
-                snackBar("Despesa deletada com sucesso");
-                carregaTabela("");
-                estadoOriginal();
-            }
+            despesa = tbvDados.getSelectionModel().getSelectedItem();
+        
+            if(despesa.isPaga())
+                JOptionPane.showMessageDialog(null, "Impossível alterar uma despesa quitada");
             else
             {
-                a.setContentText("Erro ao deletar despesa: " + Banco.getCon().getMensagemErro());
-                a.showAndWait();
+                Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+                a.setContentText("Deseja realmente apagar?");
+                if (a.showAndWait().get() == ButtonType.OK) 
+                {
+                    a = new Alert(Alert.AlertType.INFORMATION);
+                    if (Despesa.apagar(tbvDados.getSelectionModel().getSelectedItem().getCod())) 
+                    {
+                        snackBar("Despesa deletada com sucesso");
+                        carregaTabela("");
+                        estadoOriginal();
+                    } 
+                    else 
+                    {
+                        a.setContentText("Erro ao deletar despesa: " + Banco.getCon().getMensagemErro());
+                        a.showAndWait();
+                    }
+                }
             }
         }
     }
@@ -214,6 +231,11 @@ public class FXMLGerDespesasController implements Initializable {
         {
             btnAlterar.setDisable(false);
             btnApagar.setDisable(false);
+            
+            if(tbvDados.getSelectionModel().getSelectedItem().isPaga())
+                btQuitar.setText("Extornar");
+            else
+                btQuitar.setText("Quitar");                    
         }
     }
 
@@ -347,14 +369,24 @@ public class FXMLGerDespesasController implements Initializable {
 
     @FXML
     private void clkQuitar(ActionEvent event) {
-        if(chkQuitar.isSelected())
-            pnDadosQuitado.setDisable(false);
-        else
+        if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
-            tbValorQuitado.setStyle("-fx-background-color:#ffff");
-            dtPagamento.setStyle("-fx-background-color:#ffff");
-            pnDadosQuitado.setDisable(true);
-        } 
+            despesa = tbvDados.getSelectionModel().getSelectedItem();
+            
+            if(despesa.isPaga())
+            {
+                despesa.setPagamento(null);
+                despesa.setPaga(false);
+                if(despesa.alterar())
+                    snackBar("Despesa Quitada");
+                else
+                    JOptionPane.showMessageDialog(null, "Erro ao quitar despesa");
+            }
+            else
+            {
+                
+            }
+        }
     }
     
     private void calculaValor()
@@ -365,6 +397,18 @@ public class FXMLGerDespesasController implements Initializable {
                 val += d.getValor();
         
         tbTotal.setText("" + val);
+    }
+
+    @FXML
+    private void clkCheckQuitar(ActionEvent event) {
+        if(chkQuitar.isSelected())
+            pnDadosQuitado.setDisable(false);
+        else
+        {
+            tbValorQuitado.setStyle("-fx-background-color:#ffff");
+            dtPagamento.setStyle("-fx-background-color:#ffff");
+            pnDadosQuitado.setDisable(true);
+        } 
     }
     
 }

@@ -84,6 +84,7 @@ public class FXMLLoginController implements Initializable {
                     Stage stage = (Stage) lbAviso.getScene().getWindow(); //Obtendo a janela atual
                     Scene scene = new Scene(root);
                     stage.setTitle("Home");
+                    stage.setMaximized(true);
                     stage.setScene(scene);
                     stage.show();
                 }

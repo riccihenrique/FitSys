@@ -120,6 +120,8 @@ public class Treino
         if(!filtro.isEmpty())
             SQL += " where " + filtro;
         
+        SQL += " order by treino_data desc";
+        
         ResultSet rs = Banco.getCon().consultar(SQL);
         
         try
