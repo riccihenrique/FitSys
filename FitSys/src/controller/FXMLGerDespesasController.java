@@ -7,7 +7,9 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,8 +17,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -57,7 +62,6 @@ public class FXMLGerDespesasController implements Initializable {
     private JFXCheckBox chkQuitar;
     @FXML
     private JFXDatePicker dtPagamento;
-    private JFXTextField tbValorQuitado;
     @FXML
     private TableColumn<Despesa, String> colCod;
     @FXML
@@ -86,11 +90,10 @@ public class FXMLGerDespesasController implements Initializable {
     private AnchorPane pnDados;
     @FXML
     private TableView<Despesa> tbvDados;
-    
-    private Despesa despesa = new Despesa();
-    private AnchorPane pnDadosQuitado;
     @FXML
     private JFXButton btQuitar;
+    
+    private Despesa despesa = new Despesa();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -103,7 +106,6 @@ public class FXMLGerDespesasController implements Initializable {
         
         MaskFieldUtil.monetaryField(tbTotal);
         MaskFieldUtil.monetaryField(tbValor);
-        MaskFieldUtil.monetaryField(tbValorQuitado);
         
         estadoOriginal();
     }    
@@ -131,8 +133,10 @@ public class FXMLGerDespesasController implements Initializable {
                 dtVencimento.setValue(despesa.getVencimento());
 
                 chkQuitar.setSelected(despesa.isPaga());
-                tbValorQuitado.setDisable(despesa.isPaga());
                 estadoEdicao();
+                
+                chkQuitar.setDisable(true);
+                dtPagamento.setDisable(true);
             }            
         }
     }
@@ -231,6 +235,7 @@ public class FXMLGerDespesasController implements Initializable {
         {
             btnAlterar.setDisable(false);
             btnApagar.setDisable(false);
+            btQuitar.setDisable(false);
             
             if(tbvDados.getSelectionModel().getSelectedItem().isPaga())
                 btQuitar.setText("Extornar");
@@ -240,11 +245,11 @@ public class FXMLGerDespesasController implements Initializable {
     }
 
     @FXML
-    private void clkPesquisar(ActionEvent event) {
+    private void clkPesquisar(ActionEvent event) throws SQLException {
         if(rdioTipo.isSelected())
-            carregaTabela("tpd_cod = " + tbBusca.getText());
+            carregaTabela("tpd_cod = " + TipoDespesa.geti("UPPER(tpd_desc) like '%"+ tbBusca.getText().toUpperCase() + "%'"));
         else
-            carregaTabela("desp_dtvencimento <= '" + tbBusca.getText().replace("/", "") + "'");
+            carregaTabela("desp_dtvencimento <= '" + tbBusca.getText().replace("/", "-") + "'");
     }
     
     private void estadoOriginal() {
@@ -257,6 +262,7 @@ public class FXMLGerDespesasController implements Initializable {
         btnAlterar.setDisable(true);
         btnNovo.setDisable(false);
         tbBusca.setDisable(false);
+        btQuitar.setDisable(true);
         
         dtPagamento.setValue(LocalDate.now());
         dtVencimento.setValue(LocalDate.now());
@@ -267,15 +273,10 @@ public class FXMLGerDespesasController implements Initializable {
                 ((TextInputControl) n).setText("");
             if (n instanceof ComboBox)
                 ((ComboBox) n).getItems().clear();
-        }  
-        
-        componentes = pnDadosQuitado.getChildren(); //”limpa” os componentes
-        for (Node n : componentes) {
-            if (n instanceof TextInputControl) // textfield, textarea e htmleditor
-                ((TextInputControl) n).setText("");
-            if (n instanceof ComboBox)
-                ((ComboBox) n).getItems().clear();
         }
+        
+        chkQuitar.selectedProperty().set(false);
+        dtPagamento.setValue(LocalDate.now());
        
         carregaTabela("");
         carregaComboBox();
@@ -296,6 +297,8 @@ public class FXMLGerDespesasController implements Initializable {
         btnConfirmar.setDisable(false);
         btnApagar.setDisable(true);
         btnAlterar.setDisable(true);
+        
+        chkQuitar.setDisable(false);
         
         cbTpDespesa.requestFocus();
     }
@@ -319,28 +322,14 @@ public class FXMLGerDespesasController implements Initializable {
         
         if(chkQuitar.isSelected())
         {
-            componentes = pnDadosQuitado.getChildren();
-            for (Node n : componentes) {
-                if (n instanceof TextInputControl)
-                    if(((TextInputControl) n).getText().isEmpty())
-                    {
-                        n.setStyle("-fx-background-color:#e61919");
-                        res = false;
-                    }
-                    else
-                        n.setStyle("-fx-background-color:#ffff");
-                if (n instanceof ComboBox)
-                    if(((ComboBox) n).getSelectionModel().getSelectedItem()== null)
-                    {
-                        n.setStyle("-fx-background-color:#e61919");
-                        res = false;
-                    }
-                    else
-                        n.setStyle("-fx-background-color:#ffff");
-            }
-            
-            if(dtVencimento.getValue() != null && dtPagamento.getValue().isBefore(dtVencimento.getValue()))
-                JOptionPane.showMessageDialog(null, "A data de pagamento não deve ser menor que a data de vencimento");  
+            if(dtPagamento.getValue() == null)
+                dtPagamento.setStyle("-fx-background-color:#e61919");
+            else
+            {
+                dtPagamento.setStyle("-fx-background-color:#fffff");            
+                if(dtPagamento.getValue().isBefore(dtVencimento.getValue()))
+                    JOptionPane.showMessageDialog(null, "A data de pagamento não deve ser menor que a data de vencimento");
+            }  
         }
         
         return res;
@@ -368,7 +357,7 @@ public class FXMLGerDespesasController implements Initializable {
     }
 
     @FXML
-    private void clkQuitar(ActionEvent event) {
+    private void clkQuitar(ActionEvent event) throws IOException {
         if(tbvDados.getSelectionModel().getSelectedItem() != null)
         {
             despesa = tbvDados.getSelectionModel().getSelectedItem();
@@ -378,14 +367,33 @@ public class FXMLGerDespesasController implements Initializable {
                 despesa.setPagamento(null);
                 despesa.setPaga(false);
                 if(despesa.alterar())
-                    snackBar("Despesa Quitada");
+                    snackBar("Despesa Extornada");
                 else
-                    JOptionPane.showMessageDialog(null, "Erro ao quitar despesa");
+                    JOptionPane.showMessageDialog(null, "Erro ao extornar despesa");
             }
             else
             {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/FXMLData.fxml"));
+                Parent root = (Parent) loader.load();
+                FXMLDataController controlador = loader.getController(); 
+                controlador.setMinData(despesa.getVencimento());
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.showAndWait();
+                
+                if(controlador.getData() != null)
+                {
+                    despesa.setPagamento(controlador.getData());
+                    despesa.setPaga(true);
+                    if(despesa.alterar())
+                        snackBar("Despesa Quitada");
+                    else
+                        JOptionPane.showMessageDialog(null, "Erro ao quitar despesa");
+                }
                 
             }
+            carregaTabela("");
         }
     }
     
@@ -402,12 +410,11 @@ public class FXMLGerDespesasController implements Initializable {
     @FXML
     private void clkCheckQuitar(ActionEvent event) {
         if(chkQuitar.isSelected())
-            pnDadosQuitado.setDisable(false);
+            dtPagamento.setDisable(false);
         else
         {
-            tbValorQuitado.setStyle("-fx-background-color:#ffff");
-            dtPagamento.setStyle("-fx-background-color:#ffff");
-            pnDadosQuitado.setDisable(true);
+            dtPagamento.setStyle("-fx-background-color:#fffff");
+            dtPagamento.setDisable(true);
         } 
     }
     

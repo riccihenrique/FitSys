@@ -168,8 +168,9 @@ public class FXMLGerTreinoController implements Initializable {
     private void clkCancelar(ActionEvent event) {
         if(pnDados.isDisable())
         {
-            Stage stage = (Stage) btConfirmar.getScene().getWindow(); //Obtendo a janela atual
-            stage.close(); //Fechando o Stage
+            Stage stage = (Stage) btConfirmar.getScene().getWindow();
+            stage.close(); //Fechando o Stage 
+            
         }
         else
             estadoOriginal();
