@@ -114,4 +114,15 @@ public class Matricula
         
         return l;
     }
+    
+    public boolean gravar()
+    {
+        String sql="insert into matricula (mat_dtmat, alu_cpf, pct_cod) values ('#1', '#2', #3)";
+
+        sql=sql.replaceAll("#1", data.toString());
+        sql=sql.replaceAll("#2", aluno.getCpf());
+        sql=sql.replaceAll("#3", ""+pacote.getCod());
+
+        return Banco.getCon().manipular(sql);
+    }
 }

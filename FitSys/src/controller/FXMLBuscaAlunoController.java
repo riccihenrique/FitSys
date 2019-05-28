@@ -44,7 +44,7 @@ public class FXMLBuscaAlunoController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btConfirmar.setDisable(true);
-        colNome.setCellValueFactory(new PropertyValueFactory("aluno"));
+        colNome.setCellValueFactory(new PropertyValueFactory("nome"));
         colMatricula.setCellValueFactory(new PropertyValueFactory("cpf"));
         
         carregaTabela("");

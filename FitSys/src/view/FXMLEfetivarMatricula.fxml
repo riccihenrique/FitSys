@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="440.0" prefWidth="503.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLEfetivarMatriculaController">
+<AnchorPane id="AnchorPane" prefHeight="440.0" prefWidth="503.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLEfetivarMatriculaController">
    <children>
       <JFXButton layoutX="380.0" layoutY="75.0" onAction="#btnBuscaAluno" prefHeight="37.0" prefWidth="86.0" style="-fx-background-color: #d35400;" text="Buscar Aluno" textFill="WHITE">
          <cursor>
@@ -19,12 +19,15 @@
       <JFXTextField fx:id="txtCPF" editable="false" focusColor="#d35400" labelFloat="true" layoutX="41.0" layoutY="34.0" prefHeight="25.0" prefWidth="83.0" promptText="CPF" />
       <JFXTextField fx:id="txtNome" editable="false" focusColor="#d35400" labelFloat="true" layoutX="141.0" layoutY="34.0" prefHeight="25.0" prefWidth="325.0" promptText="Nome" />
       <JFXComboBox fx:id="cbPacotes" focusColor="#d35400" layoutX="41.0" layoutY="83.0" prefHeight="25.0" prefWidth="325.0" promptText="Selecione um Pacote" />
-      <TableView fx:id="tbPacotes" layoutX="41.0" layoutY="146.0" prefHeight="200.0" prefWidth="430.0">
+      <TableView fx:id="tbMatriculas" layoutX="41.0" layoutY="146.0" prefHeight="200.0" prefWidth="430.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="CPF" />
-          <TableColumn prefWidth="75.0" text="Nome" />
-            <TableColumn prefWidth="75.0" text="Pacote" />
+          <TableColumn fx:id="colMat" prefWidth="75.0" text="Matricula" />
+          <TableColumn fx:id="colNome" prefWidth="75.0" text="Nome" />
+            <TableColumn fx:id="colPacote" prefWidth="75.0" text="Pacote" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
       <JFXButton layoutX="40.0" layoutY="363.0" onAction="#btnAlterar" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE">
          <cursor>
