@@ -112,7 +112,7 @@ public class Pacote
                 this.descricao = rs.getString("pct_desc");
                 this.desconto = rs.getInt("pct_porcdesconto");
                 this.total = rs.getDouble("pct_total");
-                  
+                
                 ResultSet rs2 = Banco.getCon().consultar("select * from modalidade inner join pacote_modalidade as pctmod on modalidade.mod_cod = pctmod.mod_cod where pct_cod = " + cod);
                 
                 while(rs2.next())
@@ -140,7 +140,7 @@ public class Pacote
             {
                 List<Modalidade> lm = new ArrayList<>();
                 String sql_aux = "select * from modalidade inner join pacote_modalidade as pctmod on modalidade.mod_cod = pctmod.mod_cod where pct_cod = " + rs.getInt("pct_cod");
-                ResultSet rs_aux = Banco.getCon().consultar(sql_aux);
+                    ResultSet rs_aux = Banco.getCon().consultar(sql_aux);
                 while(rs_aux.next())
                     lm.add(new Modalidade(rs_aux.getInt("mod_cod"), rs_aux.getString("mod_nome"), rs_aux.getDouble("mod_preco")));
                     

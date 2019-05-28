@@ -1,8 +1,12 @@
 package model;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import javafx.util.converter.LocalDateStringConverter;
 import util.Banco;
 
 public class Mensalidade 
@@ -80,7 +84,7 @@ public class Mensalidade
         try
         {
             ResultSet rs = Banco.getCon().consultar(SQl);
-            if(rs.next())
+            if(rs.next()) 
             {
                 this.men_cod = rs.getInt("men_cod");
                 this.mat.get(mat_cod);
@@ -97,19 +101,20 @@ public class Mensalidade
         return false;
     }
     
-    public static boolean geraMensalidade(Matricula mat, LocalDate dt_venc, boolean flag)
+    public static boolean geraMensalidade(Matricula mat, int dt_venc, boolean flag)
     {
         double valor;
         Mensalidade mens;
-        int dias = 30 - LocalDate.now().getDayOfMonth();
+        int dias = LocalDate.now().lengthOfMonth() - LocalDate.now().getDayOfMonth() + dt_venc;
         
         // se a flag for = true é a primeira mensalidade (gerar com base na data da matricula)
         if(flag)
-            valor = (mat.getPacote().getTotal() / 30) * dias;
+            valor = (mat.getPacote().getTotal() / LocalDate.now().lengthOfMonth()) * dias;
         else
             valor = mat.getPacote().getTotal();
         
-        mens = new Mensalidade(valor, dt_venc, mat);
+        mens = new Mensalidade(valor, LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth().plus(1), dt_venc), mat);
+
         mens.gravar();
         
         return true;

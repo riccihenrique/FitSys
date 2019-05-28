@@ -30,7 +30,7 @@ import model.Pacote;
 
 public class FXMLEfetivarMatriculaController implements Initializable 
 {
-    private boolean flag_alt = false;
+    private boolean flag_alt;
     private Matricula selected_mat = new Matricula();
     
     @FXML
@@ -64,6 +64,8 @@ public class FXMLEfetivarMatriculaController implements Initializable
         colCPF.setCellValueFactory(new PropertyValueFactory("aluno.getCPF()"));
         colNome.setCellValueFactory(new PropertyValueFactory("aluno"));
         
+        flag_alt = false;
+        
         carregaTabela("");
     }
     
@@ -79,6 +81,7 @@ public class FXMLEfetivarMatriculaController implements Initializable
     {
         txtCPF.clear();
         txtNome.clear();
+        txtPgto.clear();
         flag_alt = false;
     }
 
@@ -110,6 +113,7 @@ public class FXMLEfetivarMatriculaController implements Initializable
         {
             Mensalidade men = new Mensalidade();
             men.get(selected_mat.getCod());
+            
             int dia = men.getMen_dtvenc().getDayOfMonth();
             
             txtCPF.setText(selected_mat.getAluno().getCpf());
@@ -131,7 +135,7 @@ public class FXMLEfetivarMatriculaController implements Initializable
 
     @FXML
     private void btnExcluir(ActionEvent event) 
-    {
+    {   
         try
         {
             int mat_cod = tbMatriculas.selectionModelProperty().get().getSelectedItem().getCod();
@@ -167,11 +171,12 @@ public class FXMLEfetivarMatriculaController implements Initializable
             {
                 if(!txtPgto.getText().isEmpty())
                 {
-                    if(flag_alt = false) //inserir
+                    if(flag_alt == false) //inserir
                     {
                         Matricula new_mat = new Matricula(LocalDate.now(), alu, cbPacotes.getValue());
                         if(new_mat.gravar())
                         {
+                            Mensalidade.geraMensalidade(new_mat, Integer.parseInt(txtPgto.getText()), true);
                             lbMensagem.setTextFill(Paint.valueOf("green"));
                             lbMensagem.setText("*Aluno Matriculado com Sucesso!");
                         }else
@@ -190,9 +195,12 @@ public class FXMLEfetivarMatriculaController implements Initializable
                         }else
                         {
                             lbMensagem.setTextFill(Paint.valueOf("red"));
-                            lbMensagem.setText("*Erro ao gerar a Matricula!");
-                        }      
+                            lbMensagem.setText("*Erro ao alterar a Matricula!");
+                        }
                     }
+                    
+                    flag_alt = false;
+                    limparTela();
                 }else
                 {
                     lbMensagem.setTextFill(Paint.valueOf("red"));
@@ -208,8 +216,6 @@ public class FXMLEfetivarMatriculaController implements Initializable
             lbMensagem.setTextFill(Paint.valueOf("red"));
             lbMensagem.setText("*Selecione um Aluno!");
         }
-        
-        limparTela();
         carregaTabela("");
     }
 
