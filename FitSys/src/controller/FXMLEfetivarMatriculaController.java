@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -16,6 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -24,10 +25,14 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import model.Aluno;
 import model.Matricula;
+import model.Mensalidade;
 import model.Pacote;
 
 public class FXMLEfetivarMatriculaController implements Initializable 
 {
+    private boolean flag_alt = false;
+    private Matricula selected_mat = new Matricula();
+    
     @FXML
     private JFXComboBox<Pacote> cbPacotes;
     @FXML
@@ -41,11 +46,11 @@ public class FXMLEfetivarMatriculaController implements Initializable
     @FXML
     private TableView<Matricula> tbMatriculas;
     @FXML
+    private TableColumn<Matricula, String> colCPF;
+    @FXML
     private TableColumn<Matricula, String> colNome;
     @FXML
-    private TableColumn<Matricula, String> colPacote;
-    @FXML
-    private TableColumn<Matricula, String> colMat;
+    private JFXTextField txtPgto;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -56,12 +61,10 @@ public class FXMLEfetivarMatriculaController implements Initializable
         tbMatriculas.setItems(FXCollections.observableList(Matricula.getMatriculas("")));
         
         //tabela
-        colMat.setCellValueFactory(new PropertyValueFactory("cod"));
+        colCPF.setCellValueFactory(new PropertyValueFactory("aluno.getCPF()"));
         colNome.setCellValueFactory(new PropertyValueFactory("aluno"));
-        colPacote.setCellValueFactory(new PropertyValueFactory("pacote"));
         
         carregaTabela("");
-
     }
     
     private void carregaTabela(String filtro) 
@@ -70,6 +73,13 @@ public class FXMLEfetivarMatriculaController implements Initializable
         ObservableList<Matricula> modelo;
         modelo = FXCollections.observableArrayList(res);
         tbMatriculas.setItems(modelo);
+    }
+    
+    private void limparTela()
+    {
+        txtCPF.clear();
+        txtNome.clear();
+        flag_alt = false;
     }
 
     @FXML
@@ -85,16 +95,67 @@ public class FXMLEfetivarMatriculaController implements Initializable
 
         alu = ba.getAluno();
         
-        txtNome.setText(alu.getNome());
-        txtCPF.setText(alu.getCpf());
+        if(alu != null)
+        {
+            txtNome.setText(alu.getNome());
+            txtCPF.setText(alu.getCpf());
+        }
     }
 
     @FXML
-    private void btnAlterar(ActionEvent event) {
+    private void btnAlterar(ActionEvent event) 
+    {
+        selected_mat = tbMatriculas.getSelectionModel().getSelectedItem();
+        if(selected_mat != null)
+        {
+            Mensalidade men = new Mensalidade();
+            men.get(selected_mat.getCod());
+            int dia = men.getMen_dtvenc().getDayOfMonth();
+            
+            txtCPF.setText(selected_mat.getAluno().getCpf());
+            txtNome.setText(selected_mat.getAluno().getNome());
+            cbPacotes.getSelectionModel().select(selected_mat.getPacote());
+            txtPgto.setText(""+dia);
+            
+            flag_alt = true;
+            
+            lbMensagem.setTextFill(Paint.valueOf("green"));
+            lbMensagem.setText("*");
+        }
+        else
+        {
+            lbMensagem.setTextFill(Paint.valueOf("red"));
+            lbMensagem.setText("*Selecione um item!");
+        }
     }
 
     @FXML
-    private void btnExcluir(ActionEvent event) {
+    private void btnExcluir(ActionEvent event) 
+    {
+        try
+        {
+            int mat_cod = tbMatriculas.selectionModelProperty().get().getSelectedItem().getCod();
+
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+            a.setContentText("Deseja realmente apagar?"); 
+            if(a.showAndWait().get() == ButtonType.OK)
+            {
+                if(Matricula.deletar(mat_cod))
+                {
+                    lbMensagem.setTextFill(Paint.valueOf("green"));
+                    lbMensagem.setText("*Matricula deletada com sucesso");
+                    carregaTabela("");
+                }
+                else
+                {
+                    lbMensagem.setTextFill(Paint.valueOf("red"));
+                    lbMensagem.setText("*Erro ao deletar a matricula!");
+                }
+            }
+        }catch(Exception ex){
+            lbMensagem.setTextFill(Paint.valueOf("red"));
+            lbMensagem.setText("*Selecione um item!");
+        }
     }
 
     @FXML
@@ -104,16 +165,39 @@ public class FXMLEfetivarMatriculaController implements Initializable
         {
             if(cbPacotes.getSelectionModel().getSelectedIndex() != -1)
             {
-                Matricula new_mat = new Matricula(LocalDate.now(), alu, cbPacotes.getValue());
-                if(new_mat.gravar())
+                if(!txtPgto.getText().isEmpty())
                 {
-                    lbMensagem.setTextFill(Paint.valueOf("green"));
-                    lbMensagem.setText("*Aluno Matriculado com Sucesso!");
+                    if(flag_alt = false) //inserir
+                    {
+                        Matricula new_mat = new Matricula(LocalDate.now(), alu, cbPacotes.getValue());
+                        if(new_mat.gravar())
+                        {
+                            lbMensagem.setTextFill(Paint.valueOf("green"));
+                            lbMensagem.setText("*Aluno Matriculado com Sucesso!");
+                        }else
+                        {
+                            lbMensagem.setTextFill(Paint.valueOf("red"));
+                            lbMensagem.setText("*Erro ao gerar a Matricula!");
+                        }      
+                    }else//alterar
+                    {
+                        Matricula new_mat = new Matricula(selected_mat.getCod(), LocalDate.now(), alu, cbPacotes.getValue());
+                        
+                        if(new_mat.alterar())
+                        {
+                            lbMensagem.setTextFill(Paint.valueOf("green"));
+                            lbMensagem.setText("*Aluno Matriculado com Sucesso!");
+                        }else
+                        {
+                            lbMensagem.setTextFill(Paint.valueOf("red"));
+                            lbMensagem.setText("*Erro ao gerar a Matricula!");
+                        }      
+                    }
                 }else
                 {
                     lbMensagem.setTextFill(Paint.valueOf("red"));
-                    lbMensagem.setText("*Erro ao gerar a Matricula!");
-                }   
+                    lbMensagem.setText("*Selecione um dia de pagamento!");
+                }
             }else
             {
                 lbMensagem.setTextFill(Paint.valueOf("red"));
@@ -124,12 +208,17 @@ public class FXMLEfetivarMatriculaController implements Initializable
             lbMensagem.setTextFill(Paint.valueOf("red"));
             lbMensagem.setText("*Selecione um Aluno!");
         }
+        
+        limparTela();
+        carregaTabela("");
     }
 
     @FXML
     private void btnCancelar(ActionEvent event)
     {
-        
+        limparTela();
+        lbMensagem.setTextFill(Paint.valueOf("red"));
+        lbMensagem.setText("*");
     }
     
 }

@@ -75,7 +75,7 @@ public class Matricula
                 this.aluno.geti("alu_cpf");
                 this.cod = cod;
                 this.data = rs.getDate("mat_DTMat").toLocalDate();
-                this.pacote = null; //Aguardando o cod do pacote
+                this.pacote.geti(rs.getInt("pct_cod"));
                 return true;
             }
         }
@@ -102,10 +102,9 @@ public class Matricula
                 Aluno alu = new Aluno();
                 alu.geti(rs.getString("alu_Cpf"));
                 Pacote pac = new Pacote();
-                // Falta pacote
+                pac.geti(rs.getInt("pct_cod"));
                 
-                l.add(new Matricula(rs.getInt("mat_Cod"), rs.getDate("mat_DTMat").toLocalDate(), 
-                       alu, pac));
+                l.add(new Matricula(rs.getInt("mat_Cod"), rs.getDate("mat_DTMat").toLocalDate(), alu, pac));
             }
         }
         catch(Exception e)
@@ -122,6 +121,24 @@ public class Matricula
         sql=sql.replaceAll("#1", data.toString());
         sql=sql.replaceAll("#2", aluno.getCpf());
         sql=sql.replaceAll("#3", ""+pacote.getCod());
+
+        return Banco.getCon().manipular(sql);
+    }
+    
+    public boolean alterar()
+    {
+        String sql="update matricula SET mat_dtmat = '#1', alu_cpf = '#2', pct_cod= #3 where mat_cod = " + this.getCod();
+
+        sql=sql.replaceAll("#1", this.getData().toString());
+        sql=sql.replaceAll("#2", this.getAluno().getCpf());
+        sql=sql.replaceAll("#3", ""+this.getPacote().getCod());
+
+        return Banco.getCon().manipular(sql);
+    }
+    
+    public static boolean deletar(int mat_cod)
+    {
+        String sql="delete from matricula where mat_cod = " + mat_cod;
 
         return Banco.getCon().manipular(sql);
     }
