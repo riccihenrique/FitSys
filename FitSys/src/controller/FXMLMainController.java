@@ -47,6 +47,7 @@ public class FXMLMainController implements Initializable {
                 stage = new Stage();
                 scene = new Scene(root);
                 stage.setScene(scene);
+                stage.setTitle("Parametrização");
 
                 stage.showAndWait();
                 rs = Banco.getCon().consultar("select * from parametrizacao");
@@ -71,6 +72,7 @@ public class FXMLMainController implements Initializable {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setTitle("Configurações");
 
         stage.showAndWait();
         
@@ -90,7 +92,7 @@ public class FXMLMainController implements Initializable {
         
         Stage stage = new Stage();
         Scene scene = new Scene(root);
-        
+        stage.setTitle("Gerenciar Aluno");
         stage.setScene(scene);
         stage.show();        
     }
@@ -101,7 +103,7 @@ public class FXMLMainController implements Initializable {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-
+        stage.setTitle("Gerenciar Funcionário");
         stage.showAndWait();
     }
 
@@ -111,7 +113,7 @@ public class FXMLMainController implements Initializable {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-
+        stage.setTitle("Gerenciar Pacote");
         stage.showAndWait();
     }
 
@@ -131,7 +133,7 @@ public class FXMLMainController implements Initializable {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-
+        stage.setTitle("Gerar Treino");
         stage.showAndWait();
     }
 
@@ -141,7 +143,7 @@ public class FXMLMainController implements Initializable {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-
+        stage.setTitle("Agendar Avaliação");
         stage.showAndWait();
     }   
 
@@ -151,7 +153,7 @@ public class FXMLMainController implements Initializable {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-
+        stage.setTitle("Avaliação");
         stage.showAndWait();   
     }
     
@@ -175,7 +177,7 @@ public class FXMLMainController implements Initializable {
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
-
+        stage.setTitle("Gerar Despesas");
         stage.showAndWait();
     }
 }

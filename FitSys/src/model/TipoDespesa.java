@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import util.Banco;
@@ -59,6 +60,22 @@ public class TipoDespesa {
         {
             return false;
         }
+    }
+    
+    public static int geti(String filtro) throws SQLException
+    {
+        String SQL = "select * from tipodespesa";
+        
+        if(!filtro.isEmpty())
+            SQL += " where " + filtro;
+        
+        ResultSet rs = Banco.getCon().consultar(SQL);
+        int a = -1;
+        
+        if(rs.next())
+           a =  rs.getInt("tpd_cod");
+        
+        return a;
     }
     
     public static List<TipoDespesa> get(String filtro)

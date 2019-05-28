@@ -349,14 +349,8 @@ public class FXMLGenAlunoController implements Initializable {
     private void clkRdio(ActionEvent event) {
         tbBusca.setText("");
         if(rdioCpf.isSelected())
-        {
-            MaskFieldUtil.cpfField(tbBusca);
-            tbBusca.setPromptText("Digite um CPF");
-        }
+            tbBusca.setPromptText("Digite um CPF (Sem pontuação)");
         else
-        {
-            MaskFieldUtil.onlyAlfaNumericValue(tbBusca);
             tbBusca.setPromptText("Digite um nome");
-        }
     }
 }

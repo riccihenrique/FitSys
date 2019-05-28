@@ -5,14 +5,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="118.0" prefWidth="282.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.111" fx:controller="controller.FXMLDataController">
+<AnchorPane id="AnchorPane" prefHeight="118.0" prefWidth="282.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLDataController">
    <children>
-      <JFXDatePicker fx:id="dtPagamento" layoutX="24.0" layoutY="47.0" prefHeight="25.0" prefWidth="244.0" promptText="Selecione a Data de Pagamento" />
+      <JFXDatePicker fx:id="dtPagamento" layoutX="24.0" layoutY="47.0" onHidden="#clkData" prefHeight="25.0" prefWidth="244.0" promptText="Selecione a Data de Pagamento" />
       <HBox alignment="CENTER" prefHeight="31.0" prefWidth="287.0">
          <children>
-            <JFXButton text="Cancelar" />
-            <JFXButton text="Confirmar" />
+            <JFXButton fx:id="btnCancelar" onAction="#clkCancelar" text="Cancelar" />
+            <JFXButton fx:id="btnConfirmar" onAction="#clkConfirmar" text="Confirmar" />
          </children>
       </HBox>
    </children>
