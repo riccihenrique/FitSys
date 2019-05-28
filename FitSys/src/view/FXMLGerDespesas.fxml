@@ -64,11 +64,10 @@
             <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="164.0" prefWidth="546.0">
               <columns>
                 <TableColumn fx:id="colCod" prefWidth="62.0" text="Código" />
-                <TableColumn fx:id="colTpDespesa" minWidth="8.0" prefWidth="111.0" text="Tipo da Despesa" />
-                  <TableColumn fx:id="colVenc" minWidth="8.0" prefWidth="96.0" text="Vencimento" />
-                  <TableColumn fx:id="colValor" minWidth="0.0" prefWidth="84.0" text="Valor" />
-                  <TableColumn fx:id="colPaga" minWidth="8.0" prefWidth="78.0" text="Paga" />
-                  <TableColumn fx:id="colPag" maxWidth="200.0" minWidth="8.0" prefWidth="118.0" text="Pagamento" />
+                <TableColumn fx:id="colTpDespesa" minWidth="8.0" prefWidth="130.0" text="Tipo da Despesa" />
+                  <TableColumn fx:id="colVenc" minWidth="8.0" prefWidth="106.0" text="Vencimento" />
+                  <TableColumn fx:id="colValor" minWidth="0.0" prefWidth="116.0" text="Valor" />
+                  <TableColumn fx:id="colPag" maxWidth="200.0" minWidth="8.0" prefWidth="131.0" text="Pagamento" />
               </columns>
             </TableView>
             <HBox alignment="CENTER_RIGHT" prefHeight="22.0" prefWidth="542.0">
