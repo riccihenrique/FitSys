@@ -71,8 +71,6 @@ public class FXMLGerDespesasController implements Initializable {
     @FXML
     private TableColumn<Despesa, String> colValor;
     @FXML
-    private TableColumn<Despesa, String> colPaga;
-    @FXML
     private TableColumn<Despesa, String> colPag;
     @FXML
     private RadioButton rdioTipo;
@@ -101,7 +99,6 @@ public class FXMLGerDespesasController implements Initializable {
         colTpDespesa.setCellValueFactory(new PropertyValueFactory("tpDespesa"));
         colVenc.setCellValueFactory(new PropertyValueFactory("vencimento"));
         colValor.setCellValueFactory(new PropertyValueFactory("valor"));
-        colPaga.setCellValueFactory(new PropertyValueFactory("paga"));
         colPag.setCellValueFactory(new PropertyValueFactory("pagamento"));        
         
         MaskFieldUtil.monetaryField(tbTotal);
@@ -112,6 +109,7 @@ public class FXMLGerDespesasController implements Initializable {
 
     @FXML
     private void clkNovo(ActionEvent event) {
+        despesa = new Despesa();
         estadoEdicao();
     }
 
@@ -238,7 +236,7 @@ public class FXMLGerDespesasController implements Initializable {
             btQuitar.setDisable(false);
             
             if(tbvDados.getSelectionModel().getSelectedItem().isPaga())
-                btQuitar.setText("Extornar");
+                btQuitar.setText("Estornar");
             else
                 btQuitar.setText("Quitar");                    
         }
@@ -299,6 +297,8 @@ public class FXMLGerDespesasController implements Initializable {
         btnAlterar.setDisable(true);
         
         chkQuitar.setDisable(false);
+        chkQuitar.selectedProperty().set(false);
+        dtPagamento.setDisable(true);
         
         cbTpDespesa.requestFocus();
     }
@@ -367,9 +367,9 @@ public class FXMLGerDespesasController implements Initializable {
                 despesa.setPagamento(null);
                 despesa.setPaga(false);
                 if(despesa.alterar())
-                    snackBar("Despesa Extornada");
+                    snackBar("Despesa Estornada");
                 else
-                    JOptionPane.showMessageDialog(null, "Erro ao extornar despesa");
+                    JOptionPane.showMessageDialog(null, "Erro ao estornar despesa");
             }
             else
             {
@@ -404,7 +404,7 @@ public class FXMLGerDespesasController implements Initializable {
             if(!d.isPaga())
                 val += d.getValor();
         
-        tbTotal.setText("" + val);
+        tbTotal.setText(String.format("%.2f", val));
     }
 
     @FXML

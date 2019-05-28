@@ -177,7 +177,7 @@ public class FXMLTreinoController implements Initializable {
     }
     
     private void carregaTabela()
-    {
+    {        
         ObservableList<ExercicioTreino> modelo;
         modelo = FXCollections.observableArrayList(lista);
         tbvDados1.setItems(modelo);
