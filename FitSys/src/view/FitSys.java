@@ -14,7 +14,7 @@ public class FitSys extends Application {
     public void start(Stage stage) throws Exception 
     {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin.fxml"));
-       // Parent root = FXMLLoader.load(getClass().getResource("FXMLEfetivarMatricula.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("FXMLEfetivarMatricula.fxml"));
         Scene scene = new Scene(root);
         stage.setTitle("Login");
         stage.setScene(scene);

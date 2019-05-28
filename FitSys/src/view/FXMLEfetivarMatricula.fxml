@@ -9,46 +9,47 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="440.0" prefWidth="503.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLEfetivarMatriculaController">
+<AnchorPane id="AnchorPane" prefHeight="473.0" prefWidth="503.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLEfetivarMatriculaController">
    <children>
-      <JFXButton layoutX="380.0" layoutY="75.0" onAction="#btnBuscaAluno" prefHeight="37.0" prefWidth="86.0" style="-fx-background-color: #d35400;" text="Buscar Aluno" textFill="WHITE">
+      <JFXButton layoutX="385.0" layoutY="122.0" onAction="#btnBuscaAluno" prefHeight="37.0" prefWidth="86.0" style="-fx-background-color: #d35400;" text="Buscar Aluno" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
       <JFXTextField fx:id="txtCPF" editable="false" focusColor="#d35400" labelFloat="true" layoutX="41.0" layoutY="34.0" prefHeight="25.0" prefWidth="83.0" promptText="CPF" />
-      <JFXTextField fx:id="txtNome" editable="false" focusColor="#d35400" labelFloat="true" layoutX="141.0" layoutY="34.0" prefHeight="25.0" prefWidth="325.0" promptText="Nome" />
-      <JFXComboBox fx:id="cbPacotes" focusColor="#d35400" layoutX="41.0" layoutY="83.0" prefHeight="25.0" prefWidth="325.0" promptText="Selecione um Pacote" />
-      <TableView fx:id="tbMatriculas" layoutX="41.0" layoutY="146.0" prefHeight="200.0" prefWidth="430.0">
+      <JFXTextField fx:id="txtNome" editable="false" focusColor="#d35400" labelFloat="true" layoutX="141.0" layoutY="34.0" prefHeight="25.0" prefWidth="330.0" promptText="Nome" />
+      <JFXComboBox fx:id="cbPacotes" focusColor="#d35400" layoutX="41.0" layoutY="83.0" prefHeight="25.0" prefWidth="430.0" promptText="Selecione um Pacote" />
+      <TableView fx:id="tbMatriculas" layoutX="41.0" layoutY="173.0" prefHeight="200.0" prefWidth="430.0">
         <columns>
-          <TableColumn fx:id="colMat" prefWidth="75.0" text="Matricula" />
+          <TableColumn fx:id="colCPF" maxWidth="2500.0" prefWidth="75.0" text="CPF" />
           <TableColumn fx:id="colNome" prefWidth="75.0" text="Nome" />
-            <TableColumn fx:id="colPacote" prefWidth="75.0" text="Pacote" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <JFXButton layoutX="40.0" layoutY="363.0" onAction="#btnAlterar" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE">
+      <JFXButton layoutX="40.0" layoutY="390.0" onAction="#btnAlterar" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton layoutX="124.0" layoutY="363.0" onAction="#btnExcluir" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #d35400;" text="Excluir" textFill="WHITE">
+      <JFXButton layoutX="124.0" layoutY="390.0" onAction="#btnExcluir" prefHeight="31.0" prefWidth="67.0" style="-fx-background-color: #d35400;" text="Excluir" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton layoutX="385.0" layoutY="358.0" onAction="#btnConfirmar" prefHeight="37.0" prefWidth="86.0" style="-fx-background-color: #d35400;" text="Confirmar" textFill="WHITE">
+      <JFXButton layoutX="385.0" layoutY="385.0" onAction="#btnConfirmar" prefHeight="37.0" prefWidth="86.0" style="-fx-background-color: #d35400;" text="Confirmar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton layoutX="280.0" layoutY="358.0" onAction="#btnCancelar" prefHeight="37.0" prefWidth="86.0" style="-fx-background-color: #d35400;" text="Cancelar" textFill="WHITE">
+      <JFXButton layoutX="280.0" layoutY="385.0" onAction="#btnCancelar" prefHeight="37.0" prefWidth="86.0" style="-fx-background-color: #d35400;" text="Cancelar" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <Label fx:id="lbMensagem" layoutX="41.0" layoutY="408.0" text="Label" />
+      <Label fx:id="lbMensagem" layoutX="42.0" layoutY="435.0" text="Label" />
+      <Label layoutX="40.0" layoutY="132.0" text="Dia de pagamento:" />
+      <JFXTextField fx:id="txtPgto" focusColor="#d35400" layoutX="150.0" layoutY="125.0" prefHeight="25.0" prefWidth="52.0" />
    </children>
 </AnchorPane>

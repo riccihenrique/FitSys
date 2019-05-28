@@ -16,6 +16,7 @@ public class Pacote
 
     public Pacote() {
         this(0, null, 0, null, 0);
+        this.modalidades = new ArrayList<>();
     }
 
     public Pacote(String descricao, int desconto, List<Modalidade> modalidades, double total) {
@@ -98,6 +99,31 @@ public class Pacote
         sql=sql.replaceAll("#3", Double.toString(total));
 
         return Banco.getCon().manipular(sql);
+    }
+    
+    public boolean geti(int cod)
+    {
+        ResultSet rs = Banco.getCon().consultar("select * from pacote where pct_cod = " + cod);
+        try
+        {
+            if(rs != null && rs.next())
+            {
+                this.cod = rs.getInt("pct_cod");
+                this.descricao = rs.getString("pct_desc");
+                this.desconto = rs.getInt("pct_porcdesconto");
+                this.total = rs.getDouble("pct_total");
+                  
+                ResultSet rs2 = Banco.getCon().consultar("select * from modalidade inner join pacote_modalidade as pctmod on modalidade.mod_cod = pctmod.mod_cod where pct_cod = " + cod);
+                
+                while(rs2.next())
+                    this.modalidades.add(new Modalidade(rs2.getInt("mod_cod"), rs2.getString("mod_nome"), rs2.getDouble("mod_preco")));
+                    
+                
+                return true;
+            }
+        }
+        catch(SQLException e){return false;}
+        return false;
     }
     
     public static List<Pacote> get(String filtro)
