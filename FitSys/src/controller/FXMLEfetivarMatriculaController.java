@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -28,7 +27,6 @@ import model.Aluno;
 import model.Matricula;
 import model.Mensalidade;
 import model.Pacote;
-import model.PacoteModalidade;
 
 public class FXMLEfetivarMatriculaController implements Initializable 
 {
