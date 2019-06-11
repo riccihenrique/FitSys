@@ -118,7 +118,6 @@ public class Pacote
                 while(rs2.next())
                     this.modalidades.add(new Modalidade(rs2.getInt("mod_cod"), rs2.getString("mod_nome"), rs2.getDouble("mod_preco")));
                     
-                
                 return true;
             }
         }

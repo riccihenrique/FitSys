@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,48 +12,51 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5, 0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="435.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLAgendarAvaliacaoController">
+<SplitPane dividerPositions="0.3347732181425486, 0.49676025917926564" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="465.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLAgendarAvaliacaoController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="363.0" prefWidth="598.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="156.0" prefWidth="659.0">
          <children>
-            <JFXComboBox fx:id="cbHorarios" layoutX="100.0" layoutY="73.0" prefHeight="25.0" prefWidth="139.0" />
-            <HBox alignment="TOP_CENTER" prefHeight="56.0" prefWidth="600.0" spacing="40.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="8.0">
+            <JFXComboBox fx:id="cbHorarios" focusColor="#d35400" layoutX="157.0" layoutY="40.0" prefHeight="25.0" prefWidth="139.0" />
+            <HBox alignment="TOP_CENTER" layoutX="-1.0" layoutY="103.0" prefHeight="49.0" prefWidth="661.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="103.0">
                <children>
-                  <JFXButton fx:id="BtnNovo" onAction="#clkBtnNovo" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Novo" textFill="WHITE">
+                  <JFXButton fx:id="BtnNovo" onAction="#clkBtnNovo" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Novo" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="BtnAlterar" onAction="#clkBtnAlterar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Alterar" textFill="WHITE">
+                  <JFXButton fx:id="BtnAlterar" onAction="#clkBtnAlterar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="BtnConfirmar" onAction="#clkBtnConfirmar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Confirmar" textFill="WHITE">
+                  <JFXButton fx:id="BtnConfirmar" onAction="#clkBtnConfirmar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Confirmar" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="BtnCancelar" onAction="#clkBtnCancelar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Cancelar" textFill="WHITE">
+                  <JFXButton fx:id="BtnCancelar" onAction="#clkBtnCancelar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Cancelar" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
                </children>
             </HBox>
-            <DatePicker fx:id="dtPicker" layoutX="332.0" layoutY="73.0" />
+            <DatePicker fx:id="dtPicker" layoutX="331.0" layoutY="40.0" />
          </children></AnchorPane>
-      <HBox alignment="CENTER" prefHeight="35.0" prefWidth="604.0">
+      <HBox alignment="CENTER" prefHeight="195.0" prefWidth="659.0">
          <children>
-            <JFXTextField fx:id="tbPesquisa" prefHeight="25.0" prefWidth="481.0" promptText="Informe o nome do aluno" />
-            <JFXButton fx:id="BtnPesquisar" onAction="#clkBtnPesquisar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #ff9900;" text="Pesquisar" textFill="WHITE">
+            <JFXTextField fx:id="tbPesquisa" focusColor="#d35400" prefHeight="25.0" prefWidth="481.0" promptText="Informe o nome do aluno" />
+            <JFXButton fx:id="BtnPesquisar" onAction="#clkBtnPesquisar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Pesquisar" textFill="WHITE">
                <font>
                   <Font size="14.0" />
                </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
             </JFXButton>
          </children>
       </HBox>
-      <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="261.0" prefWidth="818.0">
+      <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="359.0" prefWidth="659.0">
          <columns>
             <TableColumn fx:id="colCpf" prefWidth="159.0" text="CPF" />
             <TableColumn fx:id="colNome" minWidth="0.0" prefWidth="439.0" text="Nome" />

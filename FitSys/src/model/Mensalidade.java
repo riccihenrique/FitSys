@@ -1,12 +1,9 @@
 package model;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
-import javafx.util.converter.LocalDateStringConverter;
+
 import util.Banco;
 
 public class Mensalidade 
@@ -18,7 +15,10 @@ public class Mensalidade
     
     public Mensalidade()
     {
-        
+        this.men_cod = 0;
+        this.men_dtvenc = null;
+        this.men_valor = 0;
+        this.mat = new Matricula();
     }
     
     public Mensalidade(double men_valor, LocalDate men_dtvenc, Matricula mat) {
@@ -88,7 +88,7 @@ public class Mensalidade
             {
                 this.men_cod = rs.getInt("men_cod");
                 this.mat.get(mat_cod);
-                this.men_dtvenc = rs.getDate("men_dtvenv").toLocalDate();
+                this.men_dtvenc = rs.getDate("men_dtvenc").toLocalDate();
                 this.men_valor = rs.getDouble("men_valor");    
                 
                 return true;
@@ -118,5 +118,21 @@ public class Mensalidade
         mens.gravar();
         
         return true;
+    }
+    
+    public boolean alterar()
+    {
+        String sql="update mensalidade SET men_valor = #1, men_dtvenc = '#2', mat_cod = #3 where men_cod = " + this.getMen_cod();
+
+        sql=sql.replaceAll("#1", ""+getMen_valor());
+        sql=sql.replaceAll("#2", getMen_dtvenc().toString());
+        sql=sql.replaceAll("#3", ""+getMat().getCod());
+
+        return Banco.getCon().manipular(sql);
+    }
+    
+    public static boolean deletarTodos(int mat_cod)
+    {
+        return Banco.getCon().manipular("delete from mensalidade where mat_cod = " + mat_cod);
     }
 }

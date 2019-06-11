@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLBuscaAlunoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="436.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLBuscaAlunoController">
    <children>
-      <AnchorPane prefHeight="61.0" prefWidth="407.0">
+      <AnchorPane prefHeight="100.0" prefWidth="436.0">
          <children>
             <JFXRadioButton fx:id="rbCpf" layoutX="14.0" layoutY="11.0" text="CPF">
                <toggleGroup>
@@ -21,8 +21,8 @@
                </toggleGroup>
             </JFXRadioButton>
             <JFXRadioButton fx:id="rbNome" layoutX="14.0" layoutY="34.0" selected="true" text="Nome" toggleGroup="$busca" />
-            <JFXButton layoutX="324.0" layoutY="22.0" onAction="#clkBuscar" text="Buscar" />
-            <JFXTextField fx:id="tbPesquisa" layoutX="87.0" layoutY="18.0" prefHeight="25.0" prefWidth="231.0" promptText="Digite um nome:" />
+            <JFXButton layoutX="324.0" layoutY="10.0" onAction="#clkBuscar" prefHeight="37.0" prefWidth="96.0" style="-fx-background-color: #d35400;" text="Buscar" textFill="WHITE" />
+            <JFXTextField fx:id="tbPesquisa" focusColor="#d35400" layoutX="87.0" layoutY="18.0" prefHeight="25.0" prefWidth="231.0" promptText="Digite um nome:" />
          </children>
       </AnchorPane>
       <TableView fx:id="tbvAlunos" onMouseClicked="#clkTabela" prefHeight="289.0" prefWidth="407.0">
@@ -31,9 +31,9 @@
             <TableColumn fx:id="colNome" prefWidth="276.0" text="Nome" />
          </columns>
       </TableView>
-      <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="600.0">
+      <HBox alignment="CENTER_RIGHT" prefHeight="80.0" prefWidth="436.0">
          <children>
-            <JFXButton fx:id="btConfirmar" onAction="#clkConfirmar" text="Confirmar" />
+            <JFXButton fx:id="btConfirmar" onAction="#clkConfirmar" prefHeight="37.0" prefWidth="110.0" style="-fx-background-color: #d35400;" text="Confirmar" textFill="WHITE" />
          </children>
          <padding>
             <Insets right="15.0" />

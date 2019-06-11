@@ -10,28 +10,34 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLParametrizacaoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="483.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLParametrizacaoController">
    <children>
-      <HBox alignment="CENTER" prefHeight="54.0" prefWidth="600.0">
+      <HBox alignment="CENTER" prefHeight="65.0" prefWidth="600.0">
          <children>
-            <JFXButton fx:id="btGravar" onAction="#btnGravar" text="Gravar" />
-            <JFXButton fx:id="btAlterar" onAction="#btnAlterar" text="Alterar" />
+            <JFXButton fx:id="btGravar" onAction="#btnGravar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Gravar" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin></JFXButton>
+            <JFXButton fx:id="btAlterar" onAction="#btnAlterar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" />
+               </HBox.margin></JFXButton>
          </children>
       </HBox>
-      <AnchorPane fx:id="pnDados" prefHeight="403.0" prefWidth="600.0">
+      <AnchorPane fx:id="pnDados" prefHeight="397.0" prefWidth="600.0">
          <children>
-            <JFXTextField id="1" fx:id="tbCnpj" labelFloat="true" layoutX="42.0" layoutY="28.0" prefHeight="25.0" prefWidth="181.0" promptText="CNPJ*" />
-            <JFXTextField id="0" fx:id="tbRazao" labelFloat="true" layoutX="231.0" layoutY="28.0" prefHeight="25.0" prefWidth="325.0" promptText="Razão Social*" />
-            <JFXTextField id="2" fx:id="tbCep" labelFloat="true" layoutX="42.0" layoutY="72.0" prefHeight="25.0" prefWidth="181.0" promptText="CEP*" />
-            <JFXTextField fx:id="tbEndereco" labelFloat="true" layoutX="230.0" layoutY="72.0" prefHeight="25.0" prefWidth="325.0" promptText="Endereço*" />
-            <JFXTextField fx:id="tbCidade" labelFloat="true" layoutX="42.0" layoutY="114.0" prefHeight="25.0" prefWidth="256.0" promptText="Cidade*" />
-            <JFXTextField fx:id="tbUf" labelFloat="true" layoutX="308.0" layoutY="114.0" prefHeight="25.0" prefWidth="248.0" promptText="UF*" />
+            <JFXTextField id="1" fx:id="tbCnpj" focusColor="#d35400" labelFloat="true" layoutX="42.0" layoutY="28.0" prefHeight="25.0" prefWidth="181.0" promptText="CNPJ*" />
+            <JFXTextField id="0" fx:id="tbRazao" focusColor="#d35400" labelFloat="true" layoutX="231.0" layoutY="28.0" prefHeight="25.0" prefWidth="325.0" promptText="Razão Social*" />
+            <JFXTextField id="2" fx:id="tbCep" focusColor="#d35400" labelFloat="true" layoutX="42.0" layoutY="72.0" prefHeight="25.0" prefWidth="181.0" promptText="CEP*" />
+            <JFXTextField fx:id="tbEndereco" focusColor="#d35400" labelFloat="true" layoutX="230.0" layoutY="72.0" prefHeight="25.0" prefWidth="325.0" promptText="Endereço*" />
+            <JFXTextField fx:id="tbCidade" focusColor="#d35400" labelFloat="true" layoutX="42.0" layoutY="114.0" prefHeight="25.0" prefWidth="256.0" promptText="Cidade*" />
+            <JFXTextField fx:id="tbUf" focusColor="#d35400" labelFloat="true" layoutX="308.0" layoutY="114.0" prefHeight="25.0" prefWidth="248.0" promptText="UF*" />
             <JFXColorPicker fx:id="cpkCorp" layoutX="148.0" layoutY="162.0" promptText="Cor Primária" />
             <JFXColorPicker fx:id="cpkCors" layoutX="428.0" layoutY="162.0" />
-            <JFXButton layoutX="90.0" layoutY="345.0" onAction="#btnProcuraLogo" text="Procurar" />
-            <JFXButton layoutX="197.0" layoutY="345.0" onAction="#btnLimpLogo" text="Limpar" />
-            <JFXButton layoutX="369.0" layoutY="344.0" onAction="#btnProcuraBack" text="Procurar" />
-            <JFXButton layoutX="478.0" layoutY="344.0" onAction="#btnLimpaBack" text="Limpar" />
+            <JFXButton layoutX="90.0" layoutY="345.0" onAction="#btnProcuraLogo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Procurar" textFill="WHITE" />
+            <JFXButton layoutX="188.0" layoutY="345.0" onAction="#btnLimpLogo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Limpar" textFill="WHITE" />
+            <JFXButton layoutX="369.0" layoutY="344.0" onAction="#btnProcuraBack" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Procurar" textFill="WHITE" />
+            <JFXButton layoutX="468.0" layoutY="344.0" onAction="#btnLimpaBack" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Limpar" textFill="WHITE" />
             <Label layoutX="42.0" layoutY="201.0" text="Logo:" />
             <ImageView fx:id="imgBack" fitHeight="128.0" fitWidth="200.0" layoutX="350.0" layoutY="214.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="imgLogo" fitHeight="128.0" fitWidth="200.0" layoutX="66.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true" />
@@ -40,7 +46,7 @@
             <Label layoutX="326.0" layoutY="197.0" text="Background:" />
          </children>
       </AnchorPane>
-      <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="600.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="600.0">
          <children>
             <Label text="*" textFill="RED" />
             <Label text=" Campos de preenchimento obrigatório" />

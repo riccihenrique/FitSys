@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="473.0" prefWidth="503.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLEfetivarMatriculaController">
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLEfetivarMatriculaController">
    <children>
       <JFXButton layoutX="385.0" layoutY="122.0" onAction="#btnBuscaAluno" prefHeight="37.0" prefWidth="86.0" style="-fx-background-color: #d35400;" text="Buscar Aluno" textFill="WHITE">
          <cursor>
@@ -21,7 +21,7 @@
       <JFXComboBox fx:id="cbPacotes" focusColor="#d35400" layoutX="41.0" layoutY="83.0" prefHeight="25.0" prefWidth="430.0" promptText="Selecione um Pacote" />
       <TableView fx:id="tbMatriculas" layoutX="41.0" layoutY="173.0" prefHeight="200.0" prefWidth="430.0">
         <columns>
-          <TableColumn fx:id="colCPF" maxWidth="2500.0" prefWidth="75.0" text="CPF" />
+          <TableColumn fx:id="colMat" maxWidth="2500.0" prefWidth="75.0" text="Matrícula" />
           <TableColumn fx:id="colNome" prefWidth="75.0" text="Nome" />
         </columns>
          <columnResizePolicy>

@@ -3,50 +3,54 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="539.0" style="-fx-background-color: #65A6D3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLLoginController">
    <children>
-      <JFXTextField fx:id="tfUser" focusColor="#ff9900" labelFloat="true" layoutX="162.0" layoutY="151.0" onKeyPressed="#clkEnter" prefHeight="30.0" prefWidth="266.0" promptText="CPF">
+      <JFXTextField fx:id="tfUser" focusColor="#d35400" labelFloat="true" layoutX="93.0" layoutY="177.0" onKeyPressed="#clkEnter" prefHeight="30.0" prefWidth="266.0" promptText="CPF">
          <font>
             <Font size="14.0" />
          </font>
       </JFXTextField>
-      <JFXPasswordField fx:id="tfSenha" focusColor="#ff9900" labelFloat="true" layoutX="162.0" layoutY="221.0" onKeyPressed="#clkEnter" prefHeight="30.0" prefWidth="266.0" promptText="Senha">
+      <JFXPasswordField fx:id="tfSenha" focusColor="#d35400" labelFloat="true" layoutX="93.0" layoutY="247.0" onKeyPressed="#clkEnter" prefHeight="30.0" prefWidth="266.0" promptText="Senha">
          <font>
             <Font size="14.0" />
          </font>
       </JFXPasswordField>
-      <JFXButton layoutX="386.0" layoutY="308.0" onAction="#clkBtLogin" style="-fx-background-color: #ff9900;" text="Login" textFill="WHITE">
+      <JFXButton layoutX="52.0" layoutY="320.0" onAction="#clkBtLogin" prefHeight="35.0" prefWidth="318.0" style="-fx-background-color: #d35400;" text="Login" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </JFXButton>
-      <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="112.0" layoutY="148.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="54.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@user.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="112.0" layoutY="218.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="54.0" layoutY="249.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@password.png" />
          </image>
       </ImageView>
-      <Label layoutX="224.0" layoutY="39.0" text="Fit" textFill="#ff9900">
+      <Label layoutX="105.0" layoutY="33.0" text="Fit" textFill="#d35400">
          <font>
-            <Font size="36.0" />
+            <Font size="72.0" />
          </font>
       </Label>
-      <Label layoutX="263.0" layoutY="39.0" text="Sys" textFill="WHITE">
+      <Label layoutX="186.0" layoutY="33.0" text="Sys" textFill="#0056b2">
          <font>
-            <Font size="36.0" />
+            <Font size="72.0" />
          </font>
       </Label>
-      <Label fx:id="lbAviso" layoutX="112.0" layoutY="277.0" prefHeight="20.0" prefWidth="318.0" textFill="#ff9900">
+      <Label fx:id="lbAviso" layoutX="47.0" layoutY="300.0" prefHeight="20.0" prefWidth="318.0" textFill="#ff9900">
          <font>
             <Font size="14.0" />
          </font>

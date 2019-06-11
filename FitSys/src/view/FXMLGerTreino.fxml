@@ -18,22 +18,22 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGerTreinoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="546.0" prefWidth="552.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGerTreinoController">
    <children>
       <HBox alignment="CENTER" prefHeight="53.0" prefWidth="552.0" spacing="15.0">
          <children>
-            <JFXTextField fx:id="tbMatricula" disable="true" editable="false" layoutX="147.0" layoutY="14.0" prefHeight="25.0" prefWidth="67.0" promptText="Matricula:" />
-            <JFXTextField fx:id="tbAluno" disable="true" editable="false" prefHeight="25.0" prefWidth="192.0" promptText="Aluno:" />
-            <JFXButton onAction="#clkBuscarAluno" text="Buscar Aluno" />
+            <JFXTextField fx:id="tbMatricula" disable="true" editable="false" focusColor="#d35400" layoutX="147.0" layoutY="14.0" prefHeight="25.0" prefWidth="67.0" promptText="Matricula:" />
+            <JFXTextField fx:id="tbAluno" disable="true" editable="false" focusColor="#d35400" prefHeight="25.0" prefWidth="192.0" promptText="Aluno:" />
+            <JFXButton onAction="#clkBuscarAluno" prefHeight="31.0" prefWidth="112.0" style="-fx-background-color: #d35400;" text="Buscar Aluno" textFill="WHITE" />
          </children>
       </HBox>
       <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="37.0" prefWidth="552.0" spacing="15.0">
          <children>
-            <JFXButton fx:id="btnNovo" onAction="#clkNovo" prefWidth="72.0" text="Novo" />
-            <JFXButton fx:id="btnAlterar" onAction="#clkAlterar" prefWidth="72.0" text="Alterar" />
-            <JFXButton fx:id="btnApagar" onAction="#clkApagar" prefHeight="25.0" prefWidth="72.0" text="Apagar" />
-            <JFXButton fx:id="btConfirmar" layoutX="260.0" layoutY="10.0" onAction="#clkConfirmar" prefWidth="72.0" text="Confirmar" />
-            <JFXButton fx:id="btCancelar" onAction="#clkCancelar" prefWidth="72.0" text="Cancelar" />
+            <JFXButton fx:id="btnNovo" onAction="#clkNovo" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Novo" textFill="WHITE" />
+            <JFXButton fx:id="btnAlterar" onAction="#clkAlterar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE" />
+            <JFXButton fx:id="btnApagar" onAction="#clkApagar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Apagar" textFill="WHITE" />
+            <JFXButton fx:id="btConfirmar" layoutX="260.0" layoutY="10.0" onAction="#clkConfirmar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Confirmar" textFill="WHITE" />
+            <JFXButton fx:id="btCancelar" onAction="#clkCancelar" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #d35400;" text="Cancelar" textFill="WHITE" />
          </children>
          <padding>
             <Insets right="20.0" />
@@ -47,9 +47,9 @@
                     <items>
                         <AnchorPane fx:id="pnDados" minHeight="0.0" minWidth="0.0" prefHeight="383.0" prefWidth="552.0">
                            <children>
-                              <JFXDatePicker fx:id="dttTreino" layoutX="53.0" layoutY="67.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino:*" />
-                              <JFXDatePicker fx:id="dttVenciTreino" layoutX="294.0" layoutY="67.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino:*" />
-                              <JFXComboBox fx:id="cbFuncionario" labelFloat="true" layoutX="53.0" layoutY="114.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário:*" />
+                              <JFXDatePicker fx:id="dttTreino" defaultColor="#d35400" layoutX="53.0" layoutY="67.0" prefHeight="25.0" prefWidth="211.0" promptText="Data do Treino:*" />
+                              <JFXDatePicker fx:id="dttVenciTreino" defaultColor="#d35400" layoutX="294.0" layoutY="67.0" prefHeight="25.0" prefWidth="205.0" promptText="Vencimento do Treino:*" />
+                              <JFXComboBox fx:id="cbFuncionario" focusColor="#d35400" labelFloat="true" layoutX="53.0" layoutY="114.0" prefHeight="25.0" prefWidth="224.0" promptText="Funcionário:*" />
                               <JFXTextField labelFloat="true" layoutX="294.0" layoutY="114.0" prefHeight="25.0" prefWidth="202.0" promptText="Quantidade de Treinos (ABC):*" text=" " />
                               <Spinner fx:id="spQtdTreinos" editable="false" focusTraversable="false" layoutX="296.0" layoutY="115.0" opacity="0.86" prefHeight="25.0" prefWidth="199.0" />
                               <Label layoutX="63.0" layoutY="189.0" text="Campos  de preenchimento obrigatório" />
@@ -70,8 +70,8 @@
                                           <RadioButton fx:id="rdioCpf" mnemonicParsing="false" text="Vencimento" toggleGroup="$busca" />
                                        </children>
                                     </VBox>
-                                    <JFXTextField fx:id="tbBusca" prefHeight="25.0" prefWidth="288.0" promptText="Digite uma data" />
-                                    <JFXButton fx:id="btnPesquisar" onAction="#clkPesquisar" text="Pesquisar" />
+                                    <JFXTextField fx:id="tbBusca" focusColor="#d35400" prefHeight="25.0" prefWidth="288.0" promptText="Digite uma data" />
+                                    <JFXButton fx:id="btnPesquisar" onAction="#clkPesquisar" style="-fx-background-color: #d35400;" text="Pesquisar" textFill="WHITE" />
                                  </children>
                               </HBox>
                               <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="137.0" prefWidth="560.0">

@@ -27,6 +27,7 @@ import model.Aluno;
 import model.Matricula;
 import model.Mensalidade;
 import model.Pacote;
+import util.Banco;
 
 public class FXMLEfetivarMatriculaController implements Initializable 
 {
@@ -46,11 +47,11 @@ public class FXMLEfetivarMatriculaController implements Initializable
     @FXML
     private TableView<Matricula> tbMatriculas;
     @FXML
-    private TableColumn<Matricula, String> colCPF;
-    @FXML
     private TableColumn<Matricula, String> colNome;
     @FXML
     private JFXTextField txtPgto;
+    @FXML
+    private TableColumn<Matricula, Integer> colMat;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -61,7 +62,7 @@ public class FXMLEfetivarMatriculaController implements Initializable
         tbMatriculas.setItems(FXCollections.observableList(Matricula.getMatriculas("")));
         
         //tabela
-        colCPF.setCellValueFactory(new PropertyValueFactory("aluno.getCPF()"));
+        colMat.setCellValueFactory(new PropertyValueFactory("cod"));
         colNome.setCellValueFactory(new PropertyValueFactory("aluno"));
         
         flag_alt = false;
@@ -75,6 +76,7 @@ public class FXMLEfetivarMatriculaController implements Initializable
         ObservableList<Matricula> modelo;
         modelo = FXCollections.observableArrayList(res);
         tbMatriculas.setItems(modelo);
+        tbMatriculas.refresh();
     }
     
     private void limparTela()
@@ -82,6 +84,7 @@ public class FXMLEfetivarMatriculaController implements Initializable
         txtCPF.clear();
         txtNome.clear();
         txtPgto.clear();
+        carregaTabela("");
         flag_alt = false;
     }
 
@@ -113,14 +116,18 @@ public class FXMLEfetivarMatriculaController implements Initializable
         {
             Mensalidade men = new Mensalidade();
             men.get(selected_mat.getCod());
-            
+                    
             int dia = men.getMen_dtvenc().getDayOfMonth();
-            
+            alu = selected_mat.getAluno();
             txtCPF.setText(selected_mat.getAluno().getCpf());
             txtNome.setText(selected_mat.getAluno().getNome());
-            cbPacotes.getSelectionModel().select(selected_mat.getPacote());
+
+            cbPacotes.getItems().forEach((p) -> {
+                if(p.getCod() == selected_mat.getPacote().getCod())
+                    cbPacotes.getSelectionModel().select(p);
+            });
+                
             txtPgto.setText(""+dia);
-            
             flag_alt = true;
             
             lbMensagem.setTextFill(Paint.valueOf("green"));
@@ -141,16 +148,19 @@ public class FXMLEfetivarMatriculaController implements Initializable
             int mat_cod = tbMatriculas.selectionModelProperty().get().getSelectedItem().getCod();
 
             Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-            a.setContentText("Deseja realmente apagar?"); 
+            a.setContentText("Deseja realmente apagar a matricula e suas mensalidades?"); 
             if(a.showAndWait().get() == ButtonType.OK)
             {
-                if(Matricula.deletar(mat_cod))
+                try
                 {
+                    Mensalidade.deletarTodos(mat_cod);
+                    Matricula.deletar(mat_cod);
+                    
                     lbMensagem.setTextFill(Paint.valueOf("green"));
                     lbMensagem.setText("*Matricula deletada com sucesso");
-                    carregaTabela("");
+                    limparTela();
                 }
-                else
+                catch(Exception ex)
                 {
                     lbMensagem.setTextFill(Paint.valueOf("red"));
                     lbMensagem.setText("*Erro ao deletar a matricula!");
@@ -171,36 +181,52 @@ public class FXMLEfetivarMatriculaController implements Initializable
             {
                 if(!txtPgto.getText().isEmpty())
                 {
-                    if(flag_alt == false) //inserir
+                    if(Integer.parseInt(txtPgto.getText()) <= 30 && Integer.parseInt(txtPgto.getText()) >= 0)
                     {
-                        Matricula new_mat = new Matricula(LocalDate.now(), alu, cbPacotes.getValue());
-                        if(new_mat.gravar())
+                        if(flag_alt == false) //inserir
                         {
-                            Mensalidade.geraMensalidade(new_mat, Integer.parseInt(txtPgto.getText()), true);
-                            lbMensagem.setTextFill(Paint.valueOf("green"));
-                            lbMensagem.setText("*Aluno Matriculado com Sucesso!");
-                        }else
+                            Matricula new_mat = new Matricula(LocalDate.now(), alu, cbPacotes.getValue());
+                            if(new_mat.gravar())
+                            {
+                                new_mat.setCod(Banco.getCon().getMaxPK("matricula", "mat_cod"));
+                                Mensalidade.geraMensalidade(new_mat, Integer.parseInt(txtPgto.getText()), true);
+                                lbMensagem.setTextFill(Paint.valueOf("green"));
+                                lbMensagem.setText("*Aluno Matriculado com Sucesso!");
+                            }else
+                            {
+                                lbMensagem.setTextFill(Paint.valueOf("red"));
+                                lbMensagem.setText("*Erro ao gerar a Matricula!");
+                            }      
+                        }else//alterar
                         {
-                            lbMensagem.setTextFill(Paint.valueOf("red"));
-                            lbMensagem.setText("*Erro ao gerar a Matricula!");
-                        }      
-                    }else//alterar
-                    {
-                        Matricula new_mat = new Matricula(selected_mat.getCod(), LocalDate.now(), alu, cbPacotes.getValue());
+                            Matricula new_mat = new Matricula(selected_mat.getCod(), LocalDate.now(), alu, cbPacotes.getValue());
+                            
+                            Mensalidade men = new Mensalidade();
+                            men.get(selected_mat.getCod());
+                            
+                            try 
+                            {
+                                new_mat.alterar();
+                                men.setMen_dtvenc(LocalDate.of(men.getMen_dtvenc().getYear(), men.getMen_dtvenc().getMonth(), Integer.parseInt(txtPgto.getText())));
+                                men.alterar();
+                                lbMensagem.setTextFill(Paint.valueOf("green"));
+                                lbMensagem.setText("*Aluno Matriculado com Sucesso!");
+                            }
+                            catch (Exception e) 
+                            {
+                                lbMensagem.setTextFill(Paint.valueOf("red"));
+                                lbMensagem.setText("*Erro ao alterar a Matricula!");
+                            }
+                        }    
                         
-                        if(new_mat.alterar())
-                        {
-                            lbMensagem.setTextFill(Paint.valueOf("green"));
-                            lbMensagem.setText("*Aluno Matriculado com Sucesso!");
-                        }else
-                        {
-                            lbMensagem.setTextFill(Paint.valueOf("red"));
-                            lbMensagem.setText("*Erro ao alterar a Matricula!");
-                        }
+                        flag_alt = false;
+                        limparTela();
                     }
-                    
-                    flag_alt = false;
-                    limparTela();
+                    else
+                    {
+                        lbMensagem.setTextFill(Paint.valueOf("red"));
+                        lbMensagem.setText("*Dia de pagamento inválido!");
+                    }
                 }else
                 {
                     lbMensagem.setTextFill(Paint.valueOf("red"));

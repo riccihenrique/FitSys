@@ -34,11 +34,6 @@ public class FXMLLoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        tfUser.setStyle("-fx-prompt-text-fill: #ffffff");
-        tfUser.setStyle("-fx-text-inner-color: #ffffff");
-        tfSenha.setStyle("-fx-prompt-text-fill: #ffffff");
-        tfSenha.setStyle("-fx-text-inner-color: #ffffff");
         MaskFieldUtil.cpfField(tfUser);
         
         try
