@@ -28,6 +28,7 @@ import model.Matricula;
 import model.Mensalidade;
 import model.Pacote;
 import util.Banco;
+import util.MaskFieldUtil;
 
 public class FXMLEfetivarMatriculaController implements Initializable 
 {
@@ -66,7 +67,7 @@ public class FXMLEfetivarMatriculaController implements Initializable
         colNome.setCellValueFactory(new PropertyValueFactory("aluno"));
         
         flag_alt = false;
-        
+        MaskFieldUtil.numericField(txtPgto);
         carregaTabela("");
     }
     

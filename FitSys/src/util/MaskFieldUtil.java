@@ -113,6 +113,40 @@ public abstract class MaskFieldUtil {
         }
         );
     }
+    
+    public static void monetaryFieldAlternative(final TextField textField) {
+        textField.setAlignment(Pos.CENTER_LEFT);
+        textField.lengthProperty().addListener((observable, oldValue, newValue) -> {
+            String value = textField.getText();
+            value = value.replaceAll("[^0-9]", "");
+            value = value.replaceAll("([0-9]{1})([0-9]{14})$", "$1.$2");
+            value = value.replaceAll("([0-9]{1})([0-9]{11})$", "$1.$2");
+            value = value.replaceAll("([0-9]{1})([0-9]{8})$", "$1.$2");
+            value = value.replaceAll("([0-9]{1})([0-9]{5})$", "$1.$2");
+            if(textField.getText().length() > 2)
+                value = value.replaceAll("([0-9]{1})([0-9]{2})$", "$1.$2");
+            
+            
+            textField.setText(value);
+            MaskFieldUtil.positionCaret(textField);
+            textField.textProperty().addListener((ChangeListener) new ChangeListener<String>() {
+
+                public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                    if (newValue.length() > 17) {
+                        textField.setText(oldValue);
+                    }
+                }
+            });
+        }
+        );
+        textField.focusedProperty().addListener((observableValue, aBoolean, fieldChange) -> {
+            int length;
+            if (!(fieldChange || (length = textField.getText().length()) <= 0 || length >= 3)) {
+                textField.setText(textField.getText() + "00");
+            }
+        }
+        );
+    }
 
     public static BigDecimal monetaryValueFromField(TextField textField) {
         if (textField.getText().isEmpty()) {

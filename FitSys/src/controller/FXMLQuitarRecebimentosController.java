@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import model.Aluno;
 import model.Matricula;
 import model.Mensalidade;
+import util.MaskFieldUtil;
 
 public class FXMLQuitarRecebimentosController implements Initializable 
 {
@@ -42,7 +43,7 @@ public class FXMLQuitarRecebimentosController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
-        
+        MaskFieldUtil.monetaryFieldAlternative(txtValorPago);
     }
     
     private void limparTela()
@@ -86,7 +87,7 @@ public class FXMLQuitarRecebimentosController implements Initializable
         {
             float valor;
             if(!txtValorPago.getText().isEmpty() && !txtPreco.getText().isEmpty())
-                valor = Float.parseFloat(txtValorPago.getText()) - Float.parseFloat(txtPreco.getText());
+                valor = Float.parseFloat(txtValorPago.getText().replace(",", ".")) - Float.parseFloat(txtPreco.getText());
             else valor = -1;
             
             if(valor >= 0)
