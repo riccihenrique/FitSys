@@ -109,28 +109,6 @@ public class FXMLGenFuncionarioController implements Initializable {
         colNome.setCellValueFactory(new PropertyValueFactory("nome"));
         colCargo.setCellValueFactory(new PropertyValueFactory("cargo"));
         
-        tbCep.setStyle("-fx-prompt-text-fill: white");
-        tbCep.setStyle("-fx-text-inner-color: white");
-        tbCidade.setStyle("-fx-prompt-text-fill: white");
-        tbCidade.setStyle("-fx-text-inner-color: white");
-        tbCpf.setStyle("-fx-prompt-text-fill: white");
-        tbCpf.setStyle("-fx-text-inner-color: white");
-        tbEmail.setStyle("-fx-prompt-text-fill: white");
-        tbEmail.setStyle("-fx-text-inner-color: white");
-        tbNome.setStyle("-fx-prompt-text-fill: white");
-        tbNome.setStyle("-fx-text-inner-color: white");
-        tbPesquisa.setStyle("-fx-prompt-text-fill: white");
-        tbPesquisa.setStyle("-fx-text-inner-color: white");
-        tbRua.setStyle("-fx-prompt-text-fill: white");
-        tbRua.setStyle("-fx-text-inner-color: white");
-        tbSenha.setStyle("-fx-prompt-text-fill: white");
-        tbSenha.setStyle("-fx-text-inner-color: white");
-        tbTelefone.setStyle("-fx-prompt-text-fill: white");
-        tbTelefone.setStyle("-fx-text-inner-color: white");
-        tbUf.setStyle("-fx-prompt-text-fill: white");
-        tbUf.setStyle("-fx-text-inner-color: white");
-        cbCargo.setStyle("-fx-prompt-text-fill: white");
-        cbCargo.setStyle("-fx-text-inner-color: white");
         
         MaskFieldUtil.cepField(tbCep);
         MaskFieldUtil.cpfField(tbCpf);

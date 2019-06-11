@@ -2,9 +2,9 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,54 +12,66 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.3347732181425486, 0.49676025917926564" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="465.0" prefWidth="661.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLAgendarAvaliacaoController">
+<SplitPane dividerPositions="0.6443768996960486, 0.6990881458966566" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="605.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLAgendarAvaliacaoController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="156.0" prefWidth="659.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="328.0" prefWidth="687.0">
          <children>
-            <JFXComboBox fx:id="cbHorarios" focusColor="#d35400" layoutX="157.0" layoutY="40.0" prefHeight="25.0" prefWidth="139.0" />
-            <HBox alignment="TOP_CENTER" layoutX="-1.0" layoutY="103.0" prefHeight="49.0" prefWidth="661.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="103.0">
+            <JFXComboBox fx:id="cbHorarios" layoutX="453.0" layoutY="167.0" prefHeight="25.0" prefWidth="137.0" promptText="Horário" />
+            <HBox alignment="TOP_CENTER" prefHeight="56.0" prefWidth="600.0" spacing="40.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="8.0">
                <children>
-                  <JFXButton fx:id="BtnNovo" onAction="#clkBtnNovo" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Novo" textFill="WHITE">
+                  <JFXButton fx:id="BtnNovo" onAction="#clkBtnNovo" prefHeight="36.0" prefWidth="114.0" text="Novo">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="BtnAlterar" onAction="#clkBtnAlterar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Alterar" textFill="WHITE">
+                  <JFXButton fx:id="BtnAlterar" onAction="#clkBtnAlterar" prefHeight="36.0" prefWidth="114.0" text="Alterar">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="BtnConfirmar" onAction="#clkBtnConfirmar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Confirmar" textFill="WHITE">
+                  <JFXButton fx:id="BtnApagar" onAction="#clkBtnApagar" prefHeight="36.0" prefWidth="114.0" text="Apagar">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="BtnCancelar" onAction="#clkBtnCancelar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Cancelar" textFill="WHITE">
+                  <JFXButton fx:id="BtnConfirmar" onAction="#clkBtnConfirmar" prefHeight="36.0" prefWidth="114.0" text="Confirmar">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="BtnCancelar" onAction="#clkBtnCancelar" prefHeight="36.0" prefWidth="114.0" text="Cancelar">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
                </children>
             </HBox>
-            <DatePicker fx:id="dtPicker" layoutX="331.0" layoutY="40.0" />
+            <JFXDatePicker fx:id="dtPicker" editable="false" layoutX="453.0" layoutY="120.0" onAction="#actionDtPicker" promptText="Data" />
+            <TableView fx:id="tbvReservas" layoutX="25.0" layoutY="120.0" onMouseClicked="#clkTabelaAv" prefHeight="196.0" prefWidth="422.0">
+              <columns>
+                  <TableColumn fx:id="ColCod" prefWidth="68.0" text="Código" />
+                  <TableColumn fx:id="ColAlu" prefWidth="141.0" text="CPF" />
+                  <TableColumn fx:id="ColData" minWidth="0.0" prefWidth="118.0" text="Data" />
+                  <TableColumn fx:id="ColHorario" minWidth="0.0" prefWidth="93.0" text="Horário" />
+              </columns>
+            </TableView>
+            <Label layoutX="25.0" layoutY="98.0" text="Avaliações agendadas neste dia:" />
+            <Label fx:id="lbAviso" layoutX="27.0" layoutY="335.0" prefHeight="17.0" prefWidth="574.0" />
          </children></AnchorPane>
-      <HBox alignment="CENTER" prefHeight="195.0" prefWidth="659.0">
+      <HBox alignment="CENTER" prefHeight="220.0" prefWidth="690.0">
          <children>
-            <JFXTextField fx:id="tbPesquisa" focusColor="#d35400" prefHeight="25.0" prefWidth="481.0" promptText="Informe o nome do aluno" />
-            <JFXButton fx:id="BtnPesquisar" onAction="#clkBtnPesquisar" prefHeight="36.0" prefWidth="114.0" style="-fx-background-color: #d35400;" text="Pesquisar" textFill="WHITE">
+            <JFXTextField fx:id="tbPesquisa" prefHeight="25.0" prefWidth="481.0" promptText="Informe o nome do aluno" />
+            <JFXButton fx:id="BtnPesquisar" onAction="#clkBtnPesquisar" prefHeight="36.0" prefWidth="114.0" text="Pesquisar">
                <font>
                   <Font size="14.0" />
                </font>
-               <HBox.margin>
-                  <Insets left="20.0" />
-               </HBox.margin>
             </JFXButton>
          </children>
       </HBox>
-      <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="359.0" prefWidth="659.0">
+      <TableView fx:id="tbvDados" onMouseClicked="#clkTabela" prefHeight="33.0" prefWidth="687.0">
          <columns>
-            <TableColumn fx:id="colCpf" prefWidth="159.0" text="CPF" />
-            <TableColumn fx:id="colNome" minWidth="0.0" prefWidth="439.0" text="Nome" />
+            <TableColumn fx:id="colMat" prefWidth="159.0" text="Matrícula" />
+            <TableColumn fx:id="colNome" minWidth="0.0" prefWidth="478.0" text="Nome" />
          </columns>
       </TableView>
   </items>
