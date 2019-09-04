@@ -1,7 +1,5 @@
 package util;
 
-
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,24 +13,24 @@ public class Conexao
     
     public Conexao()
     {   
-        erro="";
-        connect=null;
+        erro = "";
+        connect = null;
     }
     
     public boolean conectar(String local,String banco,String usuario,String senha)
     {   
-        boolean conectado=false;
+        boolean conectado = false;
         try 
         {
             String url = local + banco;
-            connect = DriverManager.getConnection( url, usuario,senha);
+            connect = DriverManager.getConnection(url, usuario, senha);
             conectado=true;
         }
-        catch ( SQLException sqlex )
+        catch(SQLException sqlex)
         { 
             erro = "Impossivel conectar com a base de dados: " + sqlex.toString(); 
         }
-        catch ( Exception ex )
+        catch(Exception ex)
         { 
             erro = "Outro erro: " + ex.toString(); 
         }
@@ -47,7 +45,7 @@ public class Conexao
     
     public boolean getEstadoConexao()
     {
-        return (connect!=null);
+        return connect != null;
     }
     
     public boolean manipular(String sql) // inserir, alterar,excluir
@@ -58,10 +56,10 @@ public class Conexao
             Statement statement = connect.createStatement();
             int result = statement.executeUpdate(sql);
             statement.close();
-            if(result>=1)
+            if(result >= 1)
                 executou=true;
         }
-        catch (SQLException sqlex)
+        catch(SQLException sqlex)
         { 
             erro = "Erro: " + sqlex.toString();
         }
@@ -70,7 +68,7 @@ public class Conexao
     
     public ResultSet consultar(String sql)
     {   
-        ResultSet rs=null;
+        ResultSet rs = null;
         try 
         {
            Statement statement = connect.createStatement();
@@ -87,14 +85,14 @@ public class Conexao
     public int getMaxPK(String tabela,String chave) 
     {
         String sql="select max(" + chave + ") from " + tabela;
-        int max=0;
-        ResultSet rs= consultar(sql);
+        int max = 0;
+        ResultSet rs = consultar(sql);
         try 
         {
             if(rs.next())
                 max=rs.getInt(1);
         }
-        catch (SQLException sqlex)
+        catch(SQLException sqlex)
         { 
              erro = "Erro: " + sqlex.toString();
              max = -1;

@@ -12,7 +12,10 @@ import javax.swing.JOptionPane;
 public class Banco 
 {
     static private Conexao con;
-    static public Conexao getCon(){ return con;}
+    static public Conexao getCon()
+    {
+        return con;
+    }
 
     private Banco() 
     {
@@ -21,8 +24,9 @@ public class Banco
     
     static public boolean conectar()
     {
-       con=new Conexao();
-       return con.conectar("jdbc:postgresql://localhost/","fitsys","postgres","postgres123");
+        if(con == null)
+            con = new Conexao();
+        return con.conectar("jdbc:postgresql://localhost/","fitsys","postgres","postgres123");
     }   
     
     public static boolean criarBD(String BD)
@@ -58,15 +62,15 @@ public class Banco
 
             Statement statement = con.createStatement();
             RandomAccessFile arq = new RandomAccessFile(script, "r");
-            while (arq.getFilePointer() < arq.length()) {
+            
+            while (arq.getFilePointer() < arq.length())
                 statement.addBatch(arq.readLine());
-            }
             statement.executeBatch();
 
             statement.close();
             con.close();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             System.out.println(e.getMessage());
             return false;
@@ -84,7 +88,7 @@ public class Banco
                 InputStreamReader str = new InputStreamReader(p.getErrorStream());
                 BufferedReader reader = new BufferedReader(str);
                 String linha;
-                while ((linha = reader.readLine()) != null)
+                while((linha = reader.readLine()) != null)
                     System.out.println(linha);
             }
             JOptionPane.showMessageDialog(null, arquivo + " realizado com sucesso!");
