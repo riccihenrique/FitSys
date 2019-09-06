@@ -3,6 +3,7 @@ package view;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import control.ControlLogin;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -32,36 +33,36 @@ public class FXMLLoginController implements Initializable {
     private Label lbAviso;
     Funcionario F;
     
+    private void carregaForm(String nome)
+    {
+        try{
+                    Parent root = FXMLLoader.load(getClass().getResource("/view/FXML"+nome+".fxml"));
+                    Stage stage = new Stage();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.setTitle("Cadastro de Funcionário");
+                    stage.showAndWait();
+                }
+                catch(Exception e){}
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         MaskFieldUtil.cpfField(tfUser);
         
-        try
-        {
-            if(!Banco.getCon().consultar("select * from funcionario").next())
+            if(!ControlLogin.checkExistLogin())
             {
-                Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLGenFuncionario.fxml"));
-
-                Stage stage = new Stage();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.setTitle("Cadastro de Funcuinário");
-
-                stage.showAndWait();
-                 if(!Banco.getCon().consultar("select * from funcionario").next())
+                carregaForm("Login");
+                
+                 if(!ControlLogin.checkExistLogin())
                     System.exit(-1);
             }
-        }
-        catch(Exception e){ }
        
     }
 
     @FXML
     private void clkBtLogin(ActionEvent event) throws SQLException, IOException {
 
-        String sql = "select * from funcionario where fun_cpf = '#1'";
-        sql = sql.replaceAll("#1", tfUser.getText().replace(".", "").replace("-", ""));
-        ResultSet rs = Banco.getCon().consultar(sql);
+        ResultSet rs = ControlLogin.consultaLogin(tfUser.getText());
         if (rs.next()) {
             F = Funcionario.login(rs.getString("fun_cpf"), rs.getString("fun_nome"), rs.getString("fun_cargo"), rs.getString("fun_nivel").charAt(0), rs.getString("fun_senha"));
             if (F.getSenha().equals(tfSenha.getText())) {
