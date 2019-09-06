@@ -1,5 +1,5 @@
 
-package controller;
+package view;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -83,13 +83,13 @@ public class FXMLGerTreinoController implements Initializable {
     @FXML
     private AnchorPane pnDados;
     @FXML
-    private TableView<Treino> tbvDados;
+    private TableView<Object> tbvDados;
     @FXML
-    private TableColumn<Treino, String> colCod;
+    private TableColumn<String, String> colCod;
     @FXML
-    private TableColumn<Treino, String> colData;
+    private TableColumn<String, String> colData;
     @FXML
-    private TableColumn<Treino, String> colVencimento;
+    private TableColumn<String, String> colVencimento;
     @FXML
     private JFXButton btCancelar;
     @FXML
@@ -97,7 +97,7 @@ public class FXMLGerTreinoController implements Initializable {
     @FXML
     private Tab tbDetalhes;
     @FXML
-    private TableColumn<Treino, String> colFuncionario;
+    private TableColumn<String, String> colFuncionario;
     
     private Matricula mat;
     private String[] treinos = {"A", "B", "C", "D", "E"};

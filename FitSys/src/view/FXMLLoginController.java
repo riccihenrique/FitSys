@@ -1,5 +1,5 @@
 
-package controller;
+package view;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
@@ -63,7 +63,7 @@ public class FXMLLoginController implements Initializable {
         sql = sql.replaceAll("#1", tfUser.getText().replace(".", "").replace("-", ""));
         ResultSet rs = Banco.getCon().consultar(sql);
         if (rs.next()) {
-            F = new Funcionario(rs.getString("fun_cpf"), rs.getString("fun_nome"), rs.getString("fun_cargo"), rs.getString("fun_nivel").charAt(0), rs.getString("fun_senha"));
+            F = Funcionario.login(rs.getString("fun_cpf"), rs.getString("fun_nome"), rs.getString("fun_cargo"), rs.getString("fun_nivel").charAt(0), rs.getString("fun_senha"));
             if (F.getSenha().equals(tfSenha.getText())) {
                 if (F.getNivel() == 'B') {
                     lbAviso.setText("Usuário desativado");

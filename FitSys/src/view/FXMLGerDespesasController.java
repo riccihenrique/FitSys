@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;

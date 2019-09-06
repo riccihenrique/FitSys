@@ -7,17 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import util.Banco;
 
-public class Treino 
+public class Treino implements Subject
 {
     int cod;
     LocalDate dataTreino;
     LocalDate dataProximo;
     Matricula matricula = new Matricula();
     Funcionario funcinario = new Funcionario();
-
-    public Treino()
-    {
-    }
+    List<Observer> observers = new ArrayList<>();
+    
+    public Treino(){}
 
     public Treino(LocalDate dataTreino, LocalDate dataProximo, Matricula matricula, Funcionario funcinario)
     {
@@ -163,5 +162,22 @@ public class Treino
         }
         catch(SQLException e){return false;}
         return false;
+    }
+
+    @Override
+    public void add(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void remove(Observer o) {
+        observers.remove(o);
+    }
+
+    @Override
+    public void notification() {
+        observers.forEach((o) -> {
+            o.update();
+        });
     }
 }

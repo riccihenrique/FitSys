@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -22,11 +21,12 @@ public class Funcionario
     private String cargo;
     private String uf;
     private char nivel;
+    private static Funcionario fun;
 
     public Funcionario() {
     }
 
-    public Funcionario(String cpf, String nome, String cargo, char nivel, String senha) {
+    private Funcionario(String cpf, String nome, String cargo, char nivel, String senha) {
         this.cpf = cpf;
         this.nome = nome;
         this.cargo = cargo;
@@ -48,6 +48,15 @@ public class Funcionario
         this.cargo = cargo;
         this.nivel = nivel;
     }
+    
+    public static Funcionario login(String cpf, String nome, String cargo, char nivel, String senha)
+    {
+        if(fun == null)
+            fun = new Funcionario(cpf, nome, cargo, nivel, senha);
+        
+        return fun;
+    }
+            
 
     public String getCpf() {
         return cpf;

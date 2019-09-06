@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
