@@ -22,11 +22,16 @@ public class Banco
         
     }
     
-    static public boolean conectar()
+    static public boolean connect()
     {
         if(con == null)
             con = new Conexao();
         return con.conectar("jdbc:postgresql://localhost/","fitsys","postgres","postgres123");
+    }
+    
+    static public void disconnect()
+    {
+        con = null;
     }   
     
     public static boolean criarBD(String BD)

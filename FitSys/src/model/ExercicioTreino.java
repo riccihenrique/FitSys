@@ -15,8 +15,7 @@ public class ExercicioTreino
     int serie;
     int carga; 
 
-    public ExercicioTreino() {
-    }
+    public ExercicioTreino() { }
     
     public ExercicioTreino(Exercicio exercicio, Treino treino, char tipo, int ordem, int repeticao, int serie, int carga) {
         this.exercicio = exercicio;

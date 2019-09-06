@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXTextField;
+import control.ControlTreino;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -40,10 +41,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
-import model.ExercicioTreino;
-import model.Funcionario;
-import model.Matricula;
-import model.Treino;
 import util.Banco;
 
 public class FXMLGerTreinoController implements Initializable {
@@ -59,7 +56,7 @@ public class FXMLGerTreinoController implements Initializable {
     @FXML
     private JFXDatePicker dttVenciTreino;
     @FXML
-    private JFXComboBox<Funcionario> cbFuncionario;
+    private JFXComboBox<Object> cbFuncionario;
     @FXML
     private JFXButton btConfirmar;
     @FXML
@@ -170,7 +167,6 @@ public class FXMLGerTreinoController implements Initializable {
         {
             Stage stage = (Stage) btConfirmar.getScene().getWindow();
             stage.close(); //Fechando o Stage 
-            
         }
         else
             estadoOriginal();
@@ -413,22 +409,14 @@ public class FXMLGerTreinoController implements Initializable {
                 a.setContentText("Deseja realmente apagar?"); 
                 if(a.showAndWait().get() == ButtonType.OK)
                 {
-                    Banco.getCon().getConnection().setAutoCommit(false);  
-                    a = new Alert(Alert.AlertType.INFORMATION);
-                    if(Treino.apagar(tbvDados.getSelectionModel().getSelectedItem().getCod()))
+                    if(ControlTreino.apagar((int)tbvDados.getSelectionModel().getSelectedItem().getCod()))
                     {
-                        Banco.getCon().getConnection().commit();
                         snackBar("Treino deletado com sucesso");
                         carregaTabela("");
-                        estadoOriginal();
+                        estadoOriginal();   
                     }
                     else
-                    {
-                        Banco.getCon().getConnection().rollback();
-                        a.setContentText("Erro ao deletar treino: " + Banco.getCon().getMensagemErro());
-                        a.showAndWait();
-                    }
-                    Banco.getCon().getConnection().setAutoCommit(true);      
+                        snackBar("Erro ao deletar Treino");
                 }
             }
             treino = new Treino();

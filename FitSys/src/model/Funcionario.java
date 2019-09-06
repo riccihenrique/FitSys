@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import util.Banco;
 
-public class Funcionario
+public class Funcionario implements Observer
 {
     private String cpf;
     private String nome;
@@ -251,4 +251,9 @@ public class Funcionario
         catch(SQLException e){return false;}
         return false;
     }    
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
