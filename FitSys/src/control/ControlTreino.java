@@ -5,8 +5,8 @@ import model.ExercicioTreino;
 import model.Treino;
 import util.Banco;
 
-public abstract class ControlTreino {
-    
+public abstract class ControlTreino 
+{
     public static boolean apagar(int cod) throws SQLException
     {
         Banco.connect();
@@ -20,6 +20,20 @@ public abstract class ControlTreino {
         Banco.getCon().getConnection().setAutoCommit(true); 
         Banco.disconnect();
         return flag;
-        
+    }
+    
+    public static boolean alterar(int cod)
+    {
+        return false;
+    }
+    
+    public static boolean inserir()
+    {
+        return false;
+    }
+    
+    public static Object buscar()
+    {
+        return null;
     }
 }

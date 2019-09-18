@@ -14,7 +14,8 @@ public class FitSys extends Application {
     public void start(Stage stage) throws Exception 
     {
         //Parent root = FXMLLoader.load(getClass().getResource("FXMLGerDespesas.fxml"));
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("FXMLLogin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLGen.fxml"));
         Scene scene = new Scene(root);
         stage.setTitle("Login");
         stage.setScene(scene);
@@ -22,8 +23,8 @@ public class FitSys extends Application {
     }
     
     public static void main(String[] args)
-    {
-        if(!Banco.conectar())
+    {        
+        /*if(!Banco.conectar())
         {
             JOptionPane.showMessageDialog(null, "Erro: " + Banco.getCon().getMensagemErro());
             if(JOptionPane.showConfirmDialog(null, "Deseja criar uma base de dados?") == JOptionPane.YES_OPTION)
@@ -50,7 +51,7 @@ public class FitSys extends Application {
             }    
             else
                 System.exit(-1);
-        }
+        }*/
         launch(args);
     }
 }
