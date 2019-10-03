@@ -136,4 +136,5 @@ public class ExercicioTreino
     {
         return Banco.getCon().manipular("delete from exercicio_treino where treino_cod = " + cod);
     }
+    
 }

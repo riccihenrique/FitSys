@@ -143,7 +143,6 @@ public class Treino implements Subject
         
         return l;
     }
-    
     public boolean geti(int cod)
     {
         ResultSet rs = Banco.getCon().consultar("select * from treino where treino_cod = " + cod);
