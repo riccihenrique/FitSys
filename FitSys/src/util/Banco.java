@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 public class Banco 
 {
     static private Conexao con;
+    
     static public Conexao getCon()
     {
         return con;

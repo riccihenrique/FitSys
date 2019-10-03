@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="1126.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLGenPacoteController">
+<AnchorPane id="AnchorPane" prefHeight="403.0" prefWidth="1126.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FXMLGenPacoteController">
    <children>
       <JFXTextField fx:id="txtCod" editable="false" focusColor="#d35400" layoutX="41.0" layoutY="41.0" prefHeight="25.0" prefWidth="88.0" promptText="Código" />
       <JFXTextField fx:id="txtDesc" alignment="TOP_LEFT" focusColor="#d35400" labelFloat="true" layoutX="147.0" layoutY="41.0" prefHeight="25.0" prefWidth="401.0" promptText="*Descrição" />
