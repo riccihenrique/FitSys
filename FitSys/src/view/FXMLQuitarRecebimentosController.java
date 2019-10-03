@@ -1,6 +1,5 @@
 package view;
 
-import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
 import java.net.URL;
@@ -13,11 +12,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import model.Aluno;
 import model.Matricula;
 import model.Mensalidade;
 import util.MaskFieldUtil;
@@ -67,7 +64,7 @@ public class FXMLQuitarRecebimentosController implements Initializable
         stage.setScene(scene);
         stage.showAndWait();
 
-        mat = ba.getMatricula();
+        //mat = ba.getMatricula();
         
         if(mat != null)
         {

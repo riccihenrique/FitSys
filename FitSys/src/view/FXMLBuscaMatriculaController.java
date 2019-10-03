@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -77,9 +78,12 @@ public class FXMLBuscaMatriculaController implements Initializable {
         }
     }
     
-    public Matricula getMatricula()
+    public Object getMatricula()
     {
-        return mat;
+        List<Object> l = new ArrayList<>();
+        l.add(mat.getCod());
+        l.add(mat.getAluno().getNome());
+        return l;
     }
     
      private void carregaTabela(String filtro) {

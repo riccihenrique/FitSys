@@ -6,7 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="291.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLQuitarRecebimentosController">
+<AnchorPane id="AnchorPane" prefHeight="291.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FXMLQuitarRecebimentosController">
    <children>
       <JFXTextField fx:id="txtCPF" editable="false" focusColor="#d35400" labelFloat="true" layoutX="35.0" layoutY="39.0" prefHeight="25.0" prefWidth="83.0" promptText="CPF" />
       <JFXTextField fx:id="txtNome" editable="false" focusColor="#d35400" labelFloat="true" layoutX="135.0" layoutY="39.0" prefHeight="25.0" prefWidth="200.0" promptText="Nome" />
