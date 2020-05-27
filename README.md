@@ -8,15 +8,15 @@ Atualmente, o sistema conta com cadastro de funcionários e alunos. O sistema ta
 ### Exemplos
 
 <br>Login<br>
-[!Alt text](https://github.com/riccihenrique/FitSys/blob/ComitAqui/FitSys/imgs/login.png)
+![alt text](https://github.com/riccihenrique/FitSys/blob/ComitAqui/FitSys/imgs/login.png)
 
 <br>Cadastro de Alunos<br>
-[!Alt text](https://github.com/riccihenrique/FitSys/blob/ComitAqui/FitSys/imgs/aluno.png)
+![alt text](https://github.com/riccihenrique/FitSys/blob/ComitAqui/FitSys/imgs/aluno.png)
 
 <br>Avaliação<br>
-[!Alt text](https://github.com/riccihenrique/FitSys/blob/ComitAqui/FitSys/imgs/avaliacao.png)
+![alt text](https://github.com/riccihenrique/FitSys/blob/ComitAqui/FitSys/imgs/avaliacao.png)
 
 <br>Treino<br>
-[!Alt text](https://github.com/riccihenrique/FitSys/blob/ComitAqui/FitSys/imgs/treino.png)
+![alt text](https://github.com/riccihenrique/FitSys/blob/ComitAqui/FitSys/imgs/treino.png)
 
 Banco de dados Postgres já intergrado
