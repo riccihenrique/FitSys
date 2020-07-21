@@ -1,5 +1,5 @@
 # FitSys
-Sistema destinado a controle de academias 
+Sistema destinado a controle de academias desenvolvido para a disciplina de engenharia de software 2
 
 ##### Sistema não finalizado
 
